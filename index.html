@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Map id="CSP"</title>
+<link href="./css/raphael.pan-zoom.css" rel="stylesheet" type="text/css" />
+<link href="./css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./js/raphael.js"></script>
+<script type="text/javascript" src="./js/g.raphael.js"></script>
+<script type="text/javascript" src="./js/raphael.pan-zoom.js"></script>
+<script type="text/javascript" src="./js/maps.js"></script>
+<script type="text/javascript" src="./js/csp.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
+</head>
+
+<div id="wrapper">
+<body>
+<h2 id="CSP">Cloud Vendor Locations</h2>
+
+<div id="mapContainer">
+<table>
+<tr>
+<td>
+<div id="map"></div>
+<div id="mapControls">
+<a id="home" href="javascript:;"></a>
+<a id="plus" href="javascript:;"></a>
+<a id="minus" href="javascript:;"></a>
+</div>
+</div>
+</td>
+
+<td>
+<div id="mapButtons">
+<table>
+<tr><td><button id="ali"    class="btn">ALI</a></td></tr>
+<tr><td><button id="aws"    class="btn">AWS</td></tr>
+<tr><td><button id="azure"  class="btn">Azure</a></td></tr>
+<tr><td><button id="gcp"    class="btn">GCP</a></td></tr>
+<tr height=165px><td><p></td></tr>
+<tr><td><button id="Cali"   class="lbtn">Ali</a></td></tr>
+<tr><td><button id="Caws"   class="lbtn">Amazon</a></td></tr>
+<tr><td><button id="Cazure" class="lbtn">Microsoft</a></td></tr>
+<tr><td><button id="Cgcp"   class="lbtn">Google</a></td></tr>
+</table>
+</div>
+
+</td>
+</table>
+</div>
+
+<p id="CSP"><b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStatus Information</b></p>
+<div w3-include-html="status.html" id=Information></div>
+
+<script>IncludeHTML();</script>
+
+</body>
+</div>
+</html>
