@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>Map id="CSP"</title>
+<title>Cloud Vendor Locations</title>
 <link href="./css/raphael.pan-zoom.css" rel="stylesheet" type="text/css" />
 <link href="./css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="./js/raphael.js"></script>
@@ -12,50 +12,69 @@
 <script type="text/javascript" src="./js/raphael.pan-zoom.js"></script>
 <script type="text/javascript" src="./js/maps.js"></script>
 <script type="text/javascript" src="./js/csp.js"></script>
+<script type="text/javascript" src="./js/data-loader.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
 </head>
 
-<div id="wrapper">
 <body>
-<h2 id="CSP">Cloud Vendor Locations</h2>
+<div id="wrapper">
+<header class="page-header">
+<div>
+<p class="eyebrow">INFRASTRUCTURE AT A GLANCE</p>
+<h1>Cloud Vendor Locations</h1>
+<p class="subtitle">Explore public cloud regions and data-center locations around the world.</p>
+</div>
+</header>
 
 <div id="mapContainer">
-<table>
-<tr>
-<td>
 <div id="map"></div>
 <div id="mapControls">
-<a id="home" href="javascript:;"></a>
-<a id="plus" href="javascript:;"></a>
-<a id="minus" href="javascript:;"></a>
+<button id="home" type="button" aria-label="Reset map view" title="Reset map view">⌂</button>
+<button id="plus" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+<button id="minus" type="button" aria-label="Zoom out" title="Zoom out">−</button>
 </div>
-</div>
-</td>
-
-<td>
 <div id="mapButtons">
-<table>
-<tr><td><button id="ali"    class="btn">ALI</a></td></tr>
-<tr><td><button id="aws"    class="btn">AWS</td></tr>
-<tr><td><button id="azure"  class="btn">Azure</a></td></tr>
-<tr><td><button id="gcp"    class="btn">GCP</a></td></tr>
-<tr height=165px><td><p></td></tr>
-<tr><td><button id="Cali"   class="lbtn">Ali</a></td></tr>
-<tr><td><button id="Caws"   class="lbtn">Amazon</a></td></tr>
-<tr><td><button id="Cazure" class="lbtn">Microsoft</a></td></tr>
-<tr><td><button id="Cgcp"   class="lbtn">Google</a></td></tr>
-</table>
+<p class="panel-label">Show locations</p>
+<button id="ali" class="btn provider-ali" type="button">Alibaba Cloud</button>
+<button id="aws" class="btn provider-aws" type="button">Amazon Web Services</button>
+<button id="azure" class="btn provider-azure" type="button">Microsoft Azure</button>
+<button id="gcp" class="btn provider-gcp" type="button">Google Cloud</button>
+<button id="oci" class="btn provider-oci" type="button">Oracle Cloud (OCI)</button>
+<div class="option-divider"></div>
+<label class="switch-row" for="countryHighlighting">
+<span><strong>Country highlighting</strong></span>
+<input id="countryHighlighting" type="checkbox">
+<span class="switch" aria-hidden="true"></span>
+</label>
+<label class="switch-row" for="countryCities">
+<span><strong>Country cities</strong></span>
+<input id="countryCities" type="checkbox">
+<span class="switch" aria-hidden="true"></span>
+</label>
+<label class="switch-row" for="companyApprovedOnly">
+<span><strong>Approved Locations</strong></span>
+<input id="companyApprovedOnly" type="checkbox">
+<span class="switch" aria-hidden="true"></span>
+</label>
+<label class="switch-row" for="availabilityZones">
+<span><strong>AZ Locations</strong></span>
+<input id="availabilityZones" type="checkbox">
+<span class="switch" aria-hidden="true"></span>
+</label>
+<label class="range-row" for="dcMarkerSize">
+<span><strong>DC marker size</strong><output id="dcSizeValue">5 px</output></span>
+<input id="dcMarkerSize" type="range" min="2" max="8" step="1" value="5">
+</label>
+</div>
 </div>
 
-</td>
-</table>
+<section class="data-upload-card" aria-label="Location data">
+<label class="upload-button" for="locationDataUpload">
+Load JSON file
+<input id="locationDataUpload" type="file" accept="application/json,.json">
+</label>
+</section>
+
 </div>
-
-<p id="CSP"><b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStatus Information</b></p>
-<div w3-include-html="status.html" id=Information></div>
-
-<script>IncludeHTML();</script>
-
 </body>
-</div>
 </html>
