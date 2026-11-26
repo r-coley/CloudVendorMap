@@ -66,10 +66,23 @@ if (!window.CSP_READY) fetch('./data/provider-locations.generated.json')
     window.dispatchEvent(new Event('locations-ready'));
   });
 
-document.addEventListener('DOMContentLoaded', function() {
+function setupLocationControls() {
+  if (document.documentElement.getAttribute('data-location-controls-ready') === 'true') return;
+  document.documentElement.setAttribute('data-location-controls-ready', 'true');
   var upload = document.querySelector('#locationDataUpload');
-  if (!upload) return;
-  upload.addEventListener('change', function(event) {
+  var download = document.querySelector('#downloadLocationData');
+  function downloadJson(text) {
+    var blob = new Blob([text], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'provider-locations.merged.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+  }
+  if (upload) upload.addEventListener('change', function(event) {
     var file = event.target.files && event.target.files[0];
     if (!file) return;
     var reader = new FileReader();
@@ -90,4 +103,37 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     reader.readAsText(file);
   });
-});
+  if (download) download.addEventListener('click', function() {
+    download.disabled = true;
+    fetch('/api/refresh-locations', { method: 'POST' })
+      .then(function(response) {
+        if (!response.ok) throw new Error('refresh endpoint unavailable');
+        return response.json();
+      })
+      .then(function(payload) {
+        downloadJson(JSON.stringify(payload.records, null, 2) + '\n');
+      })
+      .catch(function() {
+        return fetch('./data/provider-locations.generated.json')
+          .then(function(response) {
+            if (!response.ok) throw new Error('generated data unavailable');
+            return response.text();
+          })
+          .then(function(text) {
+            downloadJson(text);
+          });
+      })
+      .catch(function(error) {
+        console.error('Could not download location data:', error.message);
+      })
+      .finally(function() {
+        download.disabled = false;
+      });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupLocationControls);
+} else {
+  setupLocationControls();
+}

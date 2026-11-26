@@ -17,6 +17,9 @@ Seattle. These hub markers are city references and are not provider-region claim
 ## Location data
 
 Run `node scripts/refresh-locations.js` to rebuild `data/provider-locations.generated.json`.
+For the in-app `Download JSON` action to refresh the merge first, run
+`node scripts/local-server.js` and open `http://127.0.0.1:8765/`. The button downloads
+the refreshed merged JSON; use `Upload JSON` afterward to load it into the map.
 Provider records are normalized from the current source data, while company-maintained fields
 belong in `data/provider-locations.manual.json`. Manual entries are keyed by `provider:regionId`
 and are merged without being overwritten. This supports fields such as `dataCenterAddress`,

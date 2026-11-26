@@ -67,10 +67,13 @@
 </div>
 
 <section class="data-upload-card" aria-label="Location data">
-<label class="upload-button" for="locationDataUpload">
-Load JSON file
+<div class="data-actions">
+<label class="upload-button" for="locationDataUpload" title="Upload a JSON file containing cloud location data">
+Upload JSON
 <input id="locationDataUpload" type="file" accept="application/json,.json">
 </label>
+<button id="downloadLocationData" class="download-button" type="button" title="Download the current merged cloud location data as JSON">Download JSON</button>
+</div>
 </section>
 
 </div>
