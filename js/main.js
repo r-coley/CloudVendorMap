@@ -176,7 +176,7 @@ function initializeMap() {
       "stroke-width": "0.35"
     });
     path.dataset.fill = "#f7f4f1";
-    path.dataset.hoverFill = "#b8d7e9";
+    path.dataset.hoverFill = "#c5e3c5";
     path.addEventListener("mouseenter", function() {
       if (!countryHighlighting) return;
       path.setAttribute("fill", path.dataset.hoverFill);
@@ -195,7 +195,7 @@ function initializeMap() {
   }
 
   function providerLabel(provider) {
-    return { AWS: "Amazon Web Services", Azure: "Microsoft Azure", GCP: "Google Cloud", ALI: "Alibaba Cloud", OCI: "Oracle Cloud", CUSTOMER: "Customer DC's" }[provider] || provider;
+    return { AWS: "Amazon Web Services", Azure: "Microsoft Azure", GCP: "Google Cloud", ALI: "Alibaba Cloud", OCI: "Oracle Cloud", CUSTOMER: (window.CUSTOMER_NAME || "Customer") + " DC's" }[provider] || provider;
   }
 
   function createLocationMarker(record, point, color, isAvailabilityZone) {

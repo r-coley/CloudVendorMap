@@ -104,6 +104,13 @@ h1 { font-size: clamp(30px, 4vw, 48px); line-height: 1.05; }
 .provider-ali.pressed, .provider-aws.pressed, .provider-azure.pressed, .provider-gcp.pressed, .provider-oci.pressed, .provider-customer.pressed { border-color: var(--provider-color); background: var(--provider-tint); color: var(--provider-text); box-shadow: 0 4px 12px color-mix(in srgb, var(--provider-color) 16%, transparent); }
 .data-upload-card { display: flex; width: 100%; max-width: 100%; height: auto; min-height: 0; margin-top: 8px; padding: 8px 12px; align-items: flex-start; justify-content: space-between; gap: 20px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255, 255, 255, .72); }
 .data-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.data-scope { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.data-scope input { width: 58px; height: 16px; margin: 0; appearance: none; background: transparent; cursor: pointer; }
+.data-scope input::-webkit-slider-runnable-track { height: 3px; border-radius: 999px; background: #cbd5e1; }
+.data-scope input::-webkit-slider-thumb { width: 14px; height: 14px; margin-top: -5.5px; appearance: none; border: 1px solid #94a3b8; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .2); }
+.data-scope input::-moz-range-track { height: 3px; border-radius: 999px; background: #cbd5e1; }
+.data-scope input::-moz-range-thumb { width: 14px; height: 14px; border: 1px solid #94a3b8; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .2); }
+.data-scope input:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 3px; }
 .upload-button { display: inline-grid; min-height: 28px; padding: 6px 10px; place-items: center; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fff; cursor: pointer; font-size: 11px; font-weight: 700; transition: border-color .2s, box-shadow .2s, background .2s; }
 .upload-button:hover { border-color: #1d4ed8; background: #1d4ed8; box-shadow: 0 4px 12px rgba(37, 99, 235, .2); }
 .upload-button input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }

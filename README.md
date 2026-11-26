@@ -8,7 +8,7 @@ The map boundaries are bundled in `data/world-countries.geojson` from the public
 to use the same geographic coordinate system.
 
 Example screenshot.
-![Cloud Vendor Locations example](screenshots/cloud-vendor-locations-example.png)
+![Cloud Vendor Locations example](doc/cloud-vendor-locations-example.png)
 
 OCI records use Oracle's region identifiers and approximate city coordinates from the
 [OCI regions documentation](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
@@ -20,23 +20,38 @@ Seattle. These hub markers are city references and are not provider-region claim
 
 ## Location data
 
-Run `node scripts/refresh-locations.js` to rebuild `data/provider-locations.generated.json`. The refresh process
+Run `node scripts/refresh-locations.js` to rebuild `data/locations.generated.json`. The refresh process
 loads the current OCI region tables from Oracle documentation, including commercial, sovereign, and government
 realms; if Oracle is unavailable, it preserves the last generated OCI set as a fallback.
 For the in-app `Download JSON` action to refresh the merge first, run
 `node scripts/local-server.js` and open `http://127.0.0.1:8765/`. The button downloads
 the refreshed merged JSON; use `Upload JSON` afterward to load it into the map.
-The canonical non-OCI provider records are stored in `data/provider-locations.source.json`.
+
+To run the local server over HTTPS, create a self-signed development certificate once:
+
+```bash
+./scripts/create-local-cert.sh
+node scripts/local-server.js --https
+```
+
+Then open `https://127.0.0.1:8765/`. The browser will show a certificate warning because
+the certificate is self-signed; accept it for local development only. Certificate files are
+stored in `.certs/` and excluded from Git.
+The canonical non-OCI provider records are stored in `data/locations.source.json`.
 Provider records are normalized from that source data, while company-maintained fields
-belong in `data/provider-locations.manual.json`. Manual entries are keyed by `provider:regionId`
+belong in `data/locations.manual.json`. Manual entries are keyed by `provider:regionId`
 and are merged without being overwritten. This supports fields such as `dataCenterAddress`,
 `companyAccessStatus`, and private-cloud Alibaba locations.
 
-For private customer data, use `data/provider-locations.customer.json`. This file is excluded from
-Git and is loaded by the browser after `data/provider-locations.generated.json` at runtime. Add your
-Customer DC records as a JSON array using `provider: "CUSTOMER"`; the file may be absent or empty
-without affecting the public dataset. A customer record with the same `regionId` replaces the
-generated record with that key; otherwise it is appended.
+For private customer data, use `data/locations.customer.json`. This file is excluded from
+Git and is loaded by the browser after `data/locations.generated.json` at runtime. Set your
+company name once in `customerName`, then add Customer DC records in the `locations` array. The
+company name is used for the filter button and customer-location hover labels. The file may be absent
+or empty without affecting the public dataset. A customer record with the same `regionId` replaces
+the generated record with that key; otherwise it is appended. Use the Customer/Cloud slider beside
+the Upload JSON and Download JSON buttons to choose which dataset those buttons operate on. When
+served by `scripts/local-server.js`, uploads overwrite the selected JSON file on disk; downloads
+read the current selected file. The server must be running for uploads to work.
 
 ### JSON format
 
@@ -50,7 +65,7 @@ These fields are recommended but optional: `regionName`, `location`, `country`, 
 `dataCenterAddress`, `sourceUrl`, `lastVerified`, and `companyAccessStatus`.
 
 For customer data centers, set `provider` to exactly `"CUSTOMER"`. The map groups those records
-under the `Customer DC's` filter. The loader also accepts `"Customer DC's"` as a provider value
+under the company-specific DC filter. The loader also accepts `"Customer DC's"` as a provider value
 and normalizes it to `"CUSTOMER"`. Customer records use the same coordinate and optional fields
 as cloud-provider records; `regionId` can be any stable identifier that is meaningful to your organization.
 
@@ -61,6 +76,23 @@ The smallest valid record is:
   "provider": "CUSTOMER",
   "regionId": "customer-london-1",
   "coordinates": { "lat": 51.5072, "lon": -0.1276 }
+}
+```
+
+The private customer file uses this wrapper format:
+
+```json
+{
+  "customerName": "Example Corp",
+  "locations": [
+    {
+      "provider": "CUSTOMER",
+      "regionId": "customer-london-1",
+      "location": "London",
+      "country": "United Kingdom",
+      "coordinates": { "lat": 51.5072, "lon": -0.1276 }
+    }
+  ]
 }
 ```
 

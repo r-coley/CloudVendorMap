@@ -37,7 +37,7 @@
 <button id="azure" class="btn provider-azure" data-provider="Azure" type="button" aria-pressed="false"><span>Microsoft Azure</span></button>
 <button id="gcp" class="btn provider-gcp" data-provider="GCP" type="button" aria-pressed="false"><span>Google Cloud</span></button>
 <button id="oci" class="btn provider-oci" data-provider="OCI" type="button" aria-pressed="false"><span>Oracle Cloud (OCI)</span></button>
-<button id="customer" class="btn provider-customer" data-provider="CUSTOMER" type="button" aria-pressed="false"><span>Customer DC's</span></button>
+<button id="customer" class="btn provider-customer" data-provider="CUSTOMER" type="button" aria-pressed="false"><span id="customerButtonLabel">Customer DC's</span></button>
 <div class="option-divider"></div>
 <p class="panel-label panel-label-options">Map layers</p>
 <label class="switch-row" for="countryHighlighting">
@@ -77,11 +77,16 @@
 <output id="locationSearchResult" class="location-search-result" role="status" aria-live="polite"></output>
 </div>
 <div class="data-actions">
-<label class="upload-button" for="locationDataUpload" title="Upload a JSON file containing cloud location data">
+<div class="data-scope" aria-label="JSON data scope">
+<span>Customer</span>
+<input id="dataScope" type="range" min="0" max="1" step="1" value="1" aria-label="JSON data scope: Cloud">
+<span>Cloud</span>
+</div>
+<label class="upload-button" for="locationDataUpload" title="Upload a JSON file for the selected data scope">
 Upload JSON
 <input id="locationDataUpload" type="file" accept="application/json,.json">
 </label>
-<button id="downloadLocationData" class="download-button" type="button" title="Download the current merged cloud location data as JSON">Download JSON</button>
+<button id="downloadLocationData" class="download-button" type="button" title="Download JSON for the selected data scope">Download JSON</button>
 </div>
 </section>
 

@@ -1,4 +1,5 @@
 window.CSP_READY = false;
+window.CUSTOMER_NAME = 'Customer';
 
 function toLegacyRecords(records) {
   return records.map(function(record) {
@@ -37,6 +38,8 @@ function toLegacyRecords(records) {
 function finishLocationLoad(records) {
   window.CSP = toLegacyRecords(records);
   window.CSP_READY = true;
+  var customerButtonLabel = document.querySelector('#customerButtonLabel');
+  if (customerButtonLabel) customerButtonLabel.textContent = window.CUSTOMER_NAME + " DC's";
   window.dispatchEvent(new Event('locations-ready'));
 }
 
@@ -47,13 +50,20 @@ function locationKey(record) {
 }
 
 function mergeRuntimeCustomerLocations(records) {
-  return fetch('./data/provider-locations.customer.json?refresh=' + Date.now(), { cache: 'no-store' })
+  var storedCustomer = loadStoredCustomerLocations();
+  var customerSource = storedCustomer ? Promise.resolve(storedCustomer) : fetch('./data/locations.customer.json?refresh=' + Date.now(), { cache: 'no-store' })
     .then(function(response) {
       if (response.status === 404) return [];
       if (!response.ok) throw new Error('Could not load local customer locations');
       return response.json();
-    })
-    .then(function(customerRecords) {
+    });
+  return customerSource
+    .then(function(payload) {
+      var customerRecords = payload;
+      if (!Array.isArray(payload)) {
+        window.CUSTOMER_NAME = String(payload.customerName || 'Customer').trim() || 'Customer';
+        customerRecords = payload.locations;
+      }
       if (!Array.isArray(customerRecords)) throw new Error('Local customer locations must be a JSON array');
       var merged = records.slice();
       var indexes = {};
@@ -75,9 +85,9 @@ function mergeRuntimeCustomerLocations(records) {
     });
 }
 
-function loadStoredLocations() {
+function loadStoredJson(key) {
   try {
-    var stored = window.localStorage.getItem('cloudVendorLocationsOverride');
+    var stored = window.localStorage.getItem(key);
     return stored ? JSON.parse(stored) : null;
   } catch (error) {
     console.warn('Ignoring invalid stored location data:', error.message);
@@ -85,12 +95,16 @@ function loadStoredLocations() {
   }
 }
 
-var storedLocations = loadStoredLocations();
+function loadStoredCustomerLocations() {
+  return loadStoredJson('cloudVendorCustomerOverride');
+}
+
+var storedLocations = loadStoredJson('cloudVendorLocationsOverride');
 if (Array.isArray(storedLocations)) {
   finishLocationLoad(storedLocations);
 }
 
-if (!window.CSP_READY) fetch('./data/provider-locations.generated.json?refresh=' + Date.now(), { cache: 'no-store' })
+if (!window.CSP_READY) fetch('./data/locations.generated.json?refresh=' + Date.now(), { cache: 'no-store' })
   .then(function(response) {
     if (!response.ok) throw new Error('Could not load location data');
     return response.json();
@@ -107,12 +121,25 @@ function setupLocationControls() {
   document.documentElement.setAttribute('data-location-controls-ready', 'true');
   var upload = document.querySelector('#locationDataUpload');
   var download = document.querySelector('#downloadLocationData');
+  var dataScope = document.querySelector('#dataScope');
+  var customerScope = false;
+  function updateDataScope() {
+    customerScope = dataScope && dataScope.value === '0';
+    var scopeLabel = customerScope ? 'customer' : 'cloud';
+    if (dataScope) dataScope.setAttribute('aria-label', 'JSON data scope: ' + (customerScope ? 'Customer' : 'Cloud'));
+    if (upload) upload.title = 'Upload a JSON file for the selected ' + scopeLabel + ' data scope';
+    if (download) download.title = 'Download ' + scopeLabel + ' location data as JSON';
+  }
+  if (dataScope) {
+    dataScope.addEventListener('input', updateDataScope);
+    updateDataScope();
+  }
   function downloadJson(text) {
     var blob = new Blob([text], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var link = document.createElement('a');
     link.href = url;
-    link.download = 'provider-locations.merged.json';
+    link.download = customerScope ? 'locations.customer.json' : 'locations.generated.json';
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -124,14 +151,33 @@ function setupLocationControls() {
     var reader = new FileReader();
     reader.onload = function() {
       try {
-        var records = JSON.parse(reader.result);
-        if (!Array.isArray(records) || !records.length) throw new Error('The JSON must contain a non-empty array of locations.');
+        var payload = JSON.parse(reader.result);
+        var records = customerScope && !Array.isArray(payload) ? payload.locations : payload;
+        if (customerScope && !Array.isArray(payload)) {
+          payload.customerName = String(payload.customerName || 'Customer').trim() || 'Customer';
+        }
+        if (!Array.isArray(records) || (!customerScope && !records.length)) throw new Error('The JSON must contain a ' + (customerScope ? '' : 'non-empty ') + 'array of locations.');
         var valid = records.every(function(record) {
           return (record.provider || record.csp) && (record.regionId || record.code) && (record.coordinates || record.coord);
         });
         if (!valid) throw new Error('Each location needs provider, regionId, and coordinates fields.');
-        window.localStorage.setItem('cloudVendorLocationsOverride', JSON.stringify(records));
-        window.location.reload();
+        if (customerScope && Array.isArray(payload)) payload = { customerName: window.CUSTOMER_NAME || 'Customer', locations: payload };
+        fetch(customerScope ? '/api/save-locations/customer' : '/api/save-locations/cloud', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function(response) {
+          return response.json().then(function(result) {
+            if (!response.ok) throw new Error(result.error || 'Could not save location data');
+            return result;
+          });
+        }).then(function() {
+          window.localStorage.removeItem(customerScope ? 'cloudVendorCustomerOverride' : 'cloudVendorLocationsOverride');
+          window.location.reload();
+        }).catch(function(error) {
+          window.alert('Location JSON could not be saved: ' + error.message);
+          upload.value = '';
+        });
       } catch (error) {
         window.alert('Location JSON could not be loaded: ' + error.message);
         upload.value = '';
@@ -141,23 +187,30 @@ function setupLocationControls() {
   });
   if (download) download.addEventListener('click', function() {
     download.disabled = true;
-    fetch('/api/refresh-locations', { method: 'POST' })
+    if (customerScope) {
+      var storedCustomer = loadStoredCustomerLocations();
+      var customerFetch = storedCustomer ? Promise.resolve(storedCustomer) : fetch('./data/locations.customer.json')
+        .then(function(response) {
+          if (response.status === 404) return { customerName: window.CUSTOMER_NAME || 'Customer', locations: [] };
+          if (!response.ok) throw new Error('customer data unavailable');
+          return response.json();
+        });
+      customerFetch.then(function(payload) {
+        downloadJson(JSON.stringify(payload, null, 2) + '\n');
+      }).catch(function(error) {
+        console.error('Could not download customer location data:', error.message);
+      }).finally(function() {
+        download.disabled = false;
+      });
+      return;
+    }
+    fetch('./data/locations.generated.json?download=' + Date.now(), { cache: 'no-store' })
       .then(function(response) {
-        if (!response.ok) throw new Error('refresh endpoint unavailable');
-        return response.json();
+        if (!response.ok) throw new Error('generated data unavailable');
+        return response.text();
       })
-      .then(function(payload) {
-        downloadJson(JSON.stringify(payload.records, null, 2) + '\n');
-      })
-      .catch(function() {
-        return fetch('./data/provider-locations.generated.json')
-          .then(function(response) {
-            if (!response.ok) throw new Error('generated data unavailable');
-            return response.text();
-          })
-          .then(function(text) {
-            downloadJson(text);
-          });
+      .then(function(text) {
+        downloadJson(text);
       })
       .catch(function(error) {
         console.error('Could not download location data:', error.message);
