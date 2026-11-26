@@ -77,6 +77,9 @@ docReady(function() {
 		if (locationTooltip) locationTooltip.style.display = 'none';
 	}
 	var mapVerticalOffset = 0;
+	var mapHorizontalScale = 0.88;
+	var mapCenterX = 495;
+	var mapCenterY = 225;
 
 	/*** Object: Draws a circle ***/
 	function Dot(Paper,x,y,radius,color,msg) {
@@ -148,7 +151,6 @@ docReady(function() {
 			"stroke-opacity": 0.72,
 			"stroke-width": 0.35
 		});
-		obj.transform("t0," + mapVerticalOffset);
 		//obj.click(handleDetails);
 		obj.data("hoverFill", "#c7ddf2");
 		obj.data("fill", color); 
@@ -183,7 +185,7 @@ docReady(function() {
 	function parseLatLon(latlon) {
 		var getXY = function(lat,lon) {
 			return { 
-				cx: lon * 2.6938+465.4, 
+				cx: mapCenterX + (lon * 2.6938+465.4 - mapCenterX) * mapHorizontalScale,
 				cy: lat * -2.6938+227.066 + mapVerticalOffset
 			};
 		}
@@ -279,7 +281,7 @@ docReady(function() {
 			mapVerticalOffset = (mapHeight - (maxY - minY)) / 2 - minY;
 			for (var centeredCountry in WORLD) {
 				if (WORLD[centeredCountry].obj) {
-					WORLD[centeredCountry].obj.transform("t0," + mapVerticalOffset);
+					WORLD[centeredCountry].obj.transform("s" + mapHorizontalScale + ",1," + mapCenterX + "," + mapCenterY + "t0," + mapVerticalOffset);
 					if (WORLD[centeredCountry].obj.capital) {
 						WORLD[centeredCountry].obj.capital.cy += mapVerticalOffset;
 						WORLD[centeredCountry].obj.capital.dot.transform("t0," + mapVerticalOffset);
