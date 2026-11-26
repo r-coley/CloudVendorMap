@@ -126,7 +126,11 @@ function setupLocationControls() {
   function updateDataScope() {
     customerScope = dataScope && dataScope.value === '0';
     var scopeLabel = customerScope ? 'customer' : 'cloud';
-    if (dataScope) dataScope.setAttribute('aria-label', 'JSON data scope: ' + (customerScope ? 'Customer' : 'Cloud'));
+    if (dataScope) {
+      dataScope.setAttribute('aria-label', 'JSON data scope: ' + (customerScope ? 'Customer' : 'Cloud'));
+      dataScope.style.setProperty('--scope-color', '#111827');
+      dataScope.style.setProperty('--scope-shadow', 'rgba(15, 23, 42, .35)');
+    }
     if (upload) upload.title = 'Upload a JSON file for the selected ' + scopeLabel + ' data scope';
     if (download) download.title = 'Download ' + scopeLabel + ' location data as JSON';
   }

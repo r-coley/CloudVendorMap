@@ -100,12 +100,16 @@ function initializeMap() {
     hideTooltip();
   }
 
-  function showTooltip(element, message, type) {
+  function showTooltip(element, message, type, event) {
     if (!message) return;
     var mapRect = map.getBoundingClientRect();
     var elementRect = element.getBoundingClientRect();
-    var x = elementRect.left - mapRect.left + elementRect.width / 2;
-    var y = elementRect.top - mapRect.top;
+    var x = event && Number.isFinite(event.clientX)
+      ? event.clientX - mapRect.left
+      : elementRect.left - mapRect.left + elementRect.width / 2;
+    var y = event && Number.isFinite(event.clientY)
+      ? event.clientY - mapRect.top
+      : elementRect.top - mapRect.top;
     tooltip.replaceChildren();
     var lines = message.split("\n");
     if (type && lines.length) {
@@ -186,7 +190,7 @@ function initializeMap() {
     path.addEventListener("mouseenter", function() {
       if (!countryHighlighting) return;
       path.setAttribute("fill", path.dataset.hoverFill);
-      showTooltip(path, countryName, "country");
+      showTooltip(path, countryName, "country", event);
     });
     path.addEventListener("mouseleave", function() {
       path.setAttribute("fill", path.dataset.fill);
@@ -214,7 +218,7 @@ function initializeMap() {
       "stroke-width": isAvailabilityZone ? "1" : "0"
     });
     marker.style.display = "none";
-    marker.addEventListener("mouseenter", function() { showTooltip(marker, locationMessage(record)); });
+    marker.addEventListener("mouseenter", function(event) { showTooltip(marker, locationMessage(record), null, event); });
     marker.addEventListener("mouseleave", hideTooltip);
     markerLayer.appendChild(marker);
     return { element: marker, record: record, radius: markerRadius, isAvailabilityZone: isAvailabilityZone };
@@ -440,7 +444,7 @@ function initializeMap() {
     var capitalPoint = parseLatLon(country.capital[0]);
     var capital = createSvgElement("circle", { cx: capitalPoint.cx, cy: capitalPoint.cy, r: markerRadius, fill: "#6b46c1" });
     capital.style.display = "none";
-    capital.addEventListener("mouseenter", function() { showTooltip(capital, country.capital[1], "city"); });
+    capital.addEventListener("mouseenter", function(event) { showTooltip(capital, country.capital[1], "city", event); });
     capital.addEventListener("mouseleave", hideTooltip);
     capitalLayer.appendChild(capital);
     capitalMarkers.push({ element: capital, radius: markerRadius });
@@ -457,7 +461,7 @@ function initializeMap() {
       "stroke-width": "0.75"
     });
     marker.style.display = "none";
-    marker.addEventListener("mouseenter", function() { showTooltip(marker, city.name, "city"); });
+    marker.addEventListener("mouseenter", function(event) { showTooltip(marker, city.name, "city", event); });
     marker.addEventListener("mouseleave", hideTooltip);
     capitalLayer.appendChild(marker);
     capitalMarkers.push({ element: marker, radius: markerRadius });
@@ -499,10 +503,13 @@ function initializeMap() {
 
   var locationSearch = document.querySelector("#locationSearch");
   var locationSearchButton = document.querySelector("#locationSearchButton");
-  if (locationSearch && locationSearchButton) {
-    locationSearchButton.addEventListener("click", function() { highlightLocationSearch(locationSearch.value); });
+  if (locationSearch) {
+    if (locationSearchButton) locationSearchButton.addEventListener("click", function() { highlightLocationSearch(locationSearch.value); });
     locationSearch.addEventListener("keydown", function(event) {
       if (event.key === "Enter") highlightLocationSearch(locationSearch.value);
+    });
+    locationSearch.addEventListener("blur", function() {
+      highlightLocationSearch(locationSearch.value);
     });
     locationSearch.addEventListener("search", function() {
       if (!locationSearch.value) highlightLocationSearch("");
