@@ -40,6 +40,41 @@ function finishLocationLoad(records) {
   window.dispatchEvent(new Event('locations-ready'));
 }
 
+function locationKey(record) {
+  var provider = String(record.provider || record.csp || '').trim().toUpperCase();
+  var regionId = String(record.regionId || record.code || '').trim();
+  return provider + ':' + regionId;
+}
+
+function mergeRuntimeCustomerLocations(records) {
+  return fetch('./data/provider-locations.customer.json?refresh=' + Date.now(), { cache: 'no-store' })
+    .then(function(response) {
+      if (response.status === 404) return [];
+      if (!response.ok) throw new Error('Could not load local customer locations');
+      return response.json();
+    })
+    .then(function(customerRecords) {
+      if (!Array.isArray(customerRecords)) throw new Error('Local customer locations must be a JSON array');
+      var merged = records.slice();
+      var indexes = {};
+      merged.forEach(function(record, index) { indexes[locationKey(record)] = index; });
+      customerRecords.forEach(function(record) {
+        var key = locationKey(record);
+        if (!key || key === ':') return;
+        if (Object.prototype.hasOwnProperty.call(indexes, key)) merged[indexes[key]] = record;
+        else {
+          indexes[key] = merged.length;
+          merged.push(record);
+        }
+      });
+      return merged;
+    })
+    .catch(function(error) {
+      console.warn('Ignoring local customer locations:', error.message);
+      return records;
+    });
+}
+
 function loadStoredLocations() {
   try {
     var stored = window.localStorage.getItem('cloudVendorLocationsOverride');
@@ -60,6 +95,7 @@ if (!window.CSP_READY) fetch('./data/provider-locations.generated.json?refresh='
     if (!response.ok) throw new Error('Could not load location data');
     return response.json();
   })
+  .then(mergeRuntimeCustomerLocations)
   .then(finishLocationLoad)
   .catch(function(error) {
     // js/csp.js remains available as a local fallback for offline/file previews.

@@ -31,6 +31,12 @@ belong in `data/provider-locations.manual.json`. Manual entries are keyed by `pr
 and are merged without being overwritten. This supports fields such as `dataCenterAddress`,
 `companyAccessStatus`, and private-cloud Alibaba locations.
 
+For private customer data, use `data/provider-locations.customer.json`. This file is excluded from
+Git and is loaded by the browser after `data/provider-locations.generated.json` at runtime. Add your
+Customer DC records as a JSON array using `provider: "CUSTOMER"`; the file may be absent or empty
+without affecting the public dataset. A customer record with the same `regionId` replaces the
+generated record with that key; otherwise it is appended.
+
 ### JSON format
 
 The uploaded file must contain a non-empty JSON array. Each location object must include:
