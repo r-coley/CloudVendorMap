@@ -1,16 +1,18 @@
 # CloudVendorMap
 Plots the locations of the Cloud Vendor DataCenters
 
-Exercise using Raphael javascript library to display cloud datacenter locations
-gleaned from information obtained by published sources.
+Displays cloud data-center locations with native SVG rendering and published source data.
 
-Example screenshot. 
-![alt tag](Screenshot.png)
+Example screenshot.
+![Cloud Vendor Locations example](screenshots/cloud-vendor-locations-example.png)
 
 OCI records use Oracle's region identifiers and approximate city coordinates from the
 [OCI regions documentation](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
 Exact physical data-center coordinates are not generally public, so markers represent the
 provider region's named location.
+
+City mode includes country capitals plus reference hubs for New York, San Francisco, and
+Seattle. These hub markers are city references and are not provider-region claims.
 
 ## Location data
 

@@ -5,11 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <title>Cloud Vendor Locations</title>
-<link href="./css/raphael.pan-zoom.css" rel="stylesheet" type="text/css" />
 <link href="./css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="./js/raphael.js"></script>
-<script type="text/javascript" src="./js/g.raphael.js"></script>
-<script type="text/javascript" src="./js/raphael.pan-zoom.js"></script>
 <script type="text/javascript" src="./js/maps.js"></script>
 <script type="text/javascript" src="./js/csp.js"></script>
 <script type="text/javascript" src="./js/data-loader.js"></script>
@@ -27,37 +23,39 @@
 </header>
 
 <div id="mapContainer">
-<div id="map"></div>
+<div id="map">
 <div id="mapControls">
-<button id="home" type="button" aria-label="Reset map view" title="Reset map view">⌂</button>
-<button id="plus" type="button" aria-label="Zoom in" title="Zoom in">+</button>
-<button id="minus" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+<button id="home" type="button" aria-label="Reset map view" title="Reset map view"><span aria-hidden="true">⌂</span></button>
+<button id="plus" type="button" aria-label="Zoom in" title="Zoom in"><span aria-hidden="true">+</span></button>
+<button id="minus" type="button" aria-label="Zoom out" title="Zoom out"><span aria-hidden="true">−</span></button>
 </div>
-<div id="mapButtons">
+</div>
+<div id="mapButtons" aria-label="Map filters">
 <p class="panel-label">Show locations</p>
-<button id="ali" class="btn provider-ali" type="button">Alibaba Cloud</button>
-<button id="aws" class="btn provider-aws" type="button">Amazon Web Services</button>
-<button id="azure" class="btn provider-azure" type="button">Microsoft Azure</button>
-<button id="gcp" class="btn provider-gcp" type="button">Google Cloud</button>
-<button id="oci" class="btn provider-oci" type="button">Oracle Cloud (OCI)</button>
+<button id="ali" class="btn provider-ali" data-provider="ALI" type="button" aria-pressed="false"><span>Alibaba Cloud</span></button>
+<button id="aws" class="btn provider-aws" data-provider="AWS" type="button" aria-pressed="false"><span>Amazon Web Services</span></button>
+<button id="azure" class="btn provider-azure" data-provider="Azure" type="button" aria-pressed="false"><span>Microsoft Azure</span></button>
+<button id="gcp" class="btn provider-gcp" data-provider="GCP" type="button" aria-pressed="false"><span>Google Cloud</span></button>
+<button id="oci" class="btn provider-oci" data-provider="OCI" type="button" aria-pressed="false"><span>Oracle Cloud (OCI)</span></button>
 <div class="option-divider"></div>
+<p class="panel-label panel-label-options">Map layers</p>
 <label class="switch-row" for="countryHighlighting">
 <span><strong>Country highlighting</strong></span>
 <input id="countryHighlighting" type="checkbox">
 <span class="switch" aria-hidden="true"></span>
 </label>
 <label class="switch-row" for="countryCities">
-<span><strong>Country cities</strong></span>
+<span><strong>Country capitals &amp; hubs</strong></span>
 <input id="countryCities" type="checkbox">
 <span class="switch" aria-hidden="true"></span>
 </label>
 <label class="switch-row" for="companyApprovedOnly">
-<span><strong>Approved Locations</strong></span>
+<span><strong>Approved locations</strong></span>
 <input id="companyApprovedOnly" type="checkbox">
 <span class="switch" aria-hidden="true"></span>
 </label>
 <label class="switch-row" for="availabilityZones">
-<span><strong>AZ Locations</strong></span>
+<span><strong>Availability zones</strong></span>
 <input id="availabilityZones" type="checkbox">
 <span class="switch" aria-hidden="true"></span>
 </label>
