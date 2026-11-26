@@ -57,11 +57,17 @@ function initializeMap() {
   function viewBoxWidth() { return mapWidth * zoomScale(); }
   function viewBoxHeight() { return mapHeight * zoomScale(); }
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+  function wrapWorldX(value) {
+    var wrapped = value % mapWidth;
+    return wrapped < -mapWidth / 2 ? wrapped + mapWidth : wrapped > mapWidth / 2 ? wrapped - mapWidth : wrapped;
+  }
 
   function applyViewBox() {
     var width = viewBoxWidth();
     var height = viewBoxHeight();
-    mapView.x = clamp(mapView.x, 0, mapWidth - width);
+    // Keep one full world copy available on either side so panning can cross
+    // the antimeridian without exposing an empty map area.
+    mapView.x = wrapWorldX(mapView.x);
     mapView.y = clamp(mapView.y, 0, mapHeight - height);
     svg.setAttribute("viewBox", [mapView.x, mapView.y, width, height].join(" "));
     countryPaths.forEach(function(path) {
@@ -400,6 +406,7 @@ function initializeMap() {
   }
 
   var background = createSvgElement("rect", { x: 0, y: 0, width: mapWidth, height: mapHeight, fill: "#dcecf4" });
+  var scene = createSvgElement("g", { id: "mapScene" });
   var countryLayer = createSvgElement("g", { "aria-label": "World map" });
   var capitalLayer = createSvgElement("g", { "aria-label": "Country capitals" });
   var markerLayer = createSvgElement("g", { "aria-label": "Cloud provider locations" });
@@ -409,11 +416,21 @@ function initializeMap() {
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", "World map of cloud provider and customer data-center locations");
   map.appendChild(svg);
-  svg.appendChild(background);
-  svg.appendChild(countryLayer);
-  svg.appendChild(capitalLayer);
-  svg.appendChild(markerLayer);
-  svg.appendChild(searchHighlightLayer);
+  scene.appendChild(background);
+  scene.appendChild(countryLayer);
+  scene.appendChild(capitalLayer);
+  scene.appendChild(markerLayer);
+  scene.appendChild(searchHighlightLayer);
+  svg.appendChild(scene);
+  [-mapWidth, mapWidth].forEach(function(offset) {
+    var wrappedScene = createSvgElement("use", {
+      href: "#mapScene",
+      x: offset,
+      y: 0
+    });
+    wrappedScene.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#mapScene");
+    svg.appendChild(wrappedScene);
+  });
 
   (window.WORLD_GEOJSON.features || []).forEach(addCountryFeature);
 
