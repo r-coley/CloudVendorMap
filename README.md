@@ -7,8 +7,9 @@ The map boundaries are bundled in `data/world-countries.geojson` from the public
 [geo-countries dataset](https://github.com/datasets/geo-countries), allowing country outlines and location markers
 to use the same geographic coordinate system.
 
-Example screenshot.
-![Cloud Vendor Locations example](doc/screenshot.png)
+Example screenshots.
+![Cloud Vendor Locations in light mode](doc/screenshot-light.png)
+![Cloud Vendor Locations in dark mode](doc/screenshot-dark.png)
 
 OCI records use Oracle's region identifiers and approximate city coordinates from the
 [OCI regions documentation](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
