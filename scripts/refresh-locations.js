@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { fetchOracleRegions } = require('./oci-regions');
 
 const root = path.resolve(__dirname, '..');
 const sourcePath = path.join(root, 'js', 'csp.js');
@@ -49,8 +50,23 @@ function normalize(record) {
 
 const manual = JSON.parse(fs.readFileSync(manualPath, 'utf8'));
 
-function refreshLocations() {
-  const generated = readCspRecords().map(normalize);
+async function refreshLocations() {
+  const sourceRecords = readCspRecords();
+  const cached = JSON.parse(fs.readFileSync(generatedPath, 'utf8'));
+  let ociRecords;
+  try {
+    ociRecords = await fetchOracleRegions();
+    console.log(`Loaded ${ociRecords.length} OCI regions from Oracle documentation.`);
+  } catch (error) {
+    ociRecords = cached.filter((record) => record.provider === 'OCI').map((record) => ({
+      csp: record.provider, area: record.area, region: record.regionName, code: record.regionId,
+      AZzones: record.zones, Lzones: 0, Wzones: 0, location: record.location, state: record.country,
+      opened: record.status, status: record.status, source: record.sourceUrl,
+      lastVerified: record.lastVerified, coord: record.coordinates && `${record.coordinates.lat},${record.coordinates.lon}`
+    }));
+    console.warn(`Using cached OCI data: ${error.message}`);
+  }
+  const generated = sourceRecords.filter((record) => record.csp !== 'OCI').concat(ociRecords).map(normalize);
   const generatedKeys = new Set(generated.map(keyFor));
 
   // Manual-only locations are retained, which supports private-cloud records such as ALI.
@@ -83,8 +99,12 @@ function refreshLocations() {
 }
 
 if (require.main === module) {
-  const merged = refreshLocations();
-  console.log(`Wrote ${merged.length} locations to ${path.relative(root, generatedPath)}`);
+  refreshLocations().then((merged) => {
+    console.log(`Wrote ${merged.length} locations to ${path.relative(root, generatedPath)}`);
+  }).catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
 }
 
 module.exports = { refreshLocations };

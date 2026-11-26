@@ -2497,214 +2497,6 @@
   },
   {
     "provider": "OCI",
-    "regionId": "us-ashburn-1",
-    "regionName": "US East (Ashburn)",
-    "location": "Ashburn",
-    "country": "Virginia, United States",
-    "coordinates": {
-      "lat": 39.0438,
-      "lon": -77.4874
-    },
-    "status": "live",
-    "zones": 3,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "us-phoenix-1",
-    "regionName": "US West (Phoenix)",
-    "location": "Phoenix",
-    "country": "Arizona, United States",
-    "coordinates": {
-      "lat": 33.4484,
-      "lon": -112.074
-    },
-    "status": "live",
-    "zones": 3,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "us-chicago-1",
-    "regionName": "US Midwest (Chicago)",
-    "location": "Chicago",
-    "country": "Illinois, United States",
-    "coordinates": {
-      "lat": 41.8781,
-      "lon": -87.6298
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "us-sanjose-1",
-    "regionName": "US West (San Jose)",
-    "location": "San Jose",
-    "country": "California, United States",
-    "coordinates": {
-      "lat": 37.3382,
-      "lon": -121.8863
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "ca-toronto-1",
-    "regionName": "Canada Southeast (Toronto)",
-    "location": "Toronto",
-    "country": "Ontario, Canada",
-    "coordinates": {
-      "lat": 43.6532,
-      "lon": -79.3832
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "ca-montreal-1",
-    "regionName": "Canada Southeast (Montreal)",
-    "location": "Montreal",
-    "country": "Quebec, Canada",
-    "coordinates": {
-      "lat": 45.5019,
-      "lon": -73.5674
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "sa-saopaulo-1",
-    "regionName": "Brazil East (Sao Paulo)",
-    "location": "Sao Paulo",
-    "country": "Brazil",
-    "coordinates": {
-      "lat": -23.5558,
-      "lon": -46.6396
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "eu-frankfurt-1",
-    "regionName": "Germany Central (Frankfurt)",
-    "location": "Frankfurt",
-    "country": "Germany",
-    "coordinates": {
-      "lat": 50.1109,
-      "lon": 8.6821
-    },
-    "status": "live",
-    "zones": 3,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "uk-london-1",
-    "regionName": "UK South (London)",
-    "location": "London",
-    "country": "United Kingdom",
-    "coordinates": {
-      "lat": 51.5072,
-      "lon": -0.1276
-    },
-    "status": "live",
-    "zones": 3,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "eu-amsterdam-1",
-    "regionName": "Netherlands Northwest (Amsterdam)",
-    "location": "Amsterdam",
-    "country": "Netherlands",
-    "coordinates": {
-      "lat": 52.3676,
-      "lon": 4.9041
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "eu-madrid-1",
-    "regionName": "Spain Central (Madrid)",
-    "location": "Madrid",
-    "country": "Spain",
-    "coordinates": {
-      "lat": 40.4168,
-      "lon": -3.7038
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "eu-milan-1",
-    "regionName": "Italy Northwest (Milan)",
-    "location": "Milan",
-    "country": "Italy",
-    "coordinates": {
-      "lat": 45.4642,
-      "lon": 9.19
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
-    "regionId": "eu-zurich-1",
-    "regionName": "Switzerland North (Zurich)",
-    "location": "Zurich",
-    "country": "Switzerland",
-    "coordinates": {
-      "lat": 47.3769,
-      "lon": 8.5417
-    },
-    "status": "live",
-    "zones": 1,
-    "availabilityZones": [],
-    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
-  },
-  {
-    "provider": "OCI",
     "regionId": "ap-sydney-1",
     "regionName": "Australia East (Sydney)",
     "location": "Sydney",
@@ -2717,7 +2509,7 @@
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
@@ -2733,39 +2525,183 @@
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
-    "regionId": "ap-tokyo-1",
-    "regionName": "Japan East (Tokyo)",
-    "location": "Tokyo",
-    "country": "Japan",
+    "regionId": "sa-saopaulo-1",
+    "regionName": "Brazil East (Sao Paulo)",
+    "location": "Sao Paulo",
+    "country": "Brazil",
     "coordinates": {
-      "lat": 35.6762,
-      "lon": 139.6503
+      "lat": -23.5558,
+      "lon": -46.6396
     },
     "status": "live",
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
-    "regionId": "ap-osaka-1",
-    "regionName": "Japan Central (Osaka)",
-    "location": "Osaka",
-    "country": "Japan",
+    "regionId": "sa-vinhedo-1",
+    "regionName": "Brazil Southeast (Vinhedo)",
+    "location": "Vinhedo",
+    "country": "Brazil",
     "coordinates": {
-      "lat": 34.6937,
-      "lon": 135.5023
+      "lat": -23.0295,
+      "lon": -46.9753
     },
     "status": "live",
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ca-montreal-1",
+    "regionName": "Canada Southeast (Montreal)",
+    "location": "Montreal",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 45.5019,
+      "lon": -73.5674
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ca-toronto-1",
+    "regionName": "Canada Southeast (Toronto)",
+    "location": "Toronto",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 43.6532,
+      "lon": -79.3832
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "sa-santiago-1",
+    "regionName": "Chile Central (Santiago)",
+    "location": "Santiago",
+    "country": "Chile",
+    "coordinates": {
+      "lat": -33.4489,
+      "lon": -70.6693
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "sa-valparaiso-1",
+    "regionName": "Chile West (Valparaiso)",
+    "location": "Valparaiso",
+    "country": "Chile",
+    "coordinates": {
+      "lat": -33.0472,
+      "lon": -71.6127
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "sa-bogota-1",
+    "regionName": "Colombia Central (Bogota)",
+    "location": "Bogota",
+    "country": "Colombia",
+    "coordinates": {
+      "lat": 4.711,
+      "lon": -74.0721
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-paris-1",
+    "regionName": "France Central (Paris)",
+    "location": "Paris",
+    "country": "France",
+    "coordinates": {
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-marseille-1",
+    "regionName": "France South (Marseille)",
+    "location": "Marseille",
+    "country": "France",
+    "coordinates": {
+      "lat": 43.2965,
+      "lon": 5.3698
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-frankfurt-1",
+    "regionName": "Germany Central (Frankfurt)",
+    "location": "Frankfurt",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-hyderabad-1",
+    "regionName": "India South (Hyderabad)",
+    "location": "Hyderabad",
+    "country": "India",
+    "coordinates": {
+      "lat": 17.385,
+      "lon": 78.4867
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
@@ -2781,55 +2717,183 @@
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
-    "regionId": "ap-delhi-1",
-    "regionName": "India North (Delhi)",
-    "location": "Delhi",
-    "country": "India",
+    "regionId": "ap-batam-1",
+    "regionName": "Indonesia North (Batam)",
+    "location": "Batam",
+    "country": "Indonesia",
     "coordinates": {
-      "lat": 28.7041,
-      "lon": 77.1025
+      "lat": 1.0456,
+      "lon": 104.0305
     },
     "status": "live",
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
-    "regionId": "ap-singapore-1",
-    "regionName": "Singapore",
-    "location": "Singapore",
-    "country": "Singapore",
+    "regionId": "il-jerusalem-1",
+    "regionName": "Israel Central (Jerusalem)",
+    "location": "Jerusalem",
+    "country": "Israel",
     "coordinates": {
-      "lat": 1.3521,
-      "lon": 103.8198
+      "lat": 31.7683,
+      "lon": 35.2137
     },
     "status": "live",
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
-    "regionId": "me-dubai-1",
-    "regionName": "UAE East (Dubai)",
-    "location": "Dubai",
-    "country": "United Arab Emirates",
+    "regionId": "eu-milan-1",
+    "regionName": "Italy Northwest (Milan)",
+    "location": "Milan",
+    "country": "Italy",
     "coordinates": {
-      "lat": 25.2048,
-      "lon": 55.2708
+      "lat": 45.4642,
+      "lon": 9.19
     },
     "status": "live",
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-turin-1",
+    "regionName": "Italy North (Turin)",
+    "location": "Turin",
+    "country": "Italy",
+    "coordinates": {
+      "lat": 45.0703,
+      "lon": 7.6869
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-tokyo-1",
+    "regionName": "Japan East (Tokyo)",
+    "location": "Tokyo",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 35.6762,
+      "lon": 139.6503
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-kulai-2",
+    "regionName": "Malaysia West 2 (Kulai)",
+    "location": "Kulai",
+    "country": "Malaysia",
+    "coordinates": {
+      "lat": 1.6561,
+      "lon": 103.6032
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "mx-queretaro-1",
+    "regionName": "Mexico Central (Queretaro)",
+    "location": "Queretaro",
+    "country": "Mexico",
+    "coordinates": {
+      "lat": 20.5888,
+      "lon": -100.3899
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "mx-monterrey-1",
+    "regionName": "Mexico Northeast (Monterrey)",
+    "location": "Monterrey",
+    "country": "Mexico",
+    "coordinates": {
+      "lat": 25.6866,
+      "lon": -100.3161
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "af-casablanca-1",
+    "regionName": "Morocco West (Casablanca)",
+    "location": "Casablanca",
+    "country": "Morocco",
+    "coordinates": {
+      "lat": 33.5731,
+      "lon": -7.5898
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-amsterdam-1",
+    "regionName": "Netherlands Northwest (Amsterdam)",
+    "location": "Amsterdam",
+    "country": "Netherlands",
+    "coordinates": {
+      "lat": 52.3676,
+      "lon": 4.9041
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "me-riyadh-1",
+    "regionName": "Saudi Arabia Central (Riyadh)",
+    "location": "Riyadh",
+    "country": "Saudi Arabia",
+    "coordinates": {
+      "lat": 24.7136,
+      "lon": 46.6753
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
   },
   {
     "provider": "OCI",
@@ -2845,6 +2909,422 @@
     "zones": 1,
     "availabilityZones": [],
     "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
-    "lastVerified": "2026-11-25"
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-singapore-1",
+    "regionName": "Singapore (Singapore)",
+    "location": "Singapore",
+    "country": "Singapore",
+    "coordinates": {
+      "lat": 1.3521,
+      "lon": 103.8198
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-singapore-2",
+    "regionName": "Singapore West (Singapore)",
+    "location": "Singapore",
+    "country": "Singapore",
+    "coordinates": {
+      "lat": 1.3521,
+      "lon": 103.8198
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "af-johannesburg-1",
+    "regionName": "South Africa Central (Johannesburg)",
+    "location": "Johannesburg",
+    "country": "South Africa",
+    "coordinates": {
+      "lat": -26.2041,
+      "lon": 28.0473
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-seoul-1",
+    "regionName": "South Korea Central (Seoul)",
+    "location": "Seoul",
+    "country": "South Korea",
+    "coordinates": {
+      "lat": 37.5665,
+      "lon": 126.978
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-chuncheon-1",
+    "regionName": "South Korea North (Chuncheon)",
+    "location": "Chuncheon",
+    "country": "South Korea",
+    "coordinates": {
+      "lat": 37.8813,
+      "lon": 127.7298
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-madrid-1",
+    "regionName": "Spain Central (Madrid)",
+    "location": "Madrid",
+    "country": "Spain",
+    "coordinates": {
+      "lat": 40.4168,
+      "lon": -3.7038
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-madrid-3",
+    "regionName": "Spain Central (Madrid 3)",
+    "location": "Madrid",
+    "country": "Spain",
+    "coordinates": {
+      "lat": 40.4168,
+      "lon": -3.7038
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-stockholm-1",
+    "regionName": "Sweden Central (Stockholm)",
+    "location": "Stockholm",
+    "country": "Sweden",
+    "coordinates": {
+      "lat": 59.3293,
+      "lon": 18.0686
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-zurich-1",
+    "regionName": "Switzerland North (Zurich)",
+    "location": "Zurich",
+    "country": "Switzerland",
+    "coordinates": {
+      "lat": 47.3769,
+      "lon": 8.5417
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "me-abudhabi-1",
+    "regionName": "UAE Central (Abu Dhabi)",
+    "location": "Abu Dhabi",
+    "country": "UAE",
+    "coordinates": {
+      "lat": 24.4539,
+      "lon": 54.3773
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "uk-london-1",
+    "regionName": "UK South (London)",
+    "location": "London",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5072,
+      "lon": -0.1276
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "uk-cardiff-1",
+    "regionName": "UK West (Newport)",
+    "location": "Newport",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5842,
+      "lon": -2.9977
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-ashburn-1",
+    "regionName": "US East (Ashburn)",
+    "location": "Ashburn",
+    "country": "VA",
+    "coordinates": {
+      "lat": 39.0438,
+      "lon": -77.4874
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-chicago-1",
+    "regionName": "US Midwest (Chicago)",
+    "location": "Chicago",
+    "country": "IL",
+    "coordinates": {
+      "lat": 41.8781,
+      "lon": -87.6298
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-phoenix-1",
+    "regionName": "US West (Phoenix)",
+    "location": "Phoenix",
+    "country": "AZ",
+    "coordinates": {
+      "lat": 33.4484,
+      "lon": -112.074
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-sanjose-1",
+    "regionName": "US West (San Jose)",
+    "location": "San Jose",
+    "country": "CA",
+    "coordinates": {
+      "lat": 37.3382,
+      "lon": -121.8863
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-langley-1",
+    "regionName": "US Gov East (Ashburn)",
+    "location": "Ashburn",
+    "country": "VA",
+    "coordinates": {
+      "lat": 39.0438,
+      "lon": -77.4874
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/gov-cloud/govfedramp.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-luke-1",
+    "regionName": "US Gov West (Phoenix)",
+    "location": "Phoenix",
+    "country": "AZ",
+    "coordinates": {
+      "lat": 33.4484,
+      "lon": -112.074
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/gov-cloud/govfedramp.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-gov-ashburn-1",
+    "regionName": "US DoD East (Ashburn)",
+    "location": "Ashburn",
+    "country": "United States",
+    "coordinates": {
+      "lat": 39.0438,
+      "lon": -77.4874
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/gov-cloud/govfeddod.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-gov-chicago-1",
+    "regionName": "US DoD North (Chicago)",
+    "location": "Chicago",
+    "country": "United States",
+    "coordinates": {
+      "lat": 41.8781,
+      "lon": -87.6298
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/gov-cloud/govfeddod.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "us-gov-phoenix-1",
+    "regionName": "US DoD West (Phoenix)",
+    "location": "Phoenix",
+    "country": "United States",
+    "coordinates": {
+      "lat": 33.4484,
+      "lon": -112.074
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/gov-cloud/govfeddod.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "uk-gov-london-1",
+    "regionName": "UK Gov South (London)",
+    "location": "London",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5072,
+      "lon": -0.1276
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/uk-sovereign-cloud/home.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "uk-gov-cardiff-1",
+    "regionName": "UK Gov West (Newport)",
+    "location": "Newport",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5842,
+      "lon": -2.9977
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/uk-sovereign-cloud/home.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "ap-dcc-canberra-1",
+    "regionName": "Australia Dedicated Region (Canberra)",
+    "location": "Canberra",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -35.2809,
+      "lon": 149.13
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/gov-cloud/ausgov.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-frankfurt-2",
+    "regionName": "EU Sovereign Central (Frankfurt)",
+    "location": "Frankfurt",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/sovereign-cloud/eu-sovereign-cloud.htm",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "OCI",
+    "regionId": "eu-madrid-2",
+    "regionName": "EU Sovereign South (Madrid)",
+    "location": "Madrid",
+    "country": "Spain",
+    "coordinates": {
+      "lat": 40.4168,
+      "lon": -3.7038
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": "https://docs.oracle.com/en-us/iaas/Content/sovereign-cloud/eu-sovereign-cloud.htm",
+    "lastVerified": "2026-11-26"
   }
 ]

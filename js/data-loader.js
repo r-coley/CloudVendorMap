@@ -4,6 +4,8 @@ function toLegacyRecords(records) {
   return records.map(function(record) {
     var coordinates = record.coordinates || {};
     var provider = record.provider || record.csp;
+    var normalizedProvider = String(provider || '').trim().toUpperCase().replace(/[’']/g, '').replace(/[\s_-]+/g, '');
+    if (normalizedProvider === 'CUSTOMERDC' || normalizedProvider === 'CUSTOMERDCS') provider = 'CUSTOMER';
     var regionId = record.regionId || record.code;
     var regionName = record.regionName || record.region;
     var location = record.location || regionName;
@@ -53,7 +55,7 @@ if (Array.isArray(storedLocations)) {
   finishLocationLoad(storedLocations);
 }
 
-if (!window.CSP_READY) fetch('./data/provider-locations.generated.json')
+if (!window.CSP_READY) fetch('./data/provider-locations.generated.json?refresh=' + Date.now(), { cache: 'no-store' })
   .then(function(response) {
     if (!response.ok) throw new Error('Could not load location data');
     return response.json();

@@ -6,7 +6,7 @@ function docReady(fn) {
   }
 }
 
-var providerState = { AWS: false, Azure: false, GCP: false, ALI: false, OCI: false };
+var providerState = { AWS: false, Azure: false, GCP: false, ALI: false, OCI: false, CUSTOMER: false };
 var countryHighlighting = false;
 var countryCities = false;
 var companyApprovedOnly = false;
@@ -15,8 +15,9 @@ var markerRadius = 5;
 
 function initializeMap() {
   if (initializeMap.started) return;
-  if (!window.CSP_READY) {
+  if (!window.CSP_READY || !window.WORLD_READY) {
     window.addEventListener("locations-ready", initializeMap, { once: true });
+    window.addEventListener("world-ready", initializeMap, { once: true });
     return;
   }
   initializeMap.started = true;
@@ -24,26 +25,26 @@ function initializeMap() {
   var SVG_NS = "http://www.w3.org/2000/svg";
   var mapWidth = 990;
   var mapHeight = 450;
-  var horizontalScale = 0.88;
   var mapCenterX = 495;
   var mapCenterY = 225;
-  var mapVerticalOffset = 0;
   var map = document.querySelector("#map");
   var svg = document.createElementNS(SVG_NS, "svg");
   var tooltip = document.createElement("div");
   var mapView = { x: 0, y: 0, zoom: 0 };
-  var zoomStep = 0.1;
-  var maxZoom = 9;
+  var zoomLevels = [1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5, 10, 15, 20, 25, 30];
+  var maxZoom = zoomLevels.length - 1;
+  var pinchZoomAccumulator = 0;
   var dragState = null;
   var capitalMarkers = [];
+  var countryPaths = [];
   var searchHighlights = [];
   var referenceCities = [
     { name: "New York", coord: "40.7128,-74.0060" },
     { name: "San Francisco", coord: "37.7749,-122.4194" },
     { name: "Seattle", coord: "47.6062,-122.3321" }
   ];
-  var providerSets = { ALI: [], AWS: [], Azure: [], GCP: [], OCI: [] };
-  var providerButtonIds = { ALI: "ali", AWS: "aws", Azure: "azure", GCP: "gcp", OCI: "oci" };
+  var providerSets = { ALI: [], AWS: [], Azure: [], GCP: [], OCI: [], CUSTOMER: [] };
+  var providerButtonIds = { ALI: "ali", AWS: "aws", Azure: "azure", GCP: "gcp", OCI: "oci", CUSTOMER: "customer" };
 
   function createSvgElement(name, attributes) {
     var element = document.createElementNS(SVG_NS, name);
@@ -51,7 +52,8 @@ function initializeMap() {
     return element;
   }
 
-  function zoomScale() { return Math.max(0.01, 1 - mapView.zoom * zoomStep); }
+  function zoomScaleAt(level) { return 1 / zoomLevels[level]; }
+  function zoomScale() { return zoomScaleAt(mapView.zoom); }
   function viewBoxWidth() { return mapWidth * zoomScale(); }
   function viewBoxHeight() { return mapHeight * zoomScale(); }
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -62,6 +64,9 @@ function initializeMap() {
     mapView.x = clamp(mapView.x, 0, mapWidth - width);
     mapView.y = clamp(mapView.y, 0, mapHeight - height);
     svg.setAttribute("viewBox", [mapView.x, mapView.y, width, height].join(" "));
+    countryPaths.forEach(function(path) {
+      path.setAttribute("stroke-width", (0.35 * zoomScale()).toFixed(4));
+    });
     applyMarkerScale();
   }
 
@@ -75,8 +80,9 @@ function initializeMap() {
     var previousHeight = viewBoxHeight();
     var nextZoom = clamp(mapView.zoom + delta, 0, maxZoom);
     if (nextZoom === mapView.zoom) return;
-    var nextWidth = mapWidth * (1 - nextZoom * zoomStep);
-    var nextHeight = mapHeight * (1 - nextZoom * zoomStep);
+    var nextScale = zoomScaleAt(nextZoom);
+    var nextWidth = mapWidth * nextScale;
+    var nextHeight = mapHeight * nextScale;
     var ratioX = point.x / point.rect.width;
     var ratioY = point.y / point.rect.height;
     var anchorX = mapView.x + ratioX * previousWidth;
@@ -122,14 +128,14 @@ function initializeMap() {
     var lat = Number(values[0]);
     var lon = Number(values[1]);
     return {
-      cx: mapCenterX + (lon * 2.6938 + 465.4 - mapCenterX) * horizontalScale,
-      cy: lat * -2.6938 + 227.066 + mapVerticalOffset
+      cx: (lon + 180) / 360 * mapWidth,
+      cy: (90 - lat) / 180 * mapHeight
     };
   }
 
   function locationMessage(record) {
     return [
-      record.csp,
+      providerLabel(record.csp),
       record.availabilityZone ? "Availability zone: " + record.availabilityZone : null,
       record.location || record.region,
       record.region ? "Region: " + record.region : null,
@@ -141,11 +147,30 @@ function initializeMap() {
     ].filter(function(line) { return line; }).join("\n");
   }
 
-  function addCountry(countryCode) {
-    var country = WORLD[countryCode];
+  function projectGeometry(geometry) {
+    if (geometry.type === "Point") {
+      var point = parseLatLon(geometry.coordinates.join(","));
+      return "M" + point.cx + "," + point.cy;
+    }
+    if (geometry.type !== "Polygon" && geometry.type !== "MultiPolygon") return "";
+    var polygons = geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates;
+    return polygons.map(function(polygon) {
+      return polygon.map(function(ring) {
+        return ring.map(function(coordinate, index) {
+          var point = parseLatLon(coordinate[1] + "," + coordinate[0]);
+          return (index ? "L" : "M") + point.cx + "," + point.cy;
+        }).join("") + "Z";
+      }).join("");
+    }).join("");
+  }
+
+  function addCountryFeature(feature) {
+    var country = feature.properties || {};
+    var countryName = country.name || country.ADMIN || "Country";
     var path = createSvgElement("path", {
-      d: country.path,
+      d: projectGeometry(feature.geometry),
       fill: "#f7f4f1",
+      "fill-rule": "evenodd",
       stroke: "#aeb9c8",
       "stroke-opacity": "0.72",
       "stroke-width": "0.35"
@@ -155,27 +180,22 @@ function initializeMap() {
     path.addEventListener("mouseenter", function() {
       if (!countryHighlighting) return;
       path.setAttribute("fill", path.dataset.hoverFill);
-      showTooltip(path, country.name, "country");
+      showTooltip(path, countryName, "country");
     });
     path.addEventListener("mouseleave", function() {
       path.setAttribute("fill", path.dataset.fill);
       if (countryHighlighting) hideTooltip();
     });
     countryLayer.appendChild(path);
-
-    if (country.capital) {
-      var capitalPoint = parseLatLon(country.capital[0]);
-      var capital = createSvgElement("circle", { cx: capitalPoint.cx, cy: capitalPoint.cy, r: 2, fill: "#6b46c1" });
-      capital.style.display = "none";
-      capital.addEventListener("mouseenter", function() { showTooltip(capital, country.capital[1], "city"); });
-      capital.addEventListener("mouseleave", hideTooltip);
-      capitalLayer.appendChild(capital);
-      capitalMarkers.push({ element: capital, radius: 2 });
-    }
+    countryPaths.push(path);
   }
 
   function providerColor(provider) {
-    return { AWS: "#ffb70e", Azure: "#2563eb", GCP: "#24b824", ALI: "#f59e0b", OCI: "#c74634" }[provider] || "#2563eb";
+    return { AWS: "#ffb70e", Azure: "#2563eb", GCP: "#24b824", ALI: "#f59e0b", OCI: "#c74634", CUSTOMER: "#7c3aed" }[provider] || "#2563eb";
+  }
+
+  function providerLabel(provider) {
+    return { AWS: "Amazon Web Services", Azure: "Microsoft Azure", GCP: "Google Cloud", ALI: "Alibaba Cloud", OCI: "Oracle Cloud", CUSTOMER: "Customer DC's" }[provider] || provider;
   }
 
   function createLocationMarker(record, point, color, isAvailabilityZone) {
@@ -195,13 +215,11 @@ function initializeMap() {
   }
 
   function addLocationRecords() {
+    var locationMarkers = [];
     (window.CSP || []).forEach(function(record) {
       var point = parseLatLon(record.coord);
-      if (record.csp === "AWS") point.cy -= 1;
-      if (record.csp === "Azure" || record.csp === "ALI") point.cx -= 1;
-      if (record.csp === "GCP" || record.csp === "OCI") point.cx += 1;
       if (!providerSets[record.csp]) return;
-      providerSets[record.csp].push(createLocationMarker(record, point, providerColor(record.csp), false));
+      locationMarkers.push({ record: record, point: point, isAvailabilityZone: false });
       (record.availabilityZones || []).forEach(function(zone) {
         var coordinates = zone.coordinates || {};
         var zoneCoord = zone.coord || (Number.isFinite(Number(coordinates.lat)) && Number.isFinite(Number(coordinates.lon))
@@ -215,7 +233,24 @@ function initializeMap() {
           coord: zoneCoord,
           availabilityZone: zone.name || zone.id || zone.code || ""
         });
-        providerSets[record.csp].push(createLocationMarker(zoneRecord, parseLatLon(zoneCoord), providerColor(record.csp), true));
+        locationMarkers.push({ record: zoneRecord, point: parseLatLon(zoneCoord), isAvailabilityZone: true });
+      });
+    });
+    var overlapGroups = {};
+    locationMarkers.forEach(function(item) {
+      var key = item.point.cx.toFixed(3) + "," + item.point.cy.toFixed(3);
+      if (!overlapGroups[key]) overlapGroups[key] = [];
+      overlapGroups[key].push(item);
+    });
+    Object.keys(overlapGroups).forEach(function(key) {
+      var group = overlapGroups[key];
+      group.forEach(function(item, index) {
+        var angle = (Math.PI * 2 * index) / group.length;
+        // Keep duplicate-location markers close to the real city when zoomed in.
+        var spread = group.length > 1 ? 0.3 : 0;
+        var point = { cx: item.point.cx + Math.cos(angle) * spread, cy: item.point.cy + Math.sin(angle) * spread };
+        var provider = item.record.csp;
+        providerSets[provider].push(createLocationMarker(item.record, point, providerColor(provider), item.isAvailabilityZone));
       });
     });
   }
@@ -243,19 +278,12 @@ function initializeMap() {
   }
 
   function locationSearchText(record) {
-    var providerNames = {
-      AWS: "Amazon Web Services",
-      Azure: "Microsoft Azure",
-      GCP: "Google Cloud",
-      ALI: "Alibaba Cloud",
-      OCI: "Oracle Cloud"
-    };
     var zoneNames = record.availabilityZone ? [] : (record.availabilityZones || []).reduce(function(names, zone) {
       return names.concat([zone.id, zone.code, zone.name]);
     }, []);
     return [
       record.csp,
-      providerNames[record.csp],
+      providerLabel(record.csp),
       record.region,
       record.code,
       record.location,
@@ -304,6 +332,9 @@ function initializeMap() {
       providerSets[provider].forEach(function(marker) {
         marker.element.setAttribute("r", marker.radius * scale);
       });
+    });
+    capitalMarkers.forEach(function(marker) {
+      marker.element.setAttribute("r", marker.radius * scale);
     });
     searchHighlights.forEach(function(highlight) {
       highlight.element.setAttribute("r", highlight.radius * scale);
@@ -374,9 +405,9 @@ function initializeMap() {
   var markerLayer = createSvgElement("g", { "aria-label": "Cloud provider locations" });
   var searchHighlightLayer = createSvgElement("g", { "aria-label": "Search highlights" });
   svg.setAttribute("viewBox", "0 0 " + mapWidth + " " + mapHeight);
-  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  svg.setAttribute("preserveAspectRatio", "none");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", "World map of cloud provider locations");
+  svg.setAttribute("aria-label", "World map of cloud provider and customer data-center locations");
   map.appendChild(svg);
   svg.appendChild(background);
   svg.appendChild(countryLayer);
@@ -384,28 +415,26 @@ function initializeMap() {
   svg.appendChild(markerLayer);
   svg.appendChild(searchHighlightLayer);
 
-  Object.keys(WORLD).forEach(addCountry);
-  var minY = Infinity;
-  var maxY = -Infinity;
-  Array.prototype.forEach.call(countryLayer.children, function(path) {
-    var bounds = path.getBBox();
-    minY = Math.min(minY, bounds.y);
-    maxY = Math.max(maxY, bounds.y + bounds.height);
+  (window.WORLD_GEOJSON.features || []).forEach(addCountryFeature);
+
+  Object.keys(WORLD).forEach(function(countryCode) {
+    var country = WORLD[countryCode];
+    if (!country.capital) return;
+    var capitalPoint = parseLatLon(country.capital[0]);
+    var capital = createSvgElement("circle", { cx: capitalPoint.cx, cy: capitalPoint.cy, r: markerRadius, fill: "#6b46c1" });
+    capital.style.display = "none";
+    capital.addEventListener("mouseenter", function() { showTooltip(capital, country.capital[1], "city"); });
+    capital.addEventListener("mouseleave", hideTooltip);
+    capitalLayer.appendChild(capital);
+    capitalMarkers.push({ element: capital, radius: markerRadius });
   });
-  if (Number.isFinite(minY) && Number.isFinite(maxY)) {
-    mapVerticalOffset = (mapHeight - (maxY - minY)) / 2 - minY;
-    countryLayer.setAttribute("transform", "translate(0 " + mapVerticalOffset + ") translate(" + mapCenterX + " " + mapCenterY + ") scale(" + horizontalScale + " 1) translate(" + (-mapCenterX) + " " + (-mapCenterY) + ")");
-    capitalMarkers.forEach(function(marker) {
-      marker.element.setAttribute("cy", Number(marker.element.getAttribute("cy")) + mapVerticalOffset);
-    });
-  }
 
   referenceCities.forEach(function(city) {
     var point = parseLatLon(city.coord);
     var marker = createSvgElement("circle", {
       cx: point.cx,
       cy: point.cy,
-      r: 2.5,
+      r: markerRadius,
       fill: "#6b46c1",
       stroke: "#ffffff",
       "stroke-width": "0.75"
@@ -414,7 +443,7 @@ function initializeMap() {
     marker.addEventListener("mouseenter", function() { showTooltip(marker, city.name, "city"); });
     marker.addEventListener("mouseleave", hideTooltip);
     capitalLayer.appendChild(marker);
-    capitalMarkers.push({ element: marker, radius: 2.5 });
+    capitalMarkers.push({ element: marker, radius: markerRadius });
   });
 
   addLocationRecords();
@@ -447,6 +476,7 @@ function initializeMap() {
     Object.keys(providerSets).forEach(function(provider) {
       providerSets[provider].forEach(function(marker) { marker.radius = markerRadius; });
     });
+    capitalMarkers.forEach(function(marker) { marker.radius = markerRadius; });
     applyMarkerScale();
   });
 
@@ -502,7 +532,21 @@ function initializeMap() {
   }
   map.addEventListener("wheel", function(event) {
     if (event.target.closest && event.target.closest("#mapControls")) return;
-    zoomAt(event.deltaY > 0 ? -1 : 1, localPoint(event));
+    if (event.ctrlKey || event.metaKey) {
+      // Trackpad pinch gestures arrive as high-frequency, small wheel events.
+      // Accumulate them so a pinch needs deliberate movement before advancing
+      // one of the discrete zoom levels.
+      pinchZoomAccumulator += event.deltaY;
+      if (Math.abs(pinchZoomAccumulator) < 40) {
+        event.preventDefault();
+        return;
+      }
+      var pinchDirection = pinchZoomAccumulator > 0 ? -1 : 1;
+      pinchZoomAccumulator = 0;
+      zoomAt(pinchDirection, localPoint(event));
+    } else {
+      zoomAt(event.deltaY > 0 ? -1 : 1, localPoint(event));
+    }
     event.preventDefault();
   }, { passive: false });
   if (window.ResizeObserver) new ResizeObserver(hideTooltip).observe(map);

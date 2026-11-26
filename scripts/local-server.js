@@ -50,12 +50,11 @@ function serveStatic(request, response) {
 
 const server = http.createServer((request, response) => {
   if (request.method === 'POST' && request.url === '/api/refresh-locations') {
-    try {
-      const records = refreshLocations();
+    refreshLocations().then((records) => {
       sendJson(response, 200, { generatedAt: new Date().toISOString(), count: records.length, records });
-    } catch (error) {
+    }).catch((error) => {
       sendJson(response, 500, { error: error.message });
-    }
+    });
     return;
   }
   if (request.method !== 'GET' && request.method !== 'HEAD') {

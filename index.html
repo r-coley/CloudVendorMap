@@ -4,9 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>Cloud Vendor Locations</title>
+<title>Cloud &amp; Customer Data Center Locations</title>
 <link href="./css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="./js/maps.js"></script>
+<script type="text/javascript" src="./js/world-loader.js"></script>
 <script type="text/javascript" src="./js/csp.js"></script>
 <script type="text/javascript" src="./js/data-loader.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
@@ -17,8 +18,8 @@
 <header class="page-header">
 <div>
 <p class="eyebrow">INFRASTRUCTURE AT A GLANCE</p>
-<h1>Cloud Vendor Locations</h1>
-<p class="subtitle">Explore public cloud regions and data-center locations around the world.</p>
+<h1>Cloud &amp; Customer Data Center Locations</h1>
+<p class="subtitle">Explore public cloud regions and customer data-center locations around the world.</p>
 </div>
 </header>
 
@@ -37,6 +38,7 @@
 <button id="azure" class="btn provider-azure" data-provider="Azure" type="button" aria-pressed="false"><span>Microsoft Azure</span></button>
 <button id="gcp" class="btn provider-gcp" data-provider="GCP" type="button" aria-pressed="false"><span>Google Cloud</span></button>
 <button id="oci" class="btn provider-oci" data-provider="OCI" type="button" aria-pressed="false"><span>Oracle Cloud (OCI)</span></button>
+<button id="customer" class="btn provider-customer" data-provider="CUSTOMER" type="button" aria-pressed="false"><span>Customer DC's</span></button>
 <div class="option-divider"></div>
 <p class="panel-label panel-label-options">Map layers</p>
 <label class="switch-row" for="countryHighlighting">
@@ -60,7 +62,7 @@
 <span class="switch" aria-hidden="true"></span>
 </label>
 <label class="range-row" for="dcMarkerSize">
-<span><strong>DC marker size</strong><output id="dcSizeValue">5 px</output></span>
+<span><strong>Marker size</strong><output id="dcSizeValue">5 px</output></span>
 <input id="dcMarkerSize" type="range" min="2" max="8" step="1" value="5">
 </label>
 </div>
