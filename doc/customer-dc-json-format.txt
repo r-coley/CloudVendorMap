@@ -13,6 +13,7 @@ Example:
     "regionName": "London Primary",
     "location": "London",
     "country": "United Kingdom",
+    "companyAccessStatus": "enabled",
     "coordinates": {
       "lat": 51.5072,
       "lon": -0.1276
@@ -55,7 +56,19 @@ Optional fields
 ---------------
 
 You can also provide regionName, location, country, status,
-dataCenterAddress, sourceUrl, and lastVerified.
+dataCenterAddress, sourceUrl, lastVerified, and companyAccessStatus.
+
+Approved locations
+------------------
+
+To mark a customer region as approved for your company, set:
+
+  "companyAccessStatus": "enabled"
+
+The "Approved locations" map-layer filter matches that exact value. Locations
+without the field, or with any other value, are hidden when the filter is on.
+The same field can be added to an item in an availabilityZones array when an
+individual availability zone is approved.
 
 After uploading the file, enable the "Customer DC's" filter to display the
 customer locations on the map.

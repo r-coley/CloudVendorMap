@@ -65,6 +65,11 @@ The uploaded file must contain a non-empty JSON array. Each location object must
 These fields are recommended but optional: `regionName`, `location`, `country`, `status`,
 `dataCenterAddress`, `sourceUrl`, `lastVerified`, and `companyAccessStatus`.
 
+To mark a region as approved for your company, add `"companyAccessStatus": "enabled"`
+to that location. The **Approved locations** map-layer filter matches this exact value and
+hides locations that are missing it or use any other value. The same field can be added to
+an item in `availabilityZones` when an individual availability zone is approved.
+
 For customer data centers, set `provider` to exactly `"CUSTOMER"`. The map groups those records
 under the company-specific DC filter. The loader also accepts `"Customer DC's"` as a provider value
 and normalizes it to `"CUSTOMER"`. Customer records use the same coordinate and optional fields
@@ -91,6 +96,7 @@ The private customer file uses this wrapper format:
       "regionId": "customer-london-1",
       "location": "London",
       "country": "United Kingdom",
+      "companyAccessStatus": "enabled",
       "coordinates": { "lat": 51.5072, "lon": -0.1276 }
     }
   ]
