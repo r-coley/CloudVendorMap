@@ -36,6 +36,7 @@ function initializeMap() {
   var maxZoom = 9;
   var dragState = null;
   var capitalMarkers = [];
+  var searchHighlights = [];
   var referenceCities = [
     { name: "New York", coord: "40.7128,-74.0060" },
     { name: "San Francisco", coord: "37.7749,-122.4194" },
@@ -234,12 +235,78 @@ function initializeMap() {
     providerSets[provider].forEach(function(marker) { markerLayer.appendChild(marker.element); });
   }
 
+  function clearLocationSearch() {
+    searchHighlightLayer.replaceChildren();
+    searchHighlights = [];
+    updateAllProviders();
+    applyMarkerScale();
+  }
+
+  function locationSearchText(record) {
+    var providerNames = {
+      AWS: "Amazon Web Services",
+      Azure: "Microsoft Azure",
+      GCP: "Google Cloud",
+      ALI: "Alibaba Cloud",
+      OCI: "Oracle Cloud"
+    };
+    var zoneNames = record.availabilityZone ? [] : (record.availabilityZones || []).reduce(function(names, zone) {
+      return names.concat([zone.id, zone.code, zone.name]);
+    }, []);
+    return [
+      record.csp,
+      providerNames[record.csp],
+      record.region,
+      record.code,
+      record.location,
+      record.state,
+      record.availabilityZone
+    ].concat(zoneNames).filter(Boolean).map(function(value) { return String(value).toLowerCase(); });
+  }
+
+  function highlightLocationSearch(query) {
+    var result = document.querySelector("#locationSearchResult");
+    var normalizedQuery = String(query || "").trim().toLowerCase();
+    clearLocationSearch();
+    if (!normalizedQuery) {
+      if (result) result.textContent = "";
+      return;
+    }
+    var matches = Object.keys(providerSets).reduce(function(all, provider) {
+      return all.concat(providerSets[provider].filter(function(marker) {
+        return locationSearchText(marker.record).some(function(value) {
+          return value.indexOf(normalizedQuery) === 0;
+        });
+      }));
+    }, []);
+    matches.forEach(function(marker) {
+      marker.element.style.display = "";
+      markerLayer.appendChild(marker.element);
+      var highlight = createSvgElement("circle", {
+        cx: marker.element.getAttribute("cx"),
+        cy: marker.element.getAttribute("cy"),
+        r: marker.radius * 2.8,
+        fill: "none",
+        stroke: providerColor(marker.record.csp),
+        "stroke-width": "1.5"
+      });
+      highlight.classList.add("location-search-highlight");
+      searchHighlightLayer.appendChild(highlight);
+      searchHighlights.push({ element: highlight, radius: marker.radius * 2.8 });
+    });
+    applyMarkerScale();
+    if (result) result.textContent = matches.length ? matches.length + " location" + (matches.length === 1 ? "" : "s") + " highlighted" : "No matching region or AZ found";
+  }
+
   function applyMarkerScale() {
     var scale = zoomScale();
     Object.keys(providerSets).forEach(function(provider) {
       providerSets[provider].forEach(function(marker) {
         marker.element.setAttribute("r", marker.radius * scale);
       });
+    });
+    searchHighlights.forEach(function(highlight) {
+      highlight.element.setAttribute("r", highlight.radius * scale);
     });
   }
 
@@ -305,6 +372,7 @@ function initializeMap() {
   var countryLayer = createSvgElement("g", { "aria-label": "World map" });
   var capitalLayer = createSvgElement("g", { "aria-label": "Country capitals" });
   var markerLayer = createSvgElement("g", { "aria-label": "Cloud provider locations" });
+  var searchHighlightLayer = createSvgElement("g", { "aria-label": "Search highlights" });
   svg.setAttribute("viewBox", "0 0 " + mapWidth + " " + mapHeight);
   svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   svg.setAttribute("role", "img");
@@ -314,6 +382,7 @@ function initializeMap() {
   svg.appendChild(countryLayer);
   svg.appendChild(capitalLayer);
   svg.appendChild(markerLayer);
+  svg.appendChild(searchHighlightLayer);
 
   Object.keys(WORLD).forEach(addCountry);
   var minY = Infinity;
@@ -380,6 +449,21 @@ function initializeMap() {
     });
     applyMarkerScale();
   });
+
+  var locationSearch = document.querySelector("#locationSearch");
+  var locationSearchButton = document.querySelector("#locationSearchButton");
+  if (locationSearch && locationSearchButton) {
+    locationSearchButton.addEventListener("click", function() { highlightLocationSearch(locationSearch.value); });
+    locationSearch.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") highlightLocationSearch(locationSearch.value);
+    });
+    locationSearch.addEventListener("search", function() {
+      if (!locationSearch.value) highlightLocationSearch("");
+    });
+    locationSearch.addEventListener("input", function() {
+      if (!locationSearch.value) highlightLocationSearch("");
+    });
+  }
 
   Object.keys(providerSets).forEach(function(provider) {
     var button = document.querySelector("#" + providerButtonIds[provider]);

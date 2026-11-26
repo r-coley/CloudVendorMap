@@ -100,15 +100,27 @@ h1 { font-size: clamp(30px, 4vw, 48px); line-height: 1.05; }
 .provider-gcp:hover:not(:disabled) { border-color: #22c55e; box-shadow: 0 6px 16px rgba(34, 197, 94, .18); }
 .provider-oci:hover:not(:disabled) { border-color: #c74634; box-shadow: 0 6px 16px rgba(199, 70, 52, .18); }
 .provider-ali.pressed, .provider-aws.pressed, .provider-azure.pressed, .provider-gcp.pressed, .provider-oci.pressed { border-color: var(--provider-color); background: var(--provider-tint); color: var(--provider-text); box-shadow: 0 4px 12px color-mix(in srgb, var(--provider-color) 16%, transparent); }
-.data-upload-card { width: fit-content; max-width: 100%; margin-top: 2px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255, 255, 255, .72); }
+.data-upload-card { display: flex; width: 100%; max-width: 100%; height: auto; min-height: 0; margin-top: 8px; padding: 8px 12px; align-items: flex-start; justify-content: space-between; gap: 20px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255, 255, 255, .72); }
 .data-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .upload-button { display: inline-grid; min-height: 28px; padding: 6px 10px; place-items: center; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fff; cursor: pointer; font-size: 11px; font-weight: 700; transition: border-color .2s, box-shadow .2s, background .2s; }
 .upload-button:hover { border-color: #1d4ed8; background: #1d4ed8; box-shadow: 0 4px 12px rgba(37, 99, 235, .2); }
 .upload-button input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.download-button { min-height: 28px; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 7px; background: #fff; color: var(--ink); cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; transition: border-color .2s, box-shadow .2s, background .2s; }
-.download-button:hover:not(:disabled) { border-color: var(--accent); background: #eff6ff; box-shadow: 0 4px 12px rgba(37, 99, 235, .12); }
+.download-button { min-height: 28px; padding: 6px 10px; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fff; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; transition: border-color .2s, box-shadow .2s, background .2s; }
+.download-button:hover:not(:disabled) { border-color: #1d4ed8; background: #1d4ed8; box-shadow: 0 4px 12px rgba(37, 99, 235, .2); }
 .download-button:disabled { cursor: wait; opacity: .6; }
 .download-button:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 2px; }
+.location-search { display: grid; flex: 1 1 auto; gap: 6px; min-width: 0; }
+.location-search-label { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.location-search-row { display: flex; gap: 6px; align-items: center; }
+.location-search input { width: 220px; min-height: 28px; padding: 6px 9px; border: 1px solid #cbd5e1; border-radius: 7px; background: #fff; color: var(--ink); font: inherit; font-size: 11px; }
+.location-search input::placeholder { color: #98a2b3; }
+.location-search input:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 2px; }
+.search-button { min-height: 28px; padding: 6px 10px; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fff; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; }
+.search-button:hover { border-color: #1d4ed8; background: #1d4ed8; box-shadow: 0 4px 12px rgba(37, 99, 235, .2); }
+.search-button:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 2px; }
+.location-search-result { display: block; min-height: 0; color: var(--muted); font-size: 10px; line-height: 1.2; }
+.location-search-highlight { pointer-events: none; animation: location-search-pulse 1.15s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes location-search-pulse { 0%, 100% { opacity: .95; transform: scale(.82); } 50% { opacity: .35; transform: scale(1.28); } }
 .provider-gcp.pressed:hover { border-color: #16a34a; background: #dcfce7; color: #166534; box-shadow: inset 3px 0 0 #16a34a; }
 .provider-gcp.pressed:focus-visible { outline: 3px solid #86efac; outline-offset: 2px; }
 .option-divider { grid-column: 1 / -1; height: 1px; margin: 10px 0 2px; background: var(--line); }
@@ -172,4 +184,8 @@ h1 { font-size: clamp(30px, 4vw, 48px); line-height: 1.05; }
   .switch-row { font-size: 10px; }
   #mapControls { left: 14px; bottom: 14px; }
   #mapControls button { width: 36px; height: 36px; }
+  .data-upload-card { flex-direction: column; gap: 10px; }
+  .data-actions { order: 2; }
+  .location-search-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .location-search input { width: 100%; }
 }
