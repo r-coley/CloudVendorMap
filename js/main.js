@@ -177,8 +177,8 @@ function initializeMap() {
       d: projectGeometry(feature.geometry),
       fill: "#f7f4f1",
       "fill-rule": "evenodd",
-      stroke: "#aeb9c8",
-      "stroke-opacity": "0.72",
+      stroke: "#7f8ea3",
+      "stroke-opacity": "0.78",
       "stroke-width": "0.35"
     });
     path.dataset.fill = "#f7f4f1";
