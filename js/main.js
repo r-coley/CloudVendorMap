@@ -13,6 +13,23 @@ var companyApprovedOnly = false;
 var availabilityZonesVisible = false;
 var markerRadius = 5;
 
+function setupThemeControl() {
+  var themeMode = document.querySelector("#themeMode");
+  if (!themeMode) return;
+  var savedTheme = window.localStorage.getItem("cloudVendorTheme");
+  var dark = savedTheme === "dark";
+  themeMode.value = dark ? "1" : "0";
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  themeMode.setAttribute("aria-label", "Color theme: " + (dark ? "Dark" : "Light"));
+  themeMode.addEventListener("input", function() {
+    var nextDark = themeMode.value === "1";
+    document.documentElement.dataset.theme = nextDark ? "dark" : "light";
+    themeMode.setAttribute("aria-label", "Color theme: " + (nextDark ? "Dark" : "Light"));
+    window.localStorage.setItem("cloudVendorTheme", nextDark ? "dark" : "light");
+    window.dispatchEvent(new Event("theme-changed"));
+  });
+}
+
 function initializeMap() {
   if (initializeMap.started) return;
   if (!window.WORLD_READY) {
@@ -44,6 +61,17 @@ function initializeMap() {
   ];
   var providerSets = { ALI: [], AWS: [], Azure: [], GCP: [], OCI: [], CUSTOMER: [] };
   var providerButtonIds = { ALI: "ali", AWS: "aws", Azure: "azure", GCP: "gcp", OCI: "oci", CUSTOMER: "customer" };
+
+  function updateMapTheme() {
+    var dark = document.documentElement.dataset.theme === "dark";
+    background.setAttribute("fill", dark ? "#0f172a" : "#dcecf4");
+    countryPaths.forEach(function(path) {
+      path.dataset.fill = dark ? "#1f2937" : "#f7f4f1";
+      path.dataset.hoverFill = dark ? "#355c4d" : "#c5e3c5";
+      if (!path.matches(":hover")) path.setAttribute("fill", path.dataset.fill);
+      path.setAttribute("stroke", dark ? "#64748b" : "#7f8ea3");
+    });
+  }
 
   function createSvgElement(name, attributes) {
     var element = document.createElementNS(SVG_NS, name);
@@ -492,6 +520,8 @@ function initializeMap() {
   if (window.CSP_READY) applyLoadedLocations();
   else window.addEventListener("locations-ready", applyLoadedLocations, { once: true });
   applyViewBox(true);
+  updateMapTheme();
+  window.addEventListener("theme-changed", updateMapTheme);
 
   document.querySelector("#countryHighlighting").addEventListener("change", function(event) {
     countryHighlighting = event.target.checked;
@@ -595,4 +625,5 @@ function initializeMap() {
   if (window.ResizeObserver) new ResizeObserver(hideTooltip).observe(map);
 }
 
+docReady(setupThemeControl);
 docReady(initializeMap);
