@@ -104,7 +104,7 @@ function setupLocationControls() {
   var dataScope = document.querySelector('#dataScope');
   var customerScope = false;
   function updateDataScope() {
-    customerScope = dataScope && dataScope.value === '0';
+    customerScope = dataScope && !dataScope.checked;
     var scopeLabel = customerScope ? 'customer' : 'cloud';
     if (dataScope) {
       dataScope.setAttribute('aria-label', 'JSON data scope: ' + (customerScope ? 'Customer' : 'Cloud'));

@@ -76,16 +76,17 @@
 <output id="locationSearchResult" class="location-search-result" role="status" aria-live="polite"></output>
 </div>
 <div class="data-actions">
-<div class="theme-scope" aria-label="Color theme">
-<span>Light</span>
-<input id="themeMode" type="range" min="0" max="1" step="1" value="0" aria-label="Color theme: Light">
-<span>Dark</span>
-</div>
-<div class="data-scope" aria-label="JSON data scope">
+<label class="theme-toggle" for="themeMode">
+<span>Dark mode</span>
+<input id="themeMode" type="checkbox">
+<span class="switch" aria-hidden="true"></span>
+</label>
+<label class="data-scope" for="dataScope" aria-label="JSON data scope">
 <span>Customer</span>
-<input id="dataScope" type="range" min="0" max="1" step="1" value="1" aria-label="JSON data scope: Cloud">
+<input id="dataScope" type="checkbox" checked aria-label="JSON data scope: Cloud">
+<span class="switch" aria-hidden="true"></span>
 <span>Cloud</span>
-</div>
+</label>
 <label class="upload-button" for="locationDataUpload" title="Upload a JSON file for the selected data scope">
 Upload JSON
 <input id="locationDataUpload" type="file" accept="application/json,.json">

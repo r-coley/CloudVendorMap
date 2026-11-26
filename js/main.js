@@ -18,11 +18,11 @@ function setupThemeControl() {
   if (!themeMode) return;
   var savedTheme = window.localStorage.getItem("cloudVendorTheme");
   var dark = savedTheme === "dark";
-  themeMode.value = dark ? "1" : "0";
+  themeMode.checked = dark;
   document.documentElement.dataset.theme = dark ? "dark" : "light";
   themeMode.setAttribute("aria-label", "Color theme: " + (dark ? "Dark" : "Light"));
   themeMode.addEventListener("input", function() {
-    var nextDark = themeMode.value === "1";
+    var nextDark = themeMode.checked;
     document.documentElement.dataset.theme = nextDark ? "dark" : "light";
     themeMode.setAttribute("aria-label", "Color theme: " + (nextDark ? "Dark" : "Light"));
     window.localStorage.setItem("cloudVendorTheme", nextDark ? "dark" : "light");
