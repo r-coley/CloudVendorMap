@@ -26,7 +26,8 @@ realms; if Oracle is unavailable, it preserves the last generated OCI set as a f
 For the in-app `Download JSON` action to refresh the merge first, run
 `node scripts/local-server.js` and open `http://127.0.0.1:8765/`. The button downloads
 the refreshed merged JSON; use `Upload JSON` afterward to load it into the map.
-Provider records are normalized from the current source data, while company-maintained fields
+The canonical non-OCI provider records are stored in `data/provider-locations.source.json`.
+Provider records are normalized from that source data, while company-maintained fields
 belong in `data/provider-locations.manual.json`. Manual entries are keyed by `provider:regionId`
 and are merged without being overwritten. This supports fields such as `dataCenterAddress`,
 `companyAccessStatus`, and private-cloud Alibaba locations.

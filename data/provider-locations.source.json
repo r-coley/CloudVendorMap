@@ -1,0 +1,2498 @@
+[
+  {
+    "provider": "GCP",
+    "regionId": "us-central1",
+    "regionName": "Iowa",
+    "location": "Council Bluffs",
+    "country": "Iowa",
+    "coordinates": {
+      "lat": 41.250854,
+      "lon": -95.882042
+    },
+    "status": "live",
+    "zones": 4,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-east1",
+    "regionName": "South Carolina",
+    "location": "Moncks Corner",
+    "country": "South Carolina",
+    "coordinates": {
+      "lat": 33.196,
+      "lon": -80.0131
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-east4",
+    "regionName": "Northern Virginia",
+    "location": "Ashburn",
+    "country": "Virginia",
+    "coordinates": {
+      "lat": 39.0438,
+      "lon": -77.4874
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-east5",
+    "regionName": "Columbus",
+    "location": "Columbus",
+    "country": "Ohio",
+    "coordinates": {
+      "lat": 39.9612,
+      "lon": -82.9988
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-south1",
+    "regionName": "Dallas",
+    "location": "Dallas",
+    "country": "Texas",
+    "coordinates": {
+      "lat": 32.7767,
+      "lon": -96.797
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-west1",
+    "regionName": "Oregon",
+    "location": "The Dalles",
+    "country": "Oregon",
+    "coordinates": {
+      "lat": 45.5946,
+      "lon": -121.1787
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-west2",
+    "regionName": "Los Angeles",
+    "location": "Los Angeles",
+    "country": "California",
+    "coordinates": {
+      "lat": 34.0522,
+      "lon": -118.2437
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-west3",
+    "regionName": "Salt Lake City",
+    "location": "Salt Lake City",
+    "country": "Utah",
+    "coordinates": {
+      "lat": 40.7608,
+      "lon": -111.891
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "us-west4",
+    "regionName": "Las Vegas",
+    "location": "Las Vegas",
+    "country": "Nevada",
+    "coordinates": {
+      "lat": 36.1716,
+      "lon": -115.1391
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "northamerica-northeast1",
+    "regionName": "Montreal",
+    "location": "Montreal",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 45.5019,
+      "lon": -73.5674
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "northamerica-northeast2",
+    "regionName": "Toronto",
+    "location": "Toronto",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 43.6532,
+      "lon": -79.3832
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "southamerica-east1",
+    "regionName": "Sao-Paulo",
+    "location": "Sao Paulo",
+    "country": "Brazil",
+    "coordinates": {
+      "lat": -23.5558,
+      "lon": -46.6396
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "southamerica-west1",
+    "regionName": "Santiago",
+    "location": "Santiago",
+    "country": "Chile",
+    "coordinates": {
+      "lat": -33.4489,
+      "lon": -70.6693
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Mexico",
+    "location": "Queretaro",
+    "country": "Mexico",
+    "coordinates": {
+      "lat": 20.5888,
+      "lon": -100.3899
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-central2",
+    "regionName": "Warsaw",
+    "location": "Warsaw",
+    "country": "Poland",
+    "coordinates": {
+      "lat": 52.2297,
+      "lon": 21.0122
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-north1",
+    "regionName": "Finland",
+    "location": "Hamina",
+    "country": "Finland",
+    "coordinates": {
+      "lat": 60.5693,
+      "lon": 27.1878
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-southwest1",
+    "regionName": "Madrid",
+    "location": "Madrid",
+    "country": "Spain",
+    "coordinates": {
+      "lat": 40.4168,
+      "lon": -3.7038
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west1",
+    "regionName": "Belgium",
+    "location": "St. Ghislain",
+    "country": "Belgium",
+    "coordinates": {
+      "lat": 50.4706,
+      "lon": 3.817
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west2",
+    "regionName": "London",
+    "location": "London",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5072,
+      "lon": -0.1276
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west3",
+    "regionName": "Frankfurt",
+    "location": "Frankfurt",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west4",
+    "regionName": "Netherlands",
+    "location": "Eemshaven",
+    "country": "Netherlands",
+    "coordinates": {
+      "lat": 53.4386,
+      "lon": 6.8355
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west6",
+    "regionName": "Zurich",
+    "location": "Zurich",
+    "country": "Switzerland",
+    "coordinates": {
+      "lat": 47.3769,
+      "lon": 8.5417
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west8",
+    "regionName": "Milan",
+    "location": "Milan",
+    "country": "Italy",
+    "coordinates": {
+      "lat": 45.4642,
+      "lon": 9.19
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "europe-west9",
+    "regionName": "Paris",
+    "location": "Paris",
+    "country": "France",
+    "coordinates": {
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Berlin",
+    "location": "Berlin",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 52.52,
+      "lon": 13.405
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Turin",
+    "location": "Turin",
+    "country": "Italy",
+    "coordinates": {
+      "lat": 45.0703,
+      "lon": 7.6869
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-east1",
+    "regionName": "Taiwan",
+    "location": "Changhua County",
+    "country": "Taiwan",
+    "coordinates": {
+      "lat": 24.0717,
+      "lon": 120.5624
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-east2",
+    "regionName": "Hong Kong",
+    "location": "Hong Kong",
+    "country": "SAR",
+    "coordinates": {
+      "lat": 22.3193,
+      "lon": 114.1694
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-northeast1",
+    "regionName": "Tokyo",
+    "location": "Tokyo",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 35.6762,
+      "lon": 139.6503
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-northeast2",
+    "regionName": "Osaka",
+    "location": "Osaka",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 34.6937,
+      "lon": 135.5023
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-northeast3",
+    "regionName": "Seoul",
+    "location": "Seoul",
+    "country": "South Korea",
+    "coordinates": {
+      "lat": 37.5665,
+      "lon": 126.978
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-south1",
+    "regionName": "Mumbai",
+    "location": "Mumbai",
+    "country": "India",
+    "coordinates": {
+      "lat": 19.076,
+      "lon": 72.8777
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-south2",
+    "regionName": "Delhi",
+    "location": "Delhi",
+    "country": "India",
+    "coordinates": {
+      "lat": 28.7041,
+      "lon": 77.1025
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-southeast1",
+    "regionName": "Singapore",
+    "location": "Jurong West",
+    "country": "Singapore",
+    "coordinates": {
+      "lat": 1.3404,
+      "lon": 103.709
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "asia-southeast2",
+    "regionName": "Jakarta",
+    "location": "Jakarta",
+    "country": "Indonesia",
+    "coordinates": {
+      "lat": -6.2088,
+      "lon": 106.8456
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "australia-southeast1",
+    "regionName": "Sydney",
+    "location": "Sydney",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -33.8688,
+      "lon": 151.2093
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "australia-southeast2",
+    "regionName": "Melbourne",
+    "location": "Melbourne",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -37.8136,
+      "lon": 144.9631
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "New Zealand",
+    "location": "Auckland",
+    "country": "New Zealand",
+    "coordinates": {
+      "lat": -36.8509,
+      "lon": 174.7645
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Malaysia",
+    "location": "Kuala Lumpur",
+    "country": "Malaysia",
+    "coordinates": {
+      "lat": 3.1569,
+      "lon": 101.7123
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Thailand",
+    "location": "Bangkok",
+    "country": "Thailand",
+    "coordinates": {
+      "lat": 13.7563,
+      "lon": 100.5018
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "me-west1",
+    "regionName": "Tel Aviv",
+    "location": "Tel Aviv",
+    "country": "Israel",
+    "coordinates": {
+      "lat": 32.0853,
+      "lon": 34.7818
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Cape Town",
+    "location": "Cape Town",
+    "country": "South Africa",
+    "coordinates": {
+      "lat": -33.9249,
+      "lon": 18.4241
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Dammam",
+    "location": "Dammam",
+    "country": "Saudi Arabia",
+    "coordinates": {
+      "lat": 26.39925,
+      "lon": 49.98436
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "GCP",
+    "regionId": "TBD",
+    "regionName": "Doha",
+    "location": "Doha",
+    "country": "Qatar",
+    "coordinates": {
+      "lat": 25.2854,
+      "lon": 51.531
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "us-east-2",
+    "regionName": "Ohio",
+    "location": "Columbus",
+    "country": "Ohio",
+    "coordinates": {
+      "lat": 39.9612,
+      "lon": -82.9988
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "us-west-2",
+    "regionName": "Oregon",
+    "location": "Eastern",
+    "country": "Oregon",
+    "coordinates": {
+      "lat": 44.4384,
+      "lon": -118.8918
+    },
+    "status": "live",
+    "zones": 4,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "us-west-1",
+    "regionName": "N.California",
+    "location": "San Francisco",
+    "country": "California",
+    "coordinates": {
+      "lat": 37.7749,
+      "lon": -122.4194
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "us-east-1",
+    "regionName": "N.Virginia",
+    "location": "Mulitple",
+    "country": "Virginia",
+    "coordinates": {
+      "lat": 37.4316,
+      "lon": -78.6569
+    },
+    "status": "live",
+    "zones": 6,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "us-gov-east-1",
+    "regionName": "Gov Cloud",
+    "location": "Columbus",
+    "country": "Ohio",
+    "coordinates": {
+      "lat": 39.9612,
+      "lon": -82.9988
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "us-gov-west-1",
+    "regionName": "Gov Cloud",
+    "location": "Eastern",
+    "country": "Oregon",
+    "coordinates": {
+      "lat": 44.4384,
+      "lon": -118.8918
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ca-central-1",
+    "regionName": "Canada Central",
+    "location": "Montreal",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 40.7608,
+      "lon": -111.891
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ca-west-1",
+    "regionName": "Canada West",
+    "location": "Calgary",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 51.0447,
+      "lon": -114.0719
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "sa-east-1",
+    "regionName": "Sao Paulo",
+    "location": "Sao Paulo",
+    "country": "Brazil",
+    "coordinates": {
+      "lat": -23.5558,
+      "lon": -46.6396
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-central-1",
+    "regionName": "Frankfurt",
+    "location": "Frankfurt",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-west-1",
+    "regionName": "Ireland",
+    "location": "Dublin",
+    "country": "Ireland",
+    "coordinates": {
+      "lat": 53.3498,
+      "lon": -6.2603
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-west-2",
+    "regionName": "London",
+    "location": "London",
+    "country": "UK",
+    "coordinates": {
+      "lat": 51.5072,
+      "lon": -0.1276
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-south-1",
+    "regionName": "Milan",
+    "location": "Milan",
+    "country": "Italy",
+    "coordinates": {
+      "lat": 45.4642,
+      "lon": 9.19
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-west-3",
+    "regionName": "Paris",
+    "location": "Paris",
+    "country": "France",
+    "coordinates": {
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-east-1",
+    "regionName": "Spain",
+    "location": "Madrid",
+    "country": "Spain",
+    "coordinates": {
+      "lat": 40.4168,
+      "lon": -3.7038
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-north-1",
+    "regionName": "Stockholm",
+    "location": "Stockholm",
+    "country": "Sweden",
+    "coordinates": {
+      "lat": 59.3293,
+      "lon": 18.0686
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "eu-central-2",
+    "regionName": "Zurich",
+    "location": "Zurich",
+    "country": "Switzerland",
+    "coordinates": {
+      "lat": 47.3769,
+      "lon": 8.5417
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-southeast-5",
+    "regionName": "Auckland",
+    "location": "Auckland",
+    "country": "New Zealand",
+    "coordinates": {
+      "lat": -36.8509,
+      "lon": 174.7645
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-east-1",
+    "regionName": "Hong Kong",
+    "location": "Hong Kong",
+    "country": "SAR",
+    "coordinates": {
+      "lat": 22.3193,
+      "lon": 114.1694
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-south-2",
+    "regionName": "Hyderabad",
+    "location": "Hyderabad",
+    "country": "India",
+    "coordinates": {
+      "lat": 17.385,
+      "lon": 78.4867
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-southeast-3",
+    "regionName": "Jakarta",
+    "location": "Jakarta",
+    "country": "Indonesia",
+    "coordinates": {
+      "lat": -6.2088,
+      "lon": 106.8456
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-southeast-4",
+    "regionName": "Melbourne",
+    "location": "Melbourne",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -37.8136,
+      "lon": 144.9631
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-south-1",
+    "regionName": "Mumbai",
+    "location": "Mumbai",
+    "country": "India",
+    "coordinates": {
+      "lat": 19.076,
+      "lon": 72.8777
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-northeast-3",
+    "regionName": "Osaka",
+    "location": "Osaka",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 34.6937,
+      "lon": 135.5023
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-northeast-2",
+    "regionName": "Seoul",
+    "location": "Seoul",
+    "country": "South Korea",
+    "coordinates": {
+      "lat": 37.5665,
+      "lon": 126.978
+    },
+    "status": "live",
+    "zones": 4,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-southeast-1",
+    "regionName": "Singapore",
+    "location": "Singapore",
+    "country": "Singapore",
+    "coordinates": {
+      "lat": 1.3521,
+      "lon": 103.8198
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-southeast-2",
+    "regionName": "Sydney",
+    "location": "Sydney",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -33.8688,
+      "lon": 151.2093
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "ap-northeast-1",
+    "regionName": "Tokyo",
+    "location": "Tokyo",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 35.6762,
+      "lon": 139.6503
+    },
+    "status": "live",
+    "zones": 4,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "cn-north-1",
+    "regionName": "Beijing",
+    "location": "Beijing",
+    "country": "China",
+    "coordinates": {
+      "lat": 39.9042,
+      "lon": 116.4074
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "cn-northwest-1",
+    "regionName": "Ningxia",
+    "location": "Changsha",
+    "country": "China",
+    "coordinates": {
+      "lat": 28.2278,
+      "lon": 112.9389
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "af-south-1",
+    "regionName": "Cape Town",
+    "location": "Cape Town",
+    "country": "South Africa",
+    "coordinates": {
+      "lat": -33.9249,
+      "lon": 18.4241
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "me-south-1",
+    "regionName": "Bahrain",
+    "location": "Manama",
+    "country": "Bahrain",
+    "coordinates": {
+      "lat": 26.2235,
+      "lon": 50.5876
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "me-west-1",
+    "regionName": "Israel",
+    "location": "Tel Aviv",
+    "country": "Israel",
+    "coordinates": {
+      "lat": 32.0853,
+      "lon": 34.7818
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "AWS",
+    "regionId": "me-south-2",
+    "regionName": "UAE",
+    "location": "Dubai",
+    "country": "UAE",
+    "coordinates": {
+      "lat": 25.2048,
+      "lon": 55.2708
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Central US",
+    "regionName": "Des Moines",
+    "location": "Des Moines",
+    "country": "Iowa",
+    "coordinates": {
+      "lat": 41.5868,
+      "lon": -93.625
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "East US",
+    "regionName": "Richmond",
+    "location": "Richmond",
+    "country": "Virginia",
+    "coordinates": {
+      "lat": 37.5407,
+      "lon": -77.436
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "East US 2",
+    "regionName": "Richmond",
+    "location": "Richmond",
+    "country": "Virginia",
+    "coordinates": {
+      "lat": 37.5407,
+      "lon": -77.436
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "East US 3",
+    "regionName": "Atlanta",
+    "location": "Atlanta",
+    "country": "Georgia",
+    "coordinates": {
+      "lat": 33.7488,
+      "lon": -84.3877
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "North Central US",
+    "regionName": "Chicago",
+    "location": "Chicago",
+    "country": "Illinois",
+    "coordinates": {
+      "lat": 41.8781,
+      "lon": -87.6298
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "South Central US",
+    "regionName": "San Antonio",
+    "location": "San Antonio",
+    "country": "Texas",
+    "coordinates": {
+      "lat": 29.4252,
+      "lon": -98.4946
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "West Central US",
+    "regionName": "Cheyenne",
+    "location": "Cheyenne",
+    "country": "Wyoming",
+    "coordinates": {
+      "lat": 41.14,
+      "lon": -104.8202
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "West US",
+    "regionName": "San Francisco",
+    "location": "San Francisco",
+    "country": "California",
+    "coordinates": {
+      "lat": 37.7749,
+      "lon": -122.4194
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "West US 2",
+    "regionName": "Moses Lake",
+    "location": "Moses Lake",
+    "country": "Washington",
+    "coordinates": {
+      "lat": 47.1301,
+      "lon": -119.2781
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "West US 3",
+    "regionName": "Phoenix",
+    "location": "Phoenix",
+    "country": "Arizona",
+    "coordinates": {
+      "lat": 33.4484,
+      "lon": -112.074
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US DoD Central",
+    "regionName": "Des Moines",
+    "location": "Des Moines",
+    "country": "Iowa",
+    "coordinates": {
+      "lat": 41.5868,
+      "lon": -93.625
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US DoD East",
+    "regionName": "Richmond",
+    "location": "Richmond",
+    "country": "Virginia",
+    "coordinates": {
+      "lat": 37.5407,
+      "lon": -77.436
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US Gov Arizona",
+    "regionName": "Phoenix",
+    "location": "Phoenix",
+    "country": "Arizona",
+    "coordinates": {
+      "lat": 33.4484,
+      "lon": -112.074
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US Gov Texas",
+    "regionName": "Austin",
+    "location": "Austin",
+    "country": "Texas",
+    "coordinates": {
+      "lat": 30.2672,
+      "lon": -97.7431
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US Gov Virginia",
+    "regionName": "Washington",
+    "location": "Washington",
+    "country": "Washington D.C.",
+    "coordinates": {
+      "lat": 38.9072,
+      "lon": -77.0369
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US Sec East",
+    "regionName": "Richmond",
+    "location": "Richmond",
+    "country": "Virginia",
+    "coordinates": {
+      "lat": 37.5407,
+      "lon": -77.436
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US Sec West",
+    "regionName": "San Francisco",
+    "location": "San Francisco",
+    "country": "California",
+    "coordinates": {
+      "lat": 37.7749,
+      "lon": -122.4194
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "US Sec West Central",
+    "regionName": "Des Moines",
+    "location": "Des Moines",
+    "country": "Iowa",
+    "coordinates": {
+      "lat": 41.5868,
+      "lon": -93.625
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Brazil South",
+    "regionName": "Campinas",
+    "location": "Campinas",
+    "country": "Brazil",
+    "coordinates": {
+      "lat": -22.9051,
+      "lon": -47.0613
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Brazil Southeast",
+    "regionName": "Rio de Janeiro",
+    "location": "Rio de Janeiro",
+    "country": "Brazil",
+    "coordinates": {
+      "lat": -22.9068,
+      "lon": -43.1729
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Canada Central",
+    "regionName": "Toronto",
+    "location": "Toronto",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 43.6532,
+      "lon": -79.3832
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Canada East",
+    "regionName": "Quebec City",
+    "location": "Quebec City",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 46.8131,
+      "lon": -71.2075
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Chile Central",
+    "regionName": "Santiago",
+    "location": "Santiago",
+    "country": "Chile",
+    "coordinates": {
+      "lat": -33.4489,
+      "lon": -70.6693
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Mexico Central",
+    "regionName": "Querétaro State",
+    "location": "Querétaro State",
+    "country": "Mexico",
+    "coordinates": {
+      "lat": 20.5888,
+      "lon": -100.3899
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Austria East",
+    "regionName": "Vienna",
+    "location": "Vienna",
+    "country": "Austria",
+    "coordinates": {
+      "lat": 48.2082,
+      "lon": 16.3738
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Belgium Central",
+    "regionName": "Brussels",
+    "location": "Brussels",
+    "country": "Belgium",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "planned",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Denmark East",
+    "regionName": "Copenhagen",
+    "location": "Copenhagen",
+    "country": "Denmark",
+    "coordinates": {
+      "lat": 50.826,
+      "lon": 4.3802
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Finland Central",
+    "regionName": "Helsinki",
+    "location": "Helsinki",
+    "country": "Finland",
+    "coordinates": {
+      "lat": 60.1699,
+      "lon": 24.9384
+    },
+    "status": "planned",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "France Central",
+    "regionName": "Paris",
+    "location": "Paris",
+    "country": "France",
+    "coordinates": {
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "France South",
+    "regionName": "Marseille",
+    "location": "Marseille",
+    "country": "France",
+    "coordinates": {
+      "lat": 43.2965,
+      "lon": 5.3698
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Germany Central (Sovereign)",
+    "regionName": "Frankfurt",
+    "location": "Frankfurt",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Germany North",
+    "regionName": "Berlin",
+    "location": "Berlin",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 52.52,
+      "lon": 13.405
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Germany Northeast (Sovereign)",
+    "regionName": "Magdeburg",
+    "location": "Magdeburg",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 52.1205,
+      "lon": 11.6276
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Germany West Central",
+    "regionName": "Frankfurt",
+    "location": "Frankfurt",
+    "country": "Germany",
+    "coordinates": {
+      "lat": 50.1109,
+      "lon": 8.6821
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Greece Central",
+    "regionName": "Athens",
+    "location": "Athens",
+    "country": "Greece",
+    "coordinates": {
+      "lat": 37.9838,
+      "lon": 23.7275
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "North Europe",
+    "regionName": "Dublin",
+    "location": "Dublin",
+    "country": "Ireland",
+    "coordinates": {
+      "lat": 53.3498,
+      "lon": -6.2603
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Italy North",
+    "regionName": "Milan",
+    "location": "Milan",
+    "country": "Italy",
+    "coordinates": {
+      "lat": 45.4642,
+      "lon": 9.19
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "West Europe",
+    "regionName": "Amsterdam",
+    "location": "Amsterdam",
+    "country": "Netherlands",
+    "coordinates": {
+      "lat": 52.3676,
+      "lon": 4.9041
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Norway East",
+    "regionName": "Oslo",
+    "location": "Oslo",
+    "country": "Norway",
+    "coordinates": {
+      "lat": 59.9139,
+      "lon": 10.7522
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Norway West",
+    "regionName": "Stavanger",
+    "location": "Stavanger",
+    "country": "Norway",
+    "coordinates": {
+      "lat": 58.97,
+      "lon": 5.7331
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Poland Central",
+    "regionName": "Warsaw",
+    "location": "Warsaw",
+    "country": "Poland",
+    "coordinates": {
+      "lat": 52.2297,
+      "lon": 21.0122
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Spain Central",
+    "regionName": "Madrid",
+    "location": "Madrid",
+    "country": "Spain",
+    "coordinates": {
+      "lat": 40.4168,
+      "lon": -3.7038
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Sweden Central",
+    "regionName": "Gävle",
+    "location": "Gävle",
+    "country": "Sweden",
+    "coordinates": {
+      "lat": 60.6749,
+      "lon": 17.1413
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Sweden South",
+    "regionName": "Staffanstorp",
+    "location": "Staffanstorp",
+    "country": "Sweden",
+    "coordinates": {
+      "lat": 55.6411,
+      "lon": 13.2122
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Switzerland North",
+    "regionName": "Zürich",
+    "location": "Zurich",
+    "country": "Switzerland",
+    "coordinates": {
+      "lat": 47.3769,
+      "lon": 8.5417
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Switzerland West",
+    "regionName": "Geneva",
+    "location": "Geneva",
+    "country": "Switzerland",
+    "coordinates": {
+      "lat": 46.2044,
+      "lon": 6.1432
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "UK South",
+    "regionName": "London",
+    "location": "London",
+    "country": "UK",
+    "coordinates": {
+      "lat": 51.5072,
+      "lon": -0.1276
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "UK West",
+    "regionName": "Cardiff",
+    "location": "Cardiff",
+    "country": "UK",
+    "coordinates": {
+      "lat": 51.4837,
+      "lon": -3.1681
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Australia Central",
+    "regionName": "Canberra",
+    "location": "Canberra",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -35.2802,
+      "lon": 149.131
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Australia Central 2",
+    "regionName": "Canberra",
+    "location": "Canberra",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -35.2802,
+      "lon": 149.131
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Australia East",
+    "regionName": "Sydney",
+    "location": "Sydney",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -33.8688,
+      "lon": 151.2093
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Australia Southeast",
+    "regionName": "Melbourne",
+    "location": "Melbourne",
+    "country": "Australia",
+    "coordinates": {
+      "lat": -37.8136,
+      "lon": 144.9631
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "China East",
+    "regionName": "Shanghai",
+    "location": "Shanghai",
+    "country": "China",
+    "coordinates": {
+      "lat": 31.2304,
+      "lon": 121.4737
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "China East 2",
+    "regionName": "Shanghai",
+    "location": "Shanghai",
+    "country": "China",
+    "coordinates": {
+      "lat": 31.2304,
+      "lon": 121.4737
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "China East 3",
+    "regionName": "Nanjing",
+    "location": "Nanjing",
+    "country": "China",
+    "coordinates": {
+      "lat": 32.0584,
+      "lon": 118.7965
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "China North",
+    "regionName": "Beijing",
+    "location": "Beijing",
+    "country": "China",
+    "coordinates": {
+      "lat": 39.9042,
+      "lon": 116.4074
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "China North 2",
+    "regionName": "Beijing",
+    "location": "Beijing",
+    "country": "China",
+    "coordinates": {
+      "lat": 39.9042,
+      "lon": 116.4074
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "China North 3",
+    "regionName": "Langfang",
+    "location": "Langfang",
+    "country": "China",
+    "coordinates": {
+      "lat": 39.5377,
+      "lon": 116.6838
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "East Asia",
+    "regionName": "Hong Kong",
+    "location": "Hong Kong",
+    "country": "SAR",
+    "coordinates": {
+      "lat": 22.3193,
+      "lon": 114.1694
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Central India",
+    "regionName": "Pune",
+    "location": "Pune",
+    "country": "India",
+    "coordinates": {
+      "lat": 18.5204,
+      "lon": 73.8567
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "South India",
+    "regionName": "Chennai",
+    "location": "Chennai",
+    "country": "India",
+    "coordinates": {
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Southcentral India",
+    "regionName": "Hyderabad",
+    "location": "Hyderabad",
+    "country": "India",
+    "coordinates": {
+      "lat": 17.385,
+      "lon": 78.4867
+    },
+    "status": "planned",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "West India",
+    "regionName": "Mumbai",
+    "location": "Mumbai",
+    "country": "India",
+    "coordinates": {
+      "lat": 19.076,
+      "lon": 72.8777
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Indonesia Central",
+    "regionName": "Jakarta",
+    "location": "Jakarta",
+    "country": "Indonesia",
+    "coordinates": {
+      "lat": -6.2088,
+      "lon": 106.8456
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Japan East",
+    "regionName": "Tokyo, Saitama",
+    "location": "Saitama",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 35.8616,
+      "lon": 139.6455
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Japan West",
+    "regionName": "Osaka",
+    "location": "Osaka",
+    "country": "Japan",
+    "coordinates": {
+      "lat": 34.6937,
+      "lon": 135.5023
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Korea Central",
+    "regionName": "Seoul",
+    "location": "Seoul",
+    "country": "South Korea",
+    "coordinates": {
+      "lat": 37.5665,
+      "lon": 126.978
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Korea South",
+    "regionName": "Busan",
+    "location": "Busan",
+    "country": "South Korea",
+    "coordinates": {
+      "lat": 35.1796,
+      "lon": 129.0756
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Malaysia West",
+    "regionName": "Kuala Lumpur",
+    "location": "Kuala Lumpur",
+    "country": "Malaysia",
+    "coordinates": {
+      "lat": 3.1569,
+      "lon": 101.7123
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "New Zealand North",
+    "regionName": "Auckland",
+    "location": "Auckland",
+    "country": "New Zealand",
+    "coordinates": {
+      "lat": -36.8509,
+      "lon": 174.7645
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Southeast Asia",
+    "regionName": "Singapore",
+    "location": "Singapore",
+    "country": "Singapore",
+    "coordinates": {
+      "lat": 1.3521,
+      "lon": 103.8198
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Taiwan North",
+    "regionName": "Taipei",
+    "location": "Taipei",
+    "country": "Taiwan",
+    "coordinates": {
+      "lat": 25.033,
+      "lon": 121.5654
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Israel Central",
+    "regionName": "Tel Aviv",
+    "location": "Tel Aviv",
+    "country": "Israel",
+    "coordinates": {
+      "lat": 32.0853,
+      "lon": 34.7818
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "Qatar Central",
+    "regionName": "Doha",
+    "location": "Doha",
+    "country": "Qatar",
+    "coordinates": {
+      "lat": 25.2854,
+      "lon": 51.531
+    },
+    "status": "planned",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "South Africa North",
+    "regionName": "Johannesburg",
+    "location": "Johannesburg",
+    "country": "South Africa",
+    "coordinates": {
+      "lat": -26.2041,
+      "lon": 28.0473
+    },
+    "status": "live",
+    "zones": 3,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "South Africa West",
+    "regionName": "Cape Town",
+    "location": "Cape Town",
+    "country": "South Africa",
+    "coordinates": {
+      "lat": -33.9249,
+      "lon": 18.4241
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "UAE Central",
+    "regionName": "Abu Dhabi",
+    "location": "Abu Dhabi",
+    "country": "UAE",
+    "coordinates": {
+      "lat": 24.4539,
+      "lon": 54.3773
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  },
+  {
+    "provider": "Azure",
+    "regionId": "UAE North",
+    "regionName": "Dubai",
+    "location": "Dubai",
+    "country": "UAE",
+    "coordinates": {
+      "lat": 25.2048,
+      "lon": 55.2708
+    },
+    "status": "live",
+    "zones": 1,
+    "availabilityZones": [],
+    "sourceUrl": null,
+    "lastVerified": null
+  }
+]

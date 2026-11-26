@@ -6,19 +6,15 @@
  */
 const fs = require('fs');
 const path = require('path');
-const vm = require('vm');
 const { fetchOracleRegions } = require('./oci-regions');
 
 const root = path.resolve(__dirname, '..');
-const sourcePath = path.join(root, 'js', 'csp.js');
+const sourcePath = path.join(root, 'data', 'provider-locations.source.json');
 const manualPath = path.join(root, 'data', 'provider-locations.manual.json');
 const generatedPath = path.join(root, 'data', 'provider-locations.generated.json');
 
-function readCspRecords() {
-  const context = {};
-  vm.createContext(context);
-  vm.runInContext(fs.readFileSync(sourcePath, 'utf8'), context, { filename: sourcePath });
-  return context.CSP;
+function readSourceRecords() {
+  return JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
 }
 
 function parseCoordinates(value) {
@@ -51,7 +47,7 @@ function normalize(record) {
 const manual = JSON.parse(fs.readFileSync(manualPath, 'utf8'));
 
 async function refreshLocations() {
-  const sourceRecords = readCspRecords();
+  const sourceRecords = readSourceRecords();
   const cached = JSON.parse(fs.readFileSync(generatedPath, 'utf8'));
   let ociRecords;
   try {
@@ -66,7 +62,7 @@ async function refreshLocations() {
     }));
     console.warn(`Using cached OCI data: ${error.message}`);
   }
-  const generated = sourceRecords.filter((record) => record.csp !== 'OCI').concat(ociRecords).map(normalize);
+  const generated = sourceRecords.filter((record) => record.provider !== 'OCI').concat(ociRecords.map(normalize));
   const generatedKeys = new Set(generated.map(keyFor));
 
   // Manual-only locations are retained, which supports private-cloud records such as ALI.

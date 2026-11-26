@@ -98,10 +98,8 @@ if (!window.CSP_READY) fetch('./data/provider-locations.generated.json?refresh='
   .then(mergeRuntimeCustomerLocations)
   .then(finishLocationLoad)
   .catch(function(error) {
-    // js/csp.js remains available as a local fallback for offline/file previews.
-    console.warn('Using fallback location data:', error.message);
-    window.CSP_READY = true;
-    window.dispatchEvent(new Event('locations-ready'));
+    console.error('Location data could not be loaded:', error.message);
+    finishLocationLoad([]);
   });
 
 function setupLocationControls() {
