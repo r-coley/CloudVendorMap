@@ -15,8 +15,7 @@ var markerRadius = 5;
 
 function initializeMap() {
   if (initializeMap.started) return;
-  if (!window.CSP_READY || !window.WORLD_READY) {
-    window.addEventListener("locations-ready", initializeMap, { once: true });
+  if (!window.WORLD_READY) {
     window.addEventListener("world-ready", initializeMap, { once: true });
     return;
   }
@@ -57,6 +56,16 @@ function initializeMap() {
   function viewBoxWidth() { return mapWidth * zoomScale(); }
   function viewBoxHeight() { return mapHeight * zoomScale(); }
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+  function markerAspectCorrection() {
+    var rect = map.getBoundingClientRect();
+    return (rect.width / viewBoxWidth()) / (rect.height / viewBoxHeight());
+  }
+  function compensateMarkerAspect(element) {
+    var cx = Number(element.getAttribute("cx"));
+    var cy = Number(element.getAttribute("cy"));
+    var correction = markerAspectCorrection();
+    element.setAttribute("transform", "translate(" + cx + " " + cy + ") scale(1 " + correction + ") translate(" + (-cx) + " " + (-cy) + ")");
+  }
   function wrapWorldX(value) {
     var wrapped = value % mapWidth;
     return wrapped < -mapWidth / 2 ? wrapped + mapWidth : wrapped > mapWidth / 2 ? wrapped - mapWidth : wrapped;
@@ -341,13 +350,16 @@ function initializeMap() {
     Object.keys(providerSets).forEach(function(provider) {
       providerSets[provider].forEach(function(marker) {
         marker.element.setAttribute("r", marker.radius * scale);
+        compensateMarkerAspect(marker.element);
       });
     });
     capitalMarkers.forEach(function(marker) {
       marker.element.setAttribute("r", marker.radius * scale);
+      compensateMarkerAspect(marker.element);
     });
     searchHighlights.forEach(function(highlight) {
       highlight.element.setAttribute("r", highlight.radius * scale);
+      compensateMarkerAspect(highlight.element);
     });
   }
 
@@ -467,11 +479,18 @@ function initializeMap() {
     capitalMarkers.push({ element: marker, radius: markerRadius });
   });
 
-  addLocationRecords();
   tooltip.className = "location-tooltip";
   tooltip.style.display = "none";
   map.appendChild(tooltip);
-  setFeatureAvailability();
+  function applyLoadedLocations() {
+    if (!window.CSP_READY || applyLoadedLocations.applied) return;
+    applyLoadedLocations.applied = true;
+    addLocationRecords();
+    setFeatureAvailability();
+    updateAllProviders();
+  }
+  if (window.CSP_READY) applyLoadedLocations();
+  else window.addEventListener("locations-ready", applyLoadedLocations, { once: true });
   applyViewBox();
 
   document.querySelector("#countryHighlighting").addEventListener("change", function(event) {

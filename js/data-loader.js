@@ -50,8 +50,7 @@ function locationKey(record) {
 }
 
 function mergeRuntimeCustomerLocations(records) {
-  var storedCustomer = loadStoredCustomerLocations();
-  var customerSource = storedCustomer ? Promise.resolve(storedCustomer) : fetch('./data/locations.customer.json?refresh=' + Date.now(), { cache: 'no-store' })
+  var customerSource = fetch('./data/locations.customer.json?refresh=' + Date.now(), { cache: 'no-store' })
     .then(function(response) {
       if (response.status === 404) return [];
       if (!response.ok) throw new Error('Could not load local customer locations');
@@ -85,26 +84,7 @@ function mergeRuntimeCustomerLocations(records) {
     });
 }
 
-function loadStoredJson(key) {
-  try {
-    var stored = window.localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : null;
-  } catch (error) {
-    console.warn('Ignoring invalid stored location data:', error.message);
-    return null;
-  }
-}
-
-function loadStoredCustomerLocations() {
-  return loadStoredJson('cloudVendorCustomerOverride');
-}
-
-var storedLocations = loadStoredJson('cloudVendorLocationsOverride');
-if (Array.isArray(storedLocations)) {
-  finishLocationLoad(storedLocations);
-}
-
-if (!window.CSP_READY) fetch('./data/locations.generated.json?refresh=' + Date.now(), { cache: 'no-store' })
+fetch('./data/locations.generated.json?refresh=' + Date.now(), { cache: 'no-store' })
   .then(function(response) {
     if (!response.ok) throw new Error('Could not load location data');
     return response.json();
@@ -176,7 +156,6 @@ function setupLocationControls() {
             return result;
           });
         }).then(function() {
-          window.localStorage.removeItem(customerScope ? 'cloudVendorCustomerOverride' : 'cloudVendorLocationsOverride');
           window.location.reload();
         }).catch(function(error) {
           window.alert('Location JSON could not be saved: ' + error.message);
@@ -192,8 +171,7 @@ function setupLocationControls() {
   if (download) download.addEventListener('click', function() {
     download.disabled = true;
     if (customerScope) {
-      var storedCustomer = loadStoredCustomerLocations();
-      var customerFetch = storedCustomer ? Promise.resolve(storedCustomer) : fetch('./data/locations.customer.json')
+      var customerFetch = fetch('./data/locations.customer.json')
         .then(function(response) {
           if (response.status === 404) return { customerName: window.CUSTOMER_NAME || 'Customer', locations: [] };
           if (!response.ok) throw new Error('customer data unavailable');
