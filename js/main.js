@@ -60,10 +60,9 @@ function initializeMap() {
     var rect = map.getBoundingClientRect();
     return (rect.width / viewBoxWidth()) / (rect.height / viewBoxHeight());
   }
-  function compensateMarkerAspect(element) {
+  function compensateMarkerAspect(element, correction) {
     var cx = Number(element.getAttribute("cx"));
     var cy = Number(element.getAttribute("cy"));
-    var correction = markerAspectCorrection();
     element.setAttribute("transform", "translate(" + cx + " " + cy + ") scale(1 " + correction + ") translate(" + (-cx) + " " + (-cy) + ")");
   }
   function wrapWorldX(value) {
@@ -71,7 +70,7 @@ function initializeMap() {
     return wrapped < -mapWidth / 2 ? wrapped + mapWidth : wrapped > mapWidth / 2 ? wrapped - mapWidth : wrapped;
   }
 
-  function applyViewBox() {
+  function applyViewBox(rescaleMarkers) {
     var width = viewBoxWidth();
     var height = viewBoxHeight();
     // Keep one full world copy available on either side so panning can cross
@@ -82,7 +81,7 @@ function initializeMap() {
     countryPaths.forEach(function(path) {
       path.setAttribute("stroke-width", (0.35 * zoomScale()).toFixed(4));
     });
-    applyMarkerScale();
+    if (rescaleMarkers) applyMarkerScale();
   }
 
   function localPoint(event) {
@@ -105,7 +104,7 @@ function initializeMap() {
     mapView.zoom = nextZoom;
     mapView.x = anchorX - ratioX * nextWidth;
     mapView.y = anchorY - ratioY * nextHeight;
-    applyViewBox();
+    applyViewBox(true);
     hideTooltip();
   }
 
@@ -347,19 +346,20 @@ function initializeMap() {
 
   function applyMarkerScale() {
     var scale = zoomScale();
+    var correction = markerAspectCorrection();
     Object.keys(providerSets).forEach(function(provider) {
       providerSets[provider].forEach(function(marker) {
         marker.element.setAttribute("r", marker.radius * scale);
-        compensateMarkerAspect(marker.element);
+        compensateMarkerAspect(marker.element, correction);
       });
     });
     capitalMarkers.forEach(function(marker) {
       marker.element.setAttribute("r", marker.radius * scale);
-      compensateMarkerAspect(marker.element);
+      compensateMarkerAspect(marker.element, correction);
     });
     searchHighlights.forEach(function(highlight) {
       highlight.element.setAttribute("r", highlight.radius * scale);
-      compensateMarkerAspect(highlight.element);
+      compensateMarkerAspect(highlight.element, correction);
     });
   }
 
@@ -410,7 +410,7 @@ function initializeMap() {
     if (!dragState || (typeof event.pointerId === "number" && event.pointerId !== dragState.id)) return;
     mapView.x = dragState.x - (event.clientX - dragState.clientX) * dragState.width / dragState.rect.width;
     mapView.y = dragState.y - (event.clientY - dragState.clientY) * dragState.height / dragState.rect.height;
-    applyViewBox();
+    applyViewBox(false);
     hideTooltip();
     event.preventDefault();
   }
@@ -491,7 +491,7 @@ function initializeMap() {
   }
   if (window.CSP_READY) applyLoadedLocations();
   else window.addEventListener("locations-ready", applyLoadedLocations, { once: true });
-  applyViewBox();
+  applyViewBox(true);
 
   document.querySelector("#countryHighlighting").addEventListener("change", function(event) {
     countryHighlighting = event.target.checked;
@@ -559,7 +559,7 @@ function initializeMap() {
   });
   document.querySelector("#home").addEventListener("click", function() {
     mapView = { x: 0, y: 0, zoom: 0 };
-    applyViewBox();
+    applyViewBox(true);
     hideTooltip();
   });
 
