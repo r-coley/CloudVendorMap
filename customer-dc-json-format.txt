@@ -1,0 +1,61 @@
+Customer DC JSON Format
+=======================
+
+The uploaded JSON file must contain an array of location objects. To describe
+customer data centers, set the provider field to exactly "CUSTOMER".
+
+Example:
+
+[
+  {
+    "provider": "CUSTOMER",
+    "regionId": "customer-london-1",
+    "regionName": "London Primary",
+    "location": "London",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5072,
+      "lon": -0.1276
+    },
+    "status": "live",
+    "dataCenterAddress": "123 Example Street, London",
+    "sourceUrl": "https://example.com/internal-record",
+    "lastVerified": "2026-11-26"
+  },
+  {
+    "provider": "CUSTOMER",
+    "regionId": "customer-newport-1",
+    "regionName": "Newport DR",
+    "location": "Newport",
+    "country": "United Kingdom",
+    "coordinates": {
+      "lat": 51.5842,
+      "lon": -2.9977
+    },
+    "status": "live"
+  }
+]
+
+Required fields
+---------------
+
+provider
+  Must be "CUSTOMER" for customer data centers.
+
+regionId
+  A stable, unique identifier chosen by your organization.
+
+coordinates.lat
+  The latitude as a number.
+
+coordinates.lon
+  The longitude as a number.
+
+Optional fields
+---------------
+
+You can also provide regionName, location, country, status,
+dataCenterAddress, sourceUrl, and lastVerified.
+
+After uploading the file, enable the "Customer DC's" filter to display the
+customer locations on the map.
