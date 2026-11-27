@@ -11,7 +11,7 @@ const { fetchOracleRegions } = require('./oci-regions');
 const root = path.resolve(__dirname, '..');
 const sourcePath = path.join(root, 'data', 'locations.source.json');
 const manualPath = path.join(root, 'data', 'locations.manual.json');
-const generatedPath = path.join(root, 'data', 'locations.generated.json');
+const generatedPath = path.join(root, 'data', 'locations.csp.json');
 
 function readSourceRecords() {
   return JSON.parse(fs.readFileSync(sourcePath, 'utf8'));

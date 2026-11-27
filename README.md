@@ -21,7 +21,7 @@ Seattle. These hub markers are city references and are not provider-region claim
 
 ## Location data
 
-Run `node scripts/refresh-locations.js` to rebuild `data/locations.generated.json`. The refresh process
+Run `node scripts/refresh-locations.js` to rebuild `data/locations.csp.json`. The refresh process
 loads the current OCI region tables from Oracle documentation, including commercial, sovereign, and government
 realms; if Oracle is unavailable, it preserves the last generated OCI set as a fallback.
 For the in-app `Download JSON` action to refresh the merge first, run
@@ -45,7 +45,7 @@ and are merged without being overwritten. This supports fields such as `dataCent
 `companyAccessStatus`, and private-cloud Alibaba locations.
 
 For private customer data, use `data/locations.customer.json`. This file is excluded from
-Git and is loaded by the browser after `data/locations.generated.json` at runtime. Set your
+Git and is loaded by the browser after `data/locations.csp.json` at runtime. Set your
 company name once in `customerName`, then add Customer DC records in the `locations` array. The
 company name is used for the filter button and customer-location hover labels. The file may be absent
 or empty without affecting the public dataset. A customer record with the same `regionId` replaces
@@ -102,6 +102,47 @@ The private customer file uses this wrapper format:
   ]
 }
 ```
+
+The same `locations.customer.json` file can also contain approval overlays for
+cloud regions. An overlay only needs the provider, the matching region ID, and
+`companyAccessStatus`; at load time it is merged onto the full cloud record from
+`locations.csp.json`:
+
+```json
+{
+  "customerName": "Example Corp",
+  "locations": [
+    { "provider": "OCI", "regionId": "uk-london-1", "companyAccessStatus": "enabled" },
+    { "provider": "AWS", "regionId": "eu-west-2", "companyAccessStatus": "disabled" }
+  ]
+}
+```
+
+Use `"enabled"` to make a cloud location appear when **Approved locations** is
+enabled. Use another value, or omit the field, to leave it unapproved. Overlay
+records must match an existing provider and region ID; full Customer DC records
+still require coordinates and are appended to the merged dataset.
+
+For an individual availability zone, include the overlay inside the matching
+region record. The region's full record remains in `locations.csp.json`; only
+the approval field needs to be supplied in the customer file:
+
+```json
+{
+  "provider": "OCI",
+  "regionId": "uk-london-1",
+  "availabilityZones": [
+    {
+      "id": "uk-london-1-ad-1",
+      "companyAccessStatus": "enabled"
+    }
+  ]
+}
+```
+
+The availability-zone ID must match the corresponding zone in the full CSP
+record. The **Approved locations** filter includes that AZ when its value is
+exactly `"enabled"`.
 
 Availability-zone locations can be recorded within a region using an `availabilityZones` array. Each zone may
 include `id` or `name`, `coordinates` (`lat` and `lon`), `location`, `dataCenterAddress`, and

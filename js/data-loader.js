@@ -70,7 +70,7 @@ function mergeRuntimeCustomerLocations(records) {
       customerRecords.forEach(function(record) {
         var key = locationKey(record);
         if (!key || key === ':') return;
-        if (Object.prototype.hasOwnProperty.call(indexes, key)) merged[indexes[key]] = record;
+        if (Object.prototype.hasOwnProperty.call(indexes, key)) merged[indexes[key]] = Object.assign({}, merged[indexes[key]], record);
         else {
           indexes[key] = merged.length;
           merged.push(record);
@@ -84,7 +84,7 @@ function mergeRuntimeCustomerLocations(records) {
     });
 }
 
-fetch('./data/locations.generated.json?refresh=' + Date.now(), { cache: 'no-store' })
+fetch('./data/locations.csp.json?refresh=' + Date.now(), { cache: 'no-store' })
   .then(function(response) {
     if (!response.ok) throw new Error('Could not load location data');
     return response.json();
@@ -123,7 +123,7 @@ function setupLocationControls() {
     var url = URL.createObjectURL(blob);
     var link = document.createElement('a');
     link.href = url;
-    link.download = customerScope ? 'locations.customer.json' : 'locations.generated.json';
+    link.download = customerScope ? 'locations.customer.json' : 'locations.csp.json';
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -142,9 +142,12 @@ function setupLocationControls() {
         }
         if (!Array.isArray(records) || (!customerScope && !records.length)) throw new Error('The JSON must contain a ' + (customerScope ? '' : 'non-empty ') + 'array of locations.');
         var valid = records.every(function(record) {
-          return (record.provider || record.csp) && (record.regionId || record.code) && (record.coordinates || record.coord);
+          var hasIdentity = (record.provider || record.csp) && (record.regionId || record.code);
+          var hasCoordinates = record.coordinates || record.coord;
+          var isApprovalOverlay = customerScope && Object.prototype.hasOwnProperty.call(record, 'companyAccessStatus');
+          return hasIdentity && (hasCoordinates || isApprovalOverlay);
         });
-        if (!valid) throw new Error('Each location needs provider, regionId, and coordinates fields.');
+        if (!valid) throw new Error('Each location needs provider, regionId, and coordinates fields, unless it is an approval overlay with companyAccessStatus.');
         if (customerScope && Array.isArray(payload)) payload = { customerName: window.CUSTOMER_NAME || 'Customer', locations: payload };
         fetch(customerScope ? '/api/save-locations/customer' : '/api/save-locations/cloud', {
           method: 'POST',
@@ -186,7 +189,7 @@ function setupLocationControls() {
       });
       return;
     }
-    fetch('./data/locations.generated.json?download=' + Date.now(), { cache: 'no-store' })
+    fetch('./data/locations.csp.json?download=' + Date.now(), { cache: 'no-store' })
       .then(function(response) {
         if (!response.ok) throw new Error('generated data unavailable');
         return response.text();

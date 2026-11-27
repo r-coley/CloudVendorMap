@@ -45,10 +45,13 @@ function readJsonBody(request) {
   });
 }
 
-function validateLocationRecords(records, allowEmpty) {
+function validateLocationRecords(records, allowEmpty, allowApprovalOverlays) {
   if (!Array.isArray(records) || (!allowEmpty && !records.length)) throw new Error('Locations must be a non-empty JSON array');
   records.forEach((record) => {
-    if (!record || !(record.provider || record.csp) || !(record.regionId || record.code) || !(record.coordinates || record.coord)) {
+    const hasIdentity = record && (record.provider || record.csp) && (record.regionId || record.code);
+    const hasCoordinates = record && (record.coordinates || record.coord);
+    const isApprovalOverlay = allowApprovalOverlays && record && Object.prototype.hasOwnProperty.call(record, 'companyAccessStatus');
+    if (!hasIdentity || (!hasCoordinates && !isApprovalOverlay)) {
       throw new Error('Each location needs provider, regionId, and coordinates fields');
     }
   });
@@ -93,11 +96,11 @@ const requestHandler = (request, response) => {
     const customer = request.url.endsWith('/customer');
     readJsonBody(request).then(async (payload) => {
       const records = customer && !Array.isArray(payload) ? payload.locations : payload;
-      validateLocationRecords(records, customer);
+      validateLocationRecords(records, customer, customer);
       const output = customer && !Array.isArray(payload)
         ? { customerName: String(payload.customerName || 'Customer').trim() || 'Customer', locations: records }
         : records;
-      const filePath = path.join(root, 'data', customer ? 'locations.customer.json' : 'locations.generated.json');
+      const filePath = path.join(root, 'data', customer ? 'locations.customer.json' : 'locations.csp.json');
       await writeJsonFile(filePath, output);
       sendJson(response, 200, { saved: true, file: path.relative(root, filePath), count: records.length });
     }).catch((error) => {

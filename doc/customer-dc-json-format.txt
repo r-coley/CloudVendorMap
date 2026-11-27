@@ -9,7 +9,7 @@ Example:
 [
   {
     "provider": "CUSTOMER",
-    "regionId": "customer-london-1",
+    "regionId": "customer-example-1",
     "regionName": "London Primary",
     "location": "London",
     "country": "United Kingdom",
@@ -25,7 +25,7 @@ Example:
   },
   {
     "provider": "CUSTOMER",
-    "regionId": "customer-newport-1",
+    "regionId": "customer-example-2",
     "regionName": "Newport DR",
     "location": "Newport",
     "country": "United Kingdom",
@@ -72,3 +72,39 @@ individual availability zone is approved.
 
 After uploading the file, enable the "Customer DC's" filter to display the
 customer locations on the map.
+
+Cloud-region approval overlays
+------------------------------
+
+The customer file may also contain minimal approval records for cloud regions.
+These records are merged at load time with the matching full record from the
+generated cloud dataset:
+
+{
+  "provider": "OCI",
+  "regionId": "uk-london-1",
+  "companyAccessStatus": "enabled"
+}
+
+The provider and regionId must match an existing cloud record. Use
+companyAccessStatus "enabled" to include it in the Approved locations filter;
+omit the field or use another value to leave it unapproved. Approval overlays
+do not need coordinates because the full cloud record supplies them.
+
+To approve an individual availability zone, include the matching region ID and
+an availabilityZones entry. The zone ID must match the full CSP record:
+
+{
+  "provider": "OCI",
+  "regionId": "uk-london-1",
+  "availabilityZones": [
+    {
+      "id": "uk-london-1-ad-1",
+      "companyAccessStatus": "enabled"
+    }
+  ]
+}
+
+The Approved locations filter includes that AZ when its
+companyAccessStatus is exactly "enabled". Coordinates are not needed in the
+overlay because they come from the full CSP record.
