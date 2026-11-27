@@ -470,7 +470,10 @@ function initializeMap() {
           var record = marker.record;
           var code = record.code || record.region || record.location || "Location";
           var suffix = record.location && record.location !== code ? " (" + record.location + ")" : "";
-          rows.push({ provider: (record.availabilityZone ? "AZ " : "") + record.csp, text: code + suffix });
+          var provider = calloutMode === "customer"
+            ? (record.availabilityZone ? "AZ" : "")
+            : (record.availabilityZone ? "AZ " : "") + record.csp;
+          rows.push({ provider: provider, text: code + suffix });
         });
       });
       var textPad = 6;

@@ -40,6 +40,8 @@ function finishLocationLoad(records) {
   window.CSP_READY = true;
   var customerButtonLabel = document.querySelector('#customerButtonLabel');
   if (customerButtonLabel) customerButtonLabel.textContent = window.CUSTOMER_NAME + " DC's";
+  var customerSummaryButtonLabel = document.querySelector('#customerSummaryButtonLabel');
+  if (customerSummaryButtonLabel) customerSummaryButtonLabel.textContent = window.CUSTOMER_NAME + ' DC Summary';
   window.dispatchEvent(new Event('locations-ready'));
 }
 
