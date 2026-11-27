@@ -124,6 +124,8 @@ Use `"enabled"` to make a cloud location appear when **Approved locations** is
 enabled. Use another value, or omit the field, to leave it unapproved. Overlay
 records must match an existing provider and region ID; full Customer DC records
 still require coordinates and are appended to the merged dataset.
+An approval-only overlay with no matching CSP record is skipped; it cannot create
+a new map location without full coordinates.
 
 For an individual availability zone, include the overlay inside the matching
 region record. The region's full record remains in `locations.csp.json`; only

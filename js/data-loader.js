@@ -71,7 +71,7 @@ function mergeRuntimeCustomerLocations(records) {
         var key = locationKey(record);
         if (!key || key === ':') return;
         if (Object.prototype.hasOwnProperty.call(indexes, key)) merged[indexes[key]] = Object.assign({}, merged[indexes[key]], record);
-        else {
+        else if (record.coord || (record.coordinates && Number.isFinite(Number(record.coordinates.lat)) && Number.isFinite(Number(record.coordinates.lon)))) {
           indexes[key] = merged.length;
           merged.push(record);
         }

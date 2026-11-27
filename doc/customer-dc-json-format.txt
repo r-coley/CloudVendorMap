@@ -92,6 +92,8 @@ The provider and regionId must match an existing cloud record. Use
 companyAccessStatus "enabled" to include it in the Approved locations filter;
 omit the field or use another value to leave it unapproved. Approval overlays
 do not need coordinates because the full cloud record supplies them.
+If an approval-only overlay does not match a provider and region in the full CSP
+dataset, it is skipped. A new Customer DC record must include coordinates.
 
 To approve an individual availability zone, include the matching region ID and
 an availabilityZones entry. The zone ID must match the full CSP record:
