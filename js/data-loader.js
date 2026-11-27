@@ -41,7 +41,7 @@ function finishLocationLoad(records) {
   var customerButtonLabel = document.querySelector('#customerButtonLabel');
   if (customerButtonLabel) customerButtonLabel.textContent = window.CUSTOMER_NAME + " DC's";
   var customerSummaryButtonLabel = document.querySelector('#customerSummaryButtonLabel');
-  if (customerSummaryButtonLabel) customerSummaryButtonLabel.textContent = window.CUSTOMER_NAME + ' DC Summary';
+  if (customerSummaryButtonLabel) customerSummaryButtonLabel.textContent = window.CUSTOMER_NAME + ' PoPs';
   window.dispatchEvent(new Event('locations-ready'));
 }
 

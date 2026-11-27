@@ -382,13 +382,25 @@ function initializeMap() {
     return calloutRegionFromCoordinates(Number(values[0]), Number(values[1]), marker.record.state || marker.record.country);
   }
 
-  function applyCalloutRegionHighlight() {
-    var dark = document.documentElement.dataset.theme === "dark";
-    var colors = dark ? {
+  function calloutRegionColors(dark) {
+    return dark ? {
       Canada: "#1e3a5f", USA: "#5b4520", Europe: "#1d4b38", MENAT: "#5a3822", LATAM: "#542b4a", AsiaPac: "#3d3266"
     } : {
       Canada: "#e0efff", USA: "#fff4cc", Europe: "#e1f5e8", MENAT: "#ffecd9", LATAM: "#f9e4f1", AsiaPac: "#eee9ff"
     };
+  }
+
+  function calloutRegionBorderColors(dark) {
+    return dark ? {
+      Canada: "#60a5fa", USA: "#f2b84b", Europe: "#69c18b", MENAT: "#f0a15b", LATAM: "#d88ab0", AsiaPac: "#a99ae8"
+    } : {
+      Canada: "#4f8fdb", USA: "#d7a33b", Europe: "#65ae7c", MENAT: "#d9894c", LATAM: "#cf7fa6", AsiaPac: "#9b89d6"
+    };
+  }
+
+  function applyCalloutRegionHighlight() {
+    var dark = document.documentElement.dataset.theme === "dark";
+    var colors = calloutRegionColors(dark);
     var referencedRegions = {};
     Object.keys(providerSets).forEach(function(provider) {
       providerSets[provider].forEach(function(marker) {
@@ -523,18 +535,18 @@ function initializeMap() {
       var savedPosition = calloutPositions[positionKey] || { x: defaultBoxX, y: defaultBoxY };
       var boxX = clamp(savedPosition.x, 4, mapWidth - boxWidth - 4);
       var boxY = clamp(savedPosition.y, 4, mapHeight - boxHeight - 4);
-      var color = calloutMode === "customer" ? providerColor("CUSTOMER") : "#2563eb";
+      var color = calloutRegionBorderColors(dark)[region] || (calloutMode === "customer" ? providerColor("CUSTOMER") : "#2563eb");
       var callout = createSvgElement("g", { "aria-label": region + " location summary" });
       callout.style.cursor = "move";
       callout.dataset.region = region;
       callout.appendChild(createSvgElement("line", {
         x1: anchor.cx, y1: anchor.cy, x2: leftEdge ? boxX + boxWidth : boxX, y2: boxY + boxHeight / 2,
-        stroke: color, "stroke-width": "0.9", "stroke-opacity": "0.8"
+        stroke: color, "stroke-width": "1.6", "stroke-opacity": "0.9"
       }));
       callout.appendChild(createSvgElement("circle", { cx: anchor.cx, cy: anchor.cy, r: "2", fill: color }));
       var boxGroup = createSvgElement("g", { transform: "translate(" + (boxX - defaultBoxX) + " " + (boxY - defaultBoxY) + ")" });
       boxGroup.appendChild(createSvgElement("rect", {
-        x: defaultBoxX, y: defaultBoxY, width: boxWidth, height: boxHeight, rx: "3", fill: dark ? "#1e293b" : "#ffffff", stroke: color, "stroke-width": "0.9", "fill-opacity": "0.96"
+        x: defaultBoxX, y: defaultBoxY, width: boxWidth, height: boxHeight, rx: "3", fill: dark ? "#1e293b" : "#ffffff", stroke: color, "stroke-width": "1.6", "fill-opacity": "0.96"
       }));
       var title = createSvgElement("text", { x: defaultBoxX + 6, y: defaultBoxY + 12, fill: dark ? "#f8fafc" : "#172033", "font-size": "9", "font-weight": "700" });
       title.textContent = region;
