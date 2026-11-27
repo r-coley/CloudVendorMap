@@ -20,7 +20,7 @@ body {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-#wrapper { width: min(1440px, calc(100% - 48px)); margin: 0 auto; padding: 42px 0 48px; }
+#wrapper { width: calc(100% - 48px); margin: 0 auto; padding: 42px 0 48px; }
 .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; }
 .eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 h1, h2 { margin: 0; letter-spacing: -.04em; }
@@ -31,7 +31,8 @@ h1 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.05; }
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px;
-  height: clamp(480px, 40vw, 680px);
+  /* The map is stretched to its box, so keep the box near the map's 990:450 aspect (width minus 48px page margins and the 220px panel), but never taller than the window. */
+  height: clamp(480px, calc((100vw - 270px) / 2.2), calc(100vh - 240px));
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -89,13 +90,13 @@ h1 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.05; }
 .btn:focus-visible, #mapControls button:focus-visible, .upload-button:focus-within { outline: 3px solid #bfdbfe; outline-offset: 2px; }
 .btn:disabled { cursor: not-allowed; opacity: .48; }
 .btn.pressed { border-color: var(--accent); background: #eff6ff; color: #1d4ed8; }
-.provider-ali { --provider-color: #f59e0b; --provider-ring: #fffbeb; --provider-tint: #fffbeb; --provider-text: #b45309; }
+.provider-ali { --provider-color: #f97316; --provider-ring: #fff7ed; --provider-tint: #fff7ed; --provider-text: #c2410c; }
 .provider-aws { --provider-color: #fbbf24; --provider-ring: #fffbeb; --provider-tint: #fffbeb; --provider-text: #a16207; }
 .provider-azure { --provider-color: #2563eb; --provider-ring: #eff6ff; --provider-tint: #eff6ff; --provider-text: #1d4ed8; }
 .provider-gcp { --provider-color: #22c55e; --provider-ring: #f0fdf4; --provider-tint: #f0fdf4; --provider-text: #15803d; }
 .provider-oci { --provider-color: #c74634; --provider-ring: #fff5f2; --provider-tint: #fff5f2; --provider-text: #a63225; }
 .provider-customer { --provider-color: #7c3aed; --provider-ring: #f5f3ff; --provider-tint: #f5f3ff; --provider-text: #6d28d9; }
-.provider-ali:hover:not(:disabled) { border-color: #f59e0b; box-shadow: 0 6px 16px rgba(245, 158, 11, .18); }
+.provider-ali:hover:not(:disabled) { border-color: #f97316; box-shadow: 0 6px 16px rgba(249, 115, 22, .18); }
 .provider-aws:hover:not(:disabled) { border-color: #fbbf24; box-shadow: 0 6px 16px rgba(251, 191, 36, .22); }
 .provider-azure:hover:not(:disabled) { border-color: #2563eb; box-shadow: 0 6px 16px rgba(37, 99, 235, .18); }
 .provider-gcp:hover:not(:disabled) { border-color: #22c55e; box-shadow: 0 6px 16px rgba(34, 197, 94, .18); }
@@ -121,6 +122,11 @@ h1 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.05; }
 .upload-button input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .download-button { min-height: 28px; padding: 6px 10px; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fff; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; transition: border-color .2s, box-shadow .2s, background .2s; }
 .download-button:hover:not(:disabled) { border-color: #1d4ed8; background: #1d4ed8; box-shadow: 0 4px 12px rgba(37, 99, 235, .2); }
+.download-button.pressed { border-color: #ca8a04; background: #facc15; color: #172033; box-shadow: 0 4px 12px rgba(250, 204, 21, .25); }
+.summary-button { width: 100%; justify-content: center; }
+.summary-button { border-color: #94a3b8; background: #f8fafc; color: #334155; box-shadow: 0 3px 0 #94a3b8, 0 5px 10px rgba(15, 23, 42, .12); transition: transform .1s, border-color .1s, box-shadow .1s, background .1s; }
+.summary-button:hover:not(:disabled) { border-color: #64748b; background: #f1f5f9; box-shadow: 0 3px 0 #64748b, 0 6px 12px rgba(15, 23, 42, .16); transform: translateY(-1px); }
+.summary-button.pressed { border-color: #64748b; background: #e2e8f0; color: #172033; box-shadow: inset 0 2px 4px rgba(15, 23, 42, .24), 0 1px 0 #94a3b8; transform: translateY(2px); }
 .download-button:disabled { cursor: wait; opacity: .6; }
 .download-button:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 2px; }
 .location-search { display: grid; flex: 1 1 auto; gap: 6px; min-width: 0; }
@@ -167,12 +173,15 @@ html[data-theme="dark"] .data-scope,
 html[data-theme="dark"] .theme-scope,
 html[data-theme="dark"] .range-row output { color: #94a3b8; }
 html[data-theme="dark"] .theme-toggle { color: #e5e7eb; }
+html[data-theme="dark"] .summary-button { border-color: #64748b; background: #334155; color: #f8fafc; box-shadow: 0 3px 0 #1e293b, 0 5px 10px rgba(0, 0, 0, .28); }
+html[data-theme="dark"] .summary-button:hover:not(:disabled) { border-color: #94a3b8; background: #475569; box-shadow: 0 3px 0 #1e293b, 0 6px 12px rgba(0, 0, 0, .34); }
+html[data-theme="dark"] .summary-button.pressed { border-color: #94a3b8; background: #1e293b; color: #f8fafc; box-shadow: inset 0 2px 4px rgba(0, 0, 0, .42), 0 1px 0 #64748b; }
 html[data-theme="dark"] #mapContainer { border-color: #334155; background: #0f172a; box-shadow: 0 18px 45px rgba(0, 0, 0, .3); }
 html[data-theme="dark"] #mapButtons { border-left-color: #334155; background: rgba(15, 23, 42, .94); }
 html[data-theme="dark"] .btn,
 html[data-theme="dark"] .location-search input { border-color: #475569; background: #1e293b; color: #e5e7eb; }
 html[data-theme="dark"] .btn.pressed { background: #172554; }
-html[data-theme="dark"] .provider-ali.pressed { border-color: #f59e0b; background: #78350f; color: #fef3c7; box-shadow: 0 0 0 2px rgba(245, 158, 11, .28), 0 6px 16px rgba(245, 158, 11, .2); }
+html[data-theme="dark"] .provider-ali.pressed { border-color: #fb923c; background: #7c2d12; color: #ffedd5; box-shadow: 0 0 0 2px rgba(249, 115, 22, .28), 0 6px 16px rgba(249, 115, 22, .2); }
 html[data-theme="dark"] .provider-aws.pressed { border-color: #fbbf24; background: #713f12; color: #fef3c7; box-shadow: 0 0 0 2px rgba(251, 191, 36, .3), 0 6px 16px rgba(251, 191, 36, .2); }
 html[data-theme="dark"] .provider-azure.pressed { border-color: #60a5fa; background: #1e3a8a; color: #dbeafe; box-shadow: 0 0 0 2px rgba(96, 165, 250, .3), 0 6px 16px rgba(37, 99, 235, .22); }
 html[data-theme="dark"] .provider-gcp.pressed { border-color: #4ade80; background: #14532d; color: #dcfce7; box-shadow: 0 0 0 2px rgba(74, 222, 128, .3), 0 6px 16px rgba(34, 197, 94, .2); }
@@ -210,6 +219,8 @@ html[data-theme="dark"] #mapControls button { border-color: #475569; background:
   box-shadow: 0 4px 12px rgba(20, 50, 90, .16);
 }
 #mapControls button:hover { background: #fff; color: var(--accent); }
+#mapControls button:disabled { cursor: not-allowed; opacity: .42; }
+#map.summary-locked { cursor: default; }
 
 @media (max-width: 920px) {
   #wrapper { width: min(100% - 32px, 720px); padding-top: 30px; }

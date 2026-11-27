@@ -51,6 +51,11 @@ function initializeMap() {
   var maxZoom = zoomLevels.length - 1;
   var pinchZoomAccumulator = 0;
   var dragState = null;
+  var calloutMode = null;
+  var calloutPositions = {};
+  var calloutSizes = {};
+  var calloutDrag = null;
+  var calloutResize = null;
   var capitalMarkers = [];
   var countryPaths = [];
   var searchHighlights = [];
@@ -67,10 +72,20 @@ function initializeMap() {
     background.setAttribute("fill", dark ? "#0f172a" : "#dcecf4");
     countryPaths.forEach(function(path) {
       path.dataset.fill = dark ? "#1f2937" : "#f7f4f1";
+      path.dataset.calloutFill = "";
       path.dataset.hoverFill = dark ? "#355c4d" : "#c5e3c5";
       if (!path.matches(":hover")) path.setAttribute("fill", path.dataset.fill);
       path.setAttribute("stroke", dark ? "#64748b" : "#7f8ea3");
     });
+    if (calloutMode) applyCalloutRegionHighlight();
+    Object.keys(providerSets).forEach(function(provider) {
+      providerSets[provider].forEach(function(marker) {
+        marker.element.setAttribute("stroke", providerColor(marker.record.csp));
+        marker.element.setAttribute("fill", markerFillColor(marker.record.csp));
+        marker.element.setAttribute("stroke-width", markerStrokeWidth(marker));
+      });
+    });
+    if (calloutMode) renderCallouts();
   }
 
   function createSvgElement(name, attributes) {
@@ -118,6 +133,7 @@ function initializeMap() {
   }
 
   function zoomAt(delta, point) {
+    if (calloutMode) return;
     var previousWidth = viewBoxWidth();
     var previousHeight = viewBoxHeight();
     var nextZoom = clamp(mapView.zoom + delta, 0, maxZoom);
@@ -222,14 +238,17 @@ function initializeMap() {
       "stroke-width": "0.35"
     });
     path.dataset.fill = "#f7f4f1";
+    path.dataset.calloutFill = "";
     path.dataset.hoverFill = "#c5e3c5";
+    var center = geometryCenter(feature.geometry);
+    path.dataset.calloutRegion = calloutRegionFromCoordinates(center.lat, center.lon, countryName);
     path.addEventListener("mouseenter", function() {
       if (!countryHighlighting) return;
       path.setAttribute("fill", path.dataset.hoverFill);
       showTooltip(path, countryName, "country", event);
     });
     path.addEventListener("mouseleave", function() {
-      path.setAttribute("fill", path.dataset.fill);
+      path.setAttribute("fill", path.dataset.calloutFill || path.dataset.fill);
       if (countryHighlighting) hideTooltip();
     });
     countryLayer.appendChild(path);
@@ -237,7 +256,35 @@ function initializeMap() {
   }
 
   function providerColor(provider) {
-    return { AWS: "#ffb70e", Azure: "#2563eb", GCP: "#24b824", ALI: "#f59e0b", OCI: "#c74634", CUSTOMER: "#7c3aed" }[provider] || "#2563eb";
+    return { AWS: "#ffb70e", Azure: "#2563eb", GCP: "#24b824", ALI: "#f97316", OCI: "#c74634", CUSTOMER: "#7c3aed" }[provider] || "#2563eb";
+  }
+
+  function geometryCenter(geometry) {
+    var points = [];
+    function collect(value) {
+      if (!Array.isArray(value)) return;
+      if (value.length >= 2 && Number.isFinite(Number(value[0])) && Number.isFinite(Number(value[1]))) {
+        points.push({ lon: Number(value[0]), lat: Number(value[1]) });
+        return;
+      }
+      value.forEach(collect);
+    }
+    collect(geometry.coordinates);
+    if (!points.length) return { lat: 0, lon: 0 };
+    return points.reduce(function(center, point) {
+      center.lat += point.lat / points.length;
+      center.lon += point.lon / points.length;
+      return center;
+    }, { lat: 0, lon: 0 });
+  }
+
+  function markerFillColor(provider) {
+    if (document.documentElement.dataset.theme === "dark") return "#f8fafc";
+    return { AWS: "#fff7ed", Azure: "#dbeafe", GCP: "#dcfce7", ALI: "#fff7ed", OCI: "#fff5f2", CUSTOMER: "#f5f3ff" }[provider] || "#ffffff";
+  }
+
+  function markerStrokeWidth(marker) {
+    return ((marker.isAvailabilityZone ? 2.25 : 2) * zoomScale()).toFixed(4);
   }
 
   function providerLabel(provider) {
@@ -249,9 +296,9 @@ function initializeMap() {
       cx: point.cx,
       cy: point.cy,
       r: markerRadius,
-      fill: color,
-      stroke: isAvailabilityZone ? "#ffffff" : "none",
-      "stroke-width": isAvailabilityZone ? "1" : "0"
+      fill: markerFillColor(record.csp),
+      stroke: color,
+      "stroke-width": ((isAvailabilityZone ? 2.25 : 2) * zoomScale()).toFixed(4)
     });
     marker.style.display = "none";
     marker.addEventListener("mouseenter", function(event) { showTooltip(marker, locationMessage(record), null, event); });
@@ -313,8 +360,265 @@ function initializeMap() {
     });
   }
 
+  function calloutRegionFromCoordinates(lat, lon, country) {
+    country = String(country || "").toLowerCase();
+    if (lat < -60) return null;
+    var menatCountries = ["algeria", "bahrain", "egypt", "iraq", "israel", "jordan", "kuwait", "lebanon", "libya", "morocco", "oman", "qatar", "saudi arabia", "tunisia", "turkey", "united arab emirates", "uae"];
+    if (country && menatCountries.some(function(name) { return country.indexOf(name) !== -1; })) return "MENAT";
+    // Trust the country name first; the latitude boxes below misplace southern Canada (Montreal, Toronto) and northern Mexico (Monterrey).
+    if (country.indexOf("canada") !== -1) return "Canada";
+    if (country.indexOf("united states") !== -1 || country === "usa" || country === "us") return "USA";
+    if (country.indexOf("mexico") !== -1) return "LATAM";
+    if (lat >= 49 && lon >= -141 && lon <= -52) return "Canada";
+    if (lat >= 24 && lat < 49 && lon >= -130 && lon <= -60) return "USA";
+    if (lon < -50 && lat < 24) return "LATAM";
+    if (lat >= 35 && lat <= 72 && lon >= -25 && lon <= 65) return "Europe";
+    if (lon >= 55 || (lon >= 20 && lat < 35)) return "AsiaPac";
+    return lon < -50 ? "LATAM" : "MENAT";
+  }
+
+  function calloutRegion(marker) {
+    var values = String(marker.record.coord || "").split(",");
+    return calloutRegionFromCoordinates(Number(values[0]), Number(values[1]), marker.record.state || marker.record.country);
+  }
+
+  function applyCalloutRegionHighlight() {
+    var dark = document.documentElement.dataset.theme === "dark";
+    var colors = dark ? {
+      Canada: "#1e3a5f", USA: "#5b4520", Europe: "#1d4b38", MENAT: "#5a3822", LATAM: "#542b4a", AsiaPac: "#3d3266"
+    } : {
+      Canada: "#e0efff", USA: "#fff4cc", Europe: "#e1f5e8", MENAT: "#ffecd9", LATAM: "#f9e4f1", AsiaPac: "#eee9ff"
+    };
+    var referencedRegions = {};
+    Object.keys(providerSets).forEach(function(provider) {
+      providerSets[provider].forEach(function(marker) {
+        if (!markerIsAllowed(marker)) return;
+        var isCustomer = String(marker.record.csp || "").toUpperCase() === "CUSTOMER";
+        if ((calloutMode === "customer") !== isCustomer) return;
+        var region = calloutRegion(marker);
+        if (region) referencedRegions[region] = true;
+      });
+    });
+    countryPaths.forEach(function(path) {
+      var fill = referencedRegions[path.dataset.calloutRegion] ? colors[path.dataset.calloutRegion] : "";
+      path.dataset.calloutFill = fill || "";
+      if (!path.matches(":hover")) path.setAttribute("fill", fill || path.dataset.fill);
+    });
+  }
+
+  function calloutAnchor(region) {
+    var anchors = {
+      Canada: [-100, 62], USA: [-100, 37], Europe: [15, 55], MENAT: [45, 25], LATAM: [-65, -15], AsiaPac: [120, 25]
+    };
+    var coord = anchors[region] || [0, 0];
+    return parseLatLon(coord[1] + "," + coord[0]);
+  }
+
+  // Callout text is measured in the SVG so columns can be sized to the real text widths.
+  var calloutTextWidths = {};
+  var calloutMeasureNode = null;
+
+  function textWidth(text, heading) {
+    var key = (heading ? "h|" : "n|") + text;
+    if (calloutTextWidths[key] === undefined) {
+      calloutMeasureNode.setAttribute("font-size", heading ? "7.2" : "5.9");
+      calloutMeasureNode.setAttribute("font-weight", heading ? "700" : "400");
+      calloutMeasureNode.textContent = text;
+      var measured = calloutMeasureNode.getComputedTextLength ? calloutMeasureNode.getComputedTextLength() : 0;
+      calloutTextWidths[key] = measured || text.length * (heading ? 4.6 : 3.5);
+    }
+    return calloutTextWidths[key];
+  }
+
+  function fitText(row, maxWidth) {
+    if (textWidth(row.text, row.heading) <= maxWidth) return row.text;
+    var text = row.text;
+    while (text.length > 1 && textWidth(text + "…", row.heading) > maxWidth) text = text.slice(0, -1);
+    return text + "…";
+  }
+
+  function renderCallouts() {
+    calloutLayer.replaceChildren();
+    if (!calloutMode) return;
+    calloutMeasureNode = createSvgElement("text", { visibility: "hidden" });
+    calloutLayer.appendChild(calloutMeasureNode);
+    var groups = {};
+    Object.keys(providerSets).forEach(function(provider) {
+      providerSets[provider].forEach(function(marker) {
+        if (!markerIsAllowed(marker)) return;
+        var isCustomer = String(marker.record.csp || "").toUpperCase() === "CUSTOMER";
+        if ((calloutMode === "customer") !== isCustomer) return;
+        var region = calloutRegion(marker);
+        if (!region) return;
+        if (!groups[region]) groups[region] = { region: region, countries: {} };
+        var country = marker.record.state || marker.record.country || "Other";
+        if (!groups[region].countries[country]) groups[region].countries[country] = [];
+        groups[region].countries[country].push(marker);
+      });
+    });
+    var providerOrder = ["AWS", "Azure", "GCP", "ALI", "OCI", "CUSTOMER"];
+    var dark = document.documentElement.dataset.theme === "dark";
+    Object.keys(groups).forEach(function(region) {
+      var group = groups[region];
+      var anchor = calloutAnchor(region);
+      var rows = [];
+      Object.keys(group.countries).sort().forEach(function(country) {
+        if (country !== group.region) rows.push({ text: country, heading: true });
+        group.countries[country].sort(function(a, b) {
+          return providerOrder.indexOf(a.record.csp) - providerOrder.indexOf(b.record.csp);
+        }).forEach(function(marker) {
+          var record = marker.record;
+          var code = record.code || record.region || record.location || "Location";
+          var suffix = record.location && record.location !== code ? " (" + record.location + ")" : "";
+          rows.push({ provider: (record.availabilityZone ? "AZ " : "") + record.csp, text: code + suffix });
+        });
+      });
+      var textPad = 6;
+      var columnGap = 10;
+      // Provider names share one column so the region names line up.
+      var providerWidth = rows.reduce(function(widest, row) { return row.provider ? Math.max(widest, textWidth(row.provider, false) + 5) : widest; }, 0);
+      var maxTextWidth = rows.reduce(function(widest, row) { return Math.max(widest, (row.provider ? providerWidth : 0) + textWidth(row.text, row.heading)); }, 0);
+      var defaultColumnCount = rows.length > 12 ? 2 : 1;
+      // Extra rows leave room for headings that get pushed to the next column.
+      var defaultRowsPerColumn = Math.ceil((rows.length + defaultColumnCount - 1) / defaultColumnCount);
+      var defaultBoxWidth = Math.min(mapWidth - 8, defaultColumnCount * (maxTextWidth + columnGap) - columnGap + textPad * 2);
+      var defaultBoxHeight = 20 + defaultRowsPerColumn * 9;
+      var positionKey = calloutMode + "|" + region;
+      var savedSize = calloutSizes[positionKey] || { width: defaultBoxWidth, height: defaultBoxHeight };
+      var boxWidth = clamp(savedSize.width, 130, mapWidth - 8);
+      var boxHeight = clamp(savedSize.height, 38, mapHeight - 8);
+      // As many columns as fit at the natural text width; leftover width is shared between them.
+      var innerWidth = boxWidth - textPad * 2;
+      var columnCount = clamp(Math.floor((innerWidth + columnGap) / (Math.min(maxTextWidth, innerWidth) + columnGap)), 1, 8);
+      var columnWidth = (innerWidth + columnGap) / columnCount - columnGap;
+      var columnStep = columnWidth + columnGap;
+      var rowsPerColumn = Math.max(1, Math.floor((boxHeight - 20) / 9));
+      var columns = [[]];
+      var placedRows = 0;
+      for (; placedRows < rows.length; placedRows++) {
+        var row = rows[placedRows];
+        var column = columns[columns.length - 1];
+        // Start a new column when full, and never leave a country heading alone at the bottom.
+        var needsNewColumn = column.length >= rowsPerColumn || (row.heading && column.length > 0 && column.length === rowsPerColumn - 1);
+        if (needsNewColumn) {
+          if (columns.length >= columnCount) break;
+          column = [];
+          columns.push(column);
+        }
+        column.push(row);
+      }
+      if (placedRows < rows.length) {
+        var lastColumn = columns[columns.length - 1];
+        while (lastColumn.length && (lastColumn.length >= rowsPerColumn || lastColumn[lastColumn.length - 1].heading)) lastColumn.pop();
+        var shownRows = columns.reduce(function(sum, items) { return sum + items.length; }, 0);
+        lastColumn.push({ text: "+" + (rows.length - shownRows) + " more", heading: false });
+      }
+      var leftEdge = region === "Canada" || region === "USA" || region === "LATAM";
+      var defaultBoxX = leftEdge ? 12 : mapWidth - boxWidth - 12;
+      var edgeRows = { Canada: 54, USA: 170, LATAM: 300, Europe: 54, AsiaPac: 210, MENAT: 350 };
+      var defaultBoxY = clamp(edgeRows[region] || anchor.cy - boxHeight / 2, 4, mapHeight - boxHeight - 4);
+      var savedPosition = calloutPositions[positionKey] || { x: defaultBoxX, y: defaultBoxY };
+      var boxX = clamp(savedPosition.x, 4, mapWidth - boxWidth - 4);
+      var boxY = clamp(savedPosition.y, 4, mapHeight - boxHeight - 4);
+      var color = calloutMode === "customer" ? providerColor("CUSTOMER") : "#2563eb";
+      var callout = createSvgElement("g", { "aria-label": region + " location summary" });
+      callout.style.cursor = "move";
+      callout.dataset.region = region;
+      callout.appendChild(createSvgElement("line", {
+        x1: anchor.cx, y1: anchor.cy, x2: leftEdge ? boxX + boxWidth : boxX, y2: boxY + boxHeight / 2,
+        stroke: color, "stroke-width": "0.9", "stroke-opacity": "0.8"
+      }));
+      callout.appendChild(createSvgElement("circle", { cx: anchor.cx, cy: anchor.cy, r: "2", fill: color }));
+      var boxGroup = createSvgElement("g", { transform: "translate(" + (boxX - defaultBoxX) + " " + (boxY - defaultBoxY) + ")" });
+      boxGroup.appendChild(createSvgElement("rect", {
+        x: defaultBoxX, y: defaultBoxY, width: boxWidth, height: boxHeight, rx: "3", fill: dark ? "#1e293b" : "#ffffff", stroke: color, "stroke-width": "0.9", "fill-opacity": "0.96"
+      }));
+      var title = createSvgElement("text", { x: defaultBoxX + 6, y: defaultBoxY + 12, fill: dark ? "#f8fafc" : "#172033", "font-size": "9", "font-weight": "700" });
+      title.textContent = region;
+      boxGroup.appendChild(title);
+      columns.forEach(function(items, columnIndex) {
+        items.forEach(function(row, rowIndex) {
+          var text = createSvgElement("text", { x: defaultBoxX + textPad + columnIndex * columnStep, y: defaultBoxY + 22 + rowIndex * 9, fill: row.heading ? (dark ? "#f8fafc" : "#172033") : (dark ? "#cbd5e1" : "#475569"), "font-size": row.heading ? "7.2" : "5.9", "font-weight": row.heading ? "700" : "400" });
+          var indent = row.provider ? providerWidth : 0;
+          text.textContent = fitText(row, columnWidth - indent);
+          if (row.provider) {
+            var providerText = createSvgElement("text", { x: text.getAttribute("x"), y: text.getAttribute("y"), fill: text.getAttribute("fill"), "font-size": "5.9", "font-weight": "400" });
+            providerText.textContent = row.provider;
+            boxGroup.appendChild(providerText);
+            text.setAttribute("x", Number(text.getAttribute("x")) + indent);
+          }
+          boxGroup.appendChild(text);
+        });
+      });
+      var resizeHandle = createSvgElement("rect", { x: defaultBoxX + boxWidth - 9, y: defaultBoxY + boxHeight - 9, width: "7", height: "7", rx: "1", fill: color, opacity: "0.7" });
+      resizeHandle.style.cursor = "nwse-resize";
+      boxGroup.appendChild(resizeHandle);
+      callout.appendChild(boxGroup);
+      callout.addEventListener("pointerdown", function(event) {
+        if (!calloutMode) return;
+        event.preventDefault();
+        event.stopPropagation();
+        // boxX/boxY are only the position at render time; a previous drag updates calloutPositions.
+        var current = calloutPositions[positionKey] || { x: boxX, y: boxY };
+        calloutDrag = { callout: callout, line: callout.firstChild, boxGroup: boxGroup, key: positionKey, region: region, baseX: defaultBoxX, baseY: defaultBoxY, x: current.x, y: current.y, startX: event.clientX, startY: event.clientY, startBoxX: current.x, startBoxY: current.y, rect: map.getBoundingClientRect(), width: boxWidth, height: boxHeight };
+        calloutPositions[positionKey] = { x: current.x, y: current.y };
+        if (callout.setPointerCapture && typeof event.pointerId === "number") callout.setPointerCapture(event.pointerId);
+      });
+      callout.addEventListener("pointermove", moveCallout, { passive: false });
+      callout.addEventListener("pointerup", endCallout);
+      callout.addEventListener("pointercancel", endCallout);
+      resizeHandle.addEventListener("pointerdown", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        calloutResize = { handle: resizeHandle, key: positionKey, startWidth: boxWidth, startHeight: boxHeight, startX: event.clientX, startY: event.clientY, rect: map.getBoundingClientRect() };
+        if (resizeHandle.setPointerCapture && typeof event.pointerId === "number") resizeHandle.setPointerCapture(event.pointerId);
+      });
+      resizeHandle.addEventListener("pointermove", moveCalloutResize, { passive: false });
+      resizeHandle.addEventListener("pointerup", endCalloutResize);
+      resizeHandle.addEventListener("pointercancel", endCalloutResize);
+      calloutLayer.appendChild(callout);
+    });
+  }
+
+
   function bringProviderToFront(provider) {
     providerSets[provider].forEach(function(marker) { markerLayer.appendChild(marker.element); });
+  }
+
+  function moveCallout(event) {
+    if (!calloutDrag) return;
+    var dx = (event.clientX - calloutDrag.startX) * viewBoxWidth() / calloutDrag.rect.width;
+    var dy = (event.clientY - calloutDrag.startY) * viewBoxHeight() / calloutDrag.rect.height;
+    calloutDrag.x = clamp(calloutDrag.startBoxX + dx, 4, mapWidth - calloutDrag.width - 4);
+    calloutDrag.y = clamp(calloutDrag.startBoxY + dy, 4, mapHeight - calloutDrag.height - 4);
+    calloutDrag.boxGroup.setAttribute("transform", "translate(" + (calloutDrag.x - calloutDrag.baseX) + " " + (calloutDrag.y - calloutDrag.baseY) + ")");
+    var leftEdge = calloutDrag.x < mapWidth / 2;
+    calloutDrag.line.setAttribute("x2", leftEdge ? calloutDrag.x + calloutDrag.width : calloutDrag.x);
+    calloutDrag.line.setAttribute("y2", calloutDrag.y + calloutDrag.height / 2);
+    calloutPositions[calloutDrag.key] = { x: calloutDrag.x, y: calloutDrag.y };
+    event.preventDefault();
+  }
+
+  function endCallout(event) {
+    if (!calloutDrag) return;
+    calloutPositions[calloutDrag.key] = { x: calloutDrag.x, y: calloutDrag.y };
+    if (calloutDrag.callout.releasePointerCapture && typeof event.pointerId === "number" && calloutDrag.callout.hasPointerCapture(event.pointerId)) calloutDrag.callout.releasePointerCapture(event.pointerId);
+    calloutDrag = null;
+  }
+
+  function moveCalloutResize(event) {
+    if (!calloutResize) return;
+    calloutResize.width = clamp(calloutResize.startWidth + (event.clientX - calloutResize.startX) * viewBoxWidth() / calloutResize.rect.width, 130, mapWidth - 8);
+    calloutResize.height = clamp(calloutResize.startHeight + (event.clientY - calloutResize.startY) * viewBoxHeight() / calloutResize.rect.height, 38, mapHeight - 8);
+    event.preventDefault();
+  }
+
+  function endCalloutResize(event) {
+    if (!calloutResize) return;
+    calloutSizes[calloutResize.key] = { width: calloutResize.width || calloutResize.startWidth, height: calloutResize.height || calloutResize.startHeight };
+    if (calloutResize.handle.releasePointerCapture && typeof event.pointerId === "number" && calloutResize.handle.hasPointerCapture(event.pointerId)) calloutResize.handle.releasePointerCapture(event.pointerId);
+    calloutResize = null;
+    renderCallouts();
   }
 
   function clearLocationSearch() {
@@ -370,6 +674,7 @@ function initializeMap() {
       searchHighlights.push({ element: highlight, radius: marker.radius * 2.8 });
     });
     applyMarkerScale();
+    renderCallouts();
     if (result) result.textContent = matches.length ? matches.length + " location" + (matches.length === 1 ? "" : "s") + " highlighted" : "No matching region or AZ found";
   }
 
@@ -379,6 +684,7 @@ function initializeMap() {
     Object.keys(providerSets).forEach(function(provider) {
       providerSets[provider].forEach(function(marker) {
         marker.element.setAttribute("r", marker.radius * scale);
+        marker.element.setAttribute("stroke-width", markerStrokeWidth(marker));
         compensateMarkerAspect(marker.element, correction);
       });
     });
@@ -420,6 +726,7 @@ function initializeMap() {
   }
 
   function beginDrag(event) {
+    if (calloutMode) return;
     if (event.target.closest && event.target.closest("#mapControls, #mapButtons")) return;
     var point = localPoint(event);
     dragState = {
@@ -458,6 +765,7 @@ function initializeMap() {
   var capitalLayer = createSvgElement("g", { "aria-label": "Country capitals" });
   var markerLayer = createSvgElement("g", { "aria-label": "Cloud provider locations" });
   var searchHighlightLayer = createSvgElement("g", { "aria-label": "Search highlights" });
+  var calloutLayer = createSvgElement("g", { "aria-label": "Location callouts" });
   svg.setAttribute("viewBox", "0 0 " + mapWidth + " " + mapHeight);
   svg.setAttribute("preserveAspectRatio", "none");
   svg.setAttribute("role", "img");
@@ -468,6 +776,7 @@ function initializeMap() {
   scene.appendChild(capitalLayer);
   scene.appendChild(markerLayer);
   scene.appendChild(searchHighlightLayer);
+  scene.appendChild(calloutLayer);
   svg.appendChild(scene);
   [-mapWidth, mapWidth].forEach(function(offset) {
     var wrappedScene = createSvgElement("use", {
@@ -519,6 +828,7 @@ function initializeMap() {
     addLocationRecords();
     setFeatureAvailability();
     updateAllProviders();
+    updateMapTheme();
   }
   if (window.CSP_READY) applyLoadedLocations();
   else window.addEventListener("locations-ready", applyLoadedLocations, { once: true });
@@ -537,10 +847,12 @@ function initializeMap() {
   document.querySelector("#companyApprovedOnly").addEventListener("change", function(event) {
     companyApprovedOnly = event.target.checked;
     updateAllProviders();
+    renderCallouts();
   });
   document.querySelector("#availabilityZones").addEventListener("change", function(event) {
     availabilityZonesVisible = event.target.checked;
     updateAllProviders();
+    renderCallouts();
   });
   document.querySelector("#dcMarkerSize").addEventListener("input", function(event) {
     markerRadius = Number(event.target.value);
@@ -579,8 +891,35 @@ function initializeMap() {
       button.setAttribute("aria-pressed", String(providerState[provider]));
       updateProviderMarkers(provider, providerState[provider]);
       if (providerState[provider]) bringProviderToFront(provider);
+      renderCallouts();
     });
   });
+
+  function bindCalloutToggle(id, mode) {
+    var button = document.querySelector("#" + id);
+    button.addEventListener("click", function() {
+      calloutMode = calloutMode === mode ? null : mode;
+      document.querySelector("#toggleCspCallouts").classList.toggle("pressed", calloutMode === "csp");
+      document.querySelector("#toggleCustomerCallouts").classList.toggle("pressed", calloutMode === "customer");
+      document.querySelector("#toggleCspCallouts").setAttribute("aria-pressed", String(calloutMode === "csp"));
+      document.querySelector("#toggleCustomerCallouts").setAttribute("aria-pressed", String(calloutMode === "customer"));
+      if (calloutMode) applyCalloutRegionHighlight();
+      renderCallouts();
+      if (!calloutMode) updateMapTheme();
+      setMapNavigationLocked(Boolean(calloutMode));
+    });
+  }
+  bindCalloutToggle("toggleCspCallouts", "csp");
+  bindCalloutToggle("toggleCustomerCallouts", "customer");
+
+  function setMapNavigationLocked(locked) {
+    map.classList.toggle("summary-locked", locked);
+    ["home", "plus", "minus"].forEach(function(id) {
+      var button = document.querySelector("#" + id);
+      button.disabled = locked;
+      button.setAttribute("aria-disabled", String(locked));
+    });
+  }
 
   document.querySelector("#plus").addEventListener("click", function() {
     var rect = map.getBoundingClientRect();
@@ -598,9 +937,12 @@ function initializeMap() {
 
   if (window.PointerEvent) {
     map.addEventListener("pointerdown", beginDrag);
+    map.addEventListener("pointermove", moveCallout, { passive: false });
     map.addEventListener("pointermove", moveDrag, { passive: false });
     map.addEventListener("pointerup", endDrag);
+    map.addEventListener("pointerup", endCallout);
     map.addEventListener("pointercancel", endDrag);
+    map.addEventListener("pointercancel", endCallout);
   } else {
     map.addEventListener("mousedown", beginDrag);
     document.addEventListener("mousemove", moveDrag, false);
@@ -608,6 +950,10 @@ function initializeMap() {
   }
   map.addEventListener("wheel", function(event) {
     if (event.target.closest && event.target.closest("#mapControls")) return;
+    if (calloutMode) {
+      event.preventDefault();
+      return;
+    }
     if (event.ctrlKey || event.metaKey) {
       // Trackpad pinch gestures arrive as high-frequency, small wheel events.
       // Accumulate them so a pinch needs deliberate movement before advancing
@@ -625,7 +971,11 @@ function initializeMap() {
     }
     event.preventDefault();
   }, { passive: false });
-  if (window.ResizeObserver) new ResizeObserver(hideTooltip).observe(map);
+  if (window.ResizeObserver) new ResizeObserver(function() {
+    hideTooltip();
+    // Marker shapes are corrected for the map's aspect ratio, which changes with the window.
+    applyMarkerScale();
+  }).observe(map);
 }
 
 docReady(setupThemeControl);

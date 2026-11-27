@@ -7,6 +7,8 @@ const ORACLE_REGION_SOURCES = [
   'https://docs.oracle.com/en-us/iaas/Content/sovereign-cloud/eu-sovereign-cloud.htm'
 ];
 
+const FETCH_TIMEOUT_MS = 15000;
+
 const CITY_COORDINATES = {
   Ashburn: [39.0438, -77.4874], "Abu Dhabi": [24.4539, 54.3773], Amsterdam: [52.3676, 4.9041],
   Batam: [1.0456, 104.0305], Bogota: [4.7110, -74.0721], Brisbane: [-27.4698, 153.0251],
@@ -58,12 +60,18 @@ function coordinateKey(city) {
   return String(city || '').replace(/[^a-z]/gi, '').toLowerCase();
 }
 
-const normalizedCoordinates = Object.keys(CITY_COORDINATES).reduce((map, city) => {
-  map[coordinateKey(city)] = CITY_COORDINATES[city];
-  return map;
-}, {});
+// Both city tables are looked up through coordinateKey so their key styles can differ.
+function indexByCity(table) {
+  return Object.keys(table).reduce((map, city) => {
+    map[coordinateKey(city)] = table[city];
+    return map;
+  }, {});
+}
 
-function parseOracleRegionRows(html, sourceUrl) {
+const normalizedCoordinates = indexByCity(CITY_COORDINATES);
+const normalizedCountries = indexByCity(CITY_COUNTRIES);
+
+function parseOracleRegionRows(html, sourceUrl, warn = console.warn) {
   const records = [];
   const rows = String(html).match(/<tr\b[\s\S]*?<\/tr>/gi) || [];
   rows.forEach((row) => {
@@ -77,9 +85,13 @@ function parseOracleRegionRows(html, sourceUrl) {
     const availabilityDomains = /^\d+$/.test(adsCell) ? Number(adsCell) : 1;
     const locationCell = cells[identifierIndex + 1] && cells[identifierIndex + 1].includes(',') ? cells[identifierIndex + 1] : '';
     const city = locationCell ? locationCell.split(',')[0].trim() : cityFromName(regionName);
-    const country = locationCell ? locationCell.split(',').slice(1).join(',').trim() : (CITY_COUNTRIES[city.replace(/[^a-z]/gi, '')] || city);
+    const country = locationCell ? locationCell.split(',').slice(1).join(',').trim() : (normalizedCountries[coordinateKey(city)] || null);
     const coordinates = normalizedCoordinates[coordinateKey(city)];
-    if (!coordinates) return;
+    if (!coordinates) {
+      warn(`Skipping OCI region ${regionId}: no coordinates for city "${city}". Add it to CITY_COORDINATES.`);
+      return;
+    }
+    if (!country) warn(`OCI region ${regionId}: no country known for city "${city}". Add it to CITY_COUNTRIES.`);
     records.push({
       csp: 'OCI', area: realm, region: regionName, code: regionId,
       AZzones: availabilityDomains, Lzones: 0, Wzones: 0, location: city,
@@ -93,11 +105,20 @@ function parseOracleRegionRows(html, sourceUrl) {
 
 async function fetchOracleRegions(fetchImpl = globalThis.fetch) {
   if (typeof fetchImpl !== 'function') throw new Error('Fetch is unavailable; using the cached OCI data.');
-  const pages = await Promise.all(ORACLE_REGION_SOURCES.map(async (sourceUrl) => {
-    const response = await fetchImpl(sourceUrl, { headers: { 'user-agent': 'CloudVendorMap OCI region refresh' } });
+  // One unavailable page should not discard the pages that did load.
+  const results = await Promise.allSettled(ORACLE_REGION_SOURCES.map(async (sourceUrl) => {
+    const response = await fetchImpl(sourceUrl, {
+      headers: { 'user-agent': 'CloudVendorMap OCI region refresh' },
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS)
+    });
     if (!response.ok) throw new Error(`Oracle returned ${response.status} for ${sourceUrl}`);
     return { sourceUrl, html: await response.text() };
   }));
+  const pages = [];
+  results.forEach((result, index) => {
+    if (result.status === 'fulfilled') pages.push(result.value);
+    else console.warn(`Skipping ${ORACLE_REGION_SOURCES[index]}: ${result.reason && result.reason.message}`);
+  });
   const records = pages.flatMap((page) => parseOracleRegionRows(page.html, page.sourceUrl));
   const unique = new Map(records.map((record) => [record.code, record]));
   if (unique.size < 20) throw new Error(`Oracle region refresh returned only ${unique.size} usable regions.`);

@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { fetchOracleRegions } = require('./oci-regions');
+const { writeJsonFile } = require('./json-store');
 
 const root = path.resolve(__dirname, '..');
 const sourcePath = path.join(root, 'data', 'locations.source.json');
@@ -44,25 +45,47 @@ function normalize(record) {
   return normalized;
 }
 
-const manual = JSON.parse(fs.readFileSync(manualPath, 'utf8'));
+// A missing cache file (first run) is treated as empty rather than an error.
+function readCachedRecords() {
+  try {
+    return JSON.parse(fs.readFileSync(generatedPath, 'utf8'));
+  } catch (error) {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  }
+}
 
 async function refreshLocations() {
   const sourceRecords = readSourceRecords();
-  const cached = JSON.parse(fs.readFileSync(generatedPath, 'utf8'));
+  // Read on every refresh so edits to the manual file apply without a restart.
+  const manual = JSON.parse(fs.readFileSync(manualPath, 'utf8'));
+  const cached = readCachedRecords();
   let ociRecords;
   try {
     ociRecords = await fetchOracleRegions();
     console.log(`Loaded ${ociRecords.length} OCI regions from Oracle documentation.`);
   } catch (error) {
+    console.warn(`Oracle refresh failed, falling back to cached OCI data: ${error.stack || error.message}`);
     ociRecords = cached.filter((record) => record.provider === 'OCI').map((record) => ({
       csp: record.provider, area: record.area, region: record.regionName, code: record.regionId,
       AZzones: record.zones, Lzones: 0, Wzones: 0, location: record.location, state: record.country,
       opened: record.status, status: record.status, source: record.sourceUrl,
       lastVerified: record.lastVerified, coord: record.coordinates && `${record.coordinates.lat},${record.coordinates.lon}`
     }));
-    console.warn(`Using cached OCI data: ${error.message}`);
   }
-  const generated = sourceRecords.filter((record) => record.provider !== 'OCI').concat(ociRecords.map(normalize));
+  const cachedByKey = new Map(cached.map((record) => [keyFor(record), record]));
+  const ociNormalized = ociRecords.map((record) => {
+    const fresh = normalize(record);
+    const previous = cachedByKey.get(keyFor(fresh));
+    // Keep the old verification date when nothing but the date would change.
+    if (previous && previous.lastVerified) {
+      const comparable = { ...fresh, lastVerified: previous.lastVerified };
+      const unchanged = Object.keys(comparable).every((field) => JSON.stringify(comparable[field]) === JSON.stringify(previous[field]));
+      if (unchanged) return comparable;
+    }
+    return fresh;
+  });
+  const generated = sourceRecords.filter((record) => record.provider !== 'OCI').concat(ociNormalized);
   const generatedKeys = new Set(generated.map(keyFor));
 
   // Manual-only locations are retained, which supports private-cloud records such as ALI.
@@ -90,7 +113,7 @@ async function refreshLocations() {
 
   const merged = generated.map((record) => ({ ...record, ...(manual[keyFor(record)] || {}) }));
   fs.mkdirSync(path.dirname(generatedPath), { recursive: true });
-  fs.writeFileSync(generatedPath, `${JSON.stringify(merged, null, 2)}\n`);
+  await writeJsonFile(generatedPath, merged);
   return merged;
 }
 
