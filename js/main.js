@@ -302,8 +302,9 @@ function initializeMap() {
   }
 
   function markerIsAllowed(marker) {
+    var isCustomerLocation = marker.record && String(marker.record.csp || '').toUpperCase() === "CUSTOMER";
     return (!marker.isAvailabilityZone || availabilityZonesVisible) &&
-      (!companyApprovedOnly || (marker.record && marker.record.companyAccessStatus === "enabled"));
+      (!companyApprovedOnly || isCustomerLocation || (marker.record && marker.record.companyAccessStatus === "enabled"));
   }
 
   function updateProviderMarkers(provider, active) {
@@ -401,7 +402,9 @@ function initializeMap() {
     });
     var allMarkers = Object.keys(providerSets).reduce(function(all, provider) { return all.concat(providerSets[provider]); }, []);
     [
-      { id: "companyApprovedOnly", available: allMarkers.some(function(marker) { return marker.record && marker.record.companyAccessStatus === "enabled"; }) },
+      { id: "companyApprovedOnly", available: allMarkers.some(function(marker) {
+        return marker.record && (String(marker.record.csp || '').toUpperCase() === "CUSTOMER" || marker.record.companyAccessStatus === "enabled");
+      }) },
       { id: "availabilityZones", available: allMarkers.some(function(marker) { return marker.isAvailabilityZone; }) }
     ].forEach(function(feature) {
       var input = document.querySelector("#" + feature.id);

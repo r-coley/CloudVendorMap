@@ -69,6 +69,8 @@ To mark a region as approved for your company, add `"companyAccessStatus": "enab
 to that location. The **Approved locations** map-layer filter matches this exact value and
 hides locations that are missing it or use any other value. The same field can be added to
 an item in `availabilityZones` when an individual availability zone is approved.
+Records with `provider: "CUSTOMER"` are treated as approved automatically, so Customer DC
+locations do not need `companyAccessStatus`.
 
 For customer data centers, set `provider` to exactly `"CUSTOMER"`. The map groups those records
 under the company-specific DC filter. The loader also accepts `"Customer DC's"` as a provider value
