@@ -449,6 +449,22 @@ function initializeMap() {
     return text + "…";
   }
 
+  function calloutCountryName(value) {
+    var name = String(value || "Other").trim();
+    var aliases = {
+      AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado",
+      CT: "Connecticut", DE: "Delaware", DC: "Washington D.C.", FL: "Florida", GA: "Georgia", HI: "Hawaii",
+      ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
+      ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi",
+      MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+      NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma",
+      OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota",
+      TN: "Tennessee", TX: "Texas", UK: "United Kingdom", UT: "Utah", VT: "Vermont", VA: "Virginia", WA: "Washington",
+      WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming"
+    };
+    return aliases[name.toUpperCase()] || name;
+  }
+
   function renderCallouts() {
     calloutLayer.replaceChildren();
     if (!calloutMode) return;
@@ -463,7 +479,7 @@ function initializeMap() {
         var region = calloutRegion(marker);
         if (!region) return;
         if (!groups[region]) groups[region] = { region: region, countries: {} };
-        var country = marker.record.state || marker.record.country || "Other";
+        var country = calloutCountryName(marker.record.state || marker.record.country);
         if (!groups[region].countries[country]) groups[region].countries[country] = [];
         groups[region].countries[country].push(marker);
       });
@@ -496,7 +512,23 @@ function initializeMap() {
       var defaultColumnCount = rows.length > 12 ? 2 : 1;
       // Extra rows leave room for headings that get pushed to the next column.
       var defaultRowsPerColumn = Math.ceil((rows.length + defaultColumnCount - 1) / defaultColumnCount);
-      var defaultBoxWidth = Math.min(mapWidth - 8, defaultColumnCount * (maxTextWidth + columnGap) - columnGap + textPad * 2);
+      var naturalColumns = [[]];
+      rows.forEach(function(row) {
+        var column = naturalColumns[naturalColumns.length - 1];
+        var needsNewColumn = column.length >= defaultRowsPerColumn || (row.heading && column.length > 0 && column.length === defaultRowsPerColumn - 1);
+        if (needsNewColumn && naturalColumns.length < defaultColumnCount) {
+          column = [];
+          naturalColumns.push(column);
+        }
+        column.push(row);
+      });
+      var naturalWidth = naturalColumns.reduce(function(total, column, index) {
+        var width = column.reduce(function(widest, row) {
+          return Math.max(widest, (row.provider ? providerWidth : 0) + textWidth(row.text, row.heading));
+        }, 0);
+        return total + width + (index ? columnGap : 0);
+      }, textPad * 2);
+      var defaultBoxWidth = Math.min(mapWidth - 8, naturalWidth);
       var defaultBoxHeight = 20 + defaultRowsPerColumn * 9;
       var positionKey = calloutMode + "|" + region;
       var savedSize = calloutSizes[positionKey] || { width: defaultBoxWidth, height: defaultBoxHeight };
@@ -505,6 +537,8 @@ function initializeMap() {
       // As many columns as fit at the natural text width; leftover width is shared between them.
       var innerWidth = boxWidth - textPad * 2;
       var columnCount = clamp(Math.floor((innerWidth + columnGap) / (Math.min(maxTextWidth, innerWidth) + columnGap)), 1, 8);
+      if (savedSize.columnCount) columnCount = clamp(savedSize.columnCount, 1, 8);
+      else if (boxWidth <= defaultBoxWidth + 1) columnCount = naturalColumns.length;
       var columnWidth = (innerWidth + columnGap) / columnCount - columnGap;
       var columnStep = columnWidth + columnGap;
       var rowsPerColumn = Math.max(1, Math.floor((boxHeight - 20) / 9));
@@ -585,6 +619,24 @@ function initializeMap() {
       resizeHandle.addEventListener("pointerdown", function(event) {
         event.preventDefault();
         event.stopPropagation();
+        if (event.detail >= 2) {
+          var fittedWidth = columns.reduce(function(total, items, index) {
+            var width = items.reduce(function(widest, row) {
+              return Math.max(widest, (row.provider ? providerWidth : 0) + textWidth(row.text, row.heading));
+            }, 0);
+            return total + width + (index ? columnGap : 0);
+          }, textPad * 2);
+          var fittedHeight = 20 + columns.reduce(function(tallest, items) {
+            return Math.max(tallest, items.length);
+          }, 0) * 9;
+          calloutSizes[positionKey] = {
+            width: Math.min(mapWidth - 8, Math.max(130, fittedWidth)),
+            height: Math.min(mapHeight - 8, Math.max(38, fittedHeight)),
+            columnCount: columns.length
+          };
+          renderCallouts();
+          return;
+        }
         calloutResize = { handle: resizeHandle, key: positionKey, startWidth: boxWidth, startHeight: boxHeight, startX: event.clientX, startY: event.clientY, rect: map.getBoundingClientRect() };
         if (resizeHandle.setPointerCapture && typeof event.pointerId === "number") resizeHandle.setPointerCapture(event.pointerId);
       });
