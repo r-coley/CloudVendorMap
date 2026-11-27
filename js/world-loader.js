@@ -1,6 +1,6 @@
 window.WORLD_READY = false;
 
-fetch('./data/world-countries.geojson')
+fetch('./data/ref/world-countries.geojson')
   .then(function(response) {
     if (!response.ok) throw new Error('Could not load geographic boundary data');
     return response.json();

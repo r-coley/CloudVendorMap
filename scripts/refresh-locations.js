@@ -10,8 +10,8 @@ const { fetchOracleRegions } = require('./oci-regions');
 const { writeJsonFile } = require('./json-store');
 
 const root = path.resolve(__dirname, '..');
-const sourcePath = path.join(root, 'data', 'locations.source.json');
-const manualPath = path.join(root, 'data', 'locations.manual.json');
+const sourcePath = path.join(root, 'data', 'ref', 'locations.source.json');
+const manualPath = path.join(root, 'data', 'ref', 'locations.manual.json');
 const generatedPath = path.join(root, 'data', 'locations.csp.json');
 
 function readSourceRecords() {

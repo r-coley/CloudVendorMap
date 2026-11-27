@@ -15,10 +15,11 @@ CloudVendorMap/
 │   └── style.css
 ├── data/
 │   ├── locations.customer.json       # Private, Git-ignored customer locations
-│   ├── locations.csp.json            # Generated cloud-provider dataset
-│   ├── locations.manual.json         # Manual overrides and additions
-│   ├── locations.source.json         # Canonical non-OCI provider records
-│   └── world-countries.geojson       # Country boundaries for the map
+│   ├── locations.csp.json             # Generated/downloadable cloud-provider dataset
+│   └── ref/                           # Fixed reference data
+│       ├── locations.manual.json     # Manual overrides and additions
+│       ├── locations.source.json     # Canonical non-OCI provider records
+│       └── world-countries.geojson   # Country boundaries for the map
 ├── doc/
 │   ├── customer-dc-json-format.txt   # Customer JSON format guide
 │   ├── project-structure.md          # This document
@@ -38,9 +39,9 @@ CloudVendorMap/
 
 ## Location data flow
 
-1. `locations.source.json` provides the canonical non-OCI provider records.
+1. `ref/locations.source.json` provides the canonical non-OCI provider records.
 2. `refresh-locations.js` reads that source, collects current OCI records, and applies
-   `locations.manual.json` overrides.
+   `ref/locations.manual.json` overrides.
 3. The result is written to `locations.csp.json`.
 4. The browser loads `locations.csp.json` at runtime.
 5. The browser then loads the private `locations.customer.json` file and merges its

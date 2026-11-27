@@ -3,7 +3,7 @@ Plots the locations of the Cloud Vendor DataCenters
 
 Displays cloud data-center locations with native SVG rendering and published source data.
 
-The map boundaries are bundled in `data/world-countries.geojson` from the public
+The map boundaries are bundled in `data/ref/world-countries.geojson` from the public
 [geo-countries dataset](https://github.com/datasets/geo-countries), allowing country outlines and location markers
 to use the same geographic coordinate system.
 
@@ -38,9 +38,9 @@ node scripts/local-server.js --https
 Then open `https://127.0.0.1:8765/`. The browser will show a certificate warning because
 the certificate is self-signed; accept it for local development only. Certificate files are
 stored in `.certs/` and excluded from Git.
-The canonical non-OCI provider records are stored in `data/locations.source.json`.
+The canonical non-OCI provider records are stored in `data/ref/locations.source.json`.
 Provider records are normalized from that source data, while company-maintained fields
-belong in `data/locations.manual.json`. Manual entries are keyed by `provider:regionId`
+belong in `data/ref/locations.manual.json`. Manual entries are keyed by `provider:regionId`
 and are merged without being overwritten. This supports fields such as `dataCenterAddress`,
 `companyAccessStatus`, and private-cloud Alibaba locations.
 
